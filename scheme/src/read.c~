@@ -325,24 +325,10 @@ object sfs_read_atom( char *input, uint *here ) {
 				return faux;
 				break;
 			case '/' :
-				if(input[*here+2] == '\\'){ 
-						if(input[*here+3]=='\\'){
-							*here += 4;
-							atom = make_char('\\');
-							return c;
-							break;
-						}
-						if(input[*here+3]=='\"'){
-							*here += 4;
-							atom = make_char('\"');
-							return c;
-							break;
-						}
-				}
-				if((33 <= input[*here+2]) && (input[*here+2] <= 126) && input[*here+2]!='\\'){
+				if((33 <= input[*here+2]) && (input[*here+2] <= 126)){
 					*here += 3;
 					atom = make_char(input[*here+2]);
-					return c;
+					return atom
 					break;
 				}
 		}

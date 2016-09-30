@@ -306,8 +306,10 @@ object sfs_read( char *input, uint *here ) {
 }
 
 object sfs_read_atom( char *input, uint *here ) {
-
-    object atom = NULL;
+	int k = 0;
+	string st;
+	int nb;
+	object atom = NULL;
 
 	switch(input[*here]){
 	
@@ -325,41 +327,76 @@ object sfs_read_atom( char *input, uint *here ) {
 				return faux;
 				break;
 			case '/' :
-				if(input[*here+2] == '\\'){ 
-						if(input[*here+3]=='\\'){
-							*here += 4;
-							atom = make_char('\\');
-							return atom;
-							break;
-						}
-						if(input[*here+3]=='\"'){
-							*here += 4;
-							atom = make_char('\"');
-							return atom;
-							break;
-						}
-				}
-				if((33 <= input[*here+2]) && (input[*here+2] <= 126) && input[*here+2]!='\\'){
+				if(((33 <= input[*here+2]) && (input[*here+2] <= 47)) || ((58 <= input[*here+2]) && (input[*here+2] <= 128))){
 					*here += 3;
 					atom = make_char(input[*here+2]);
+					return atom;
+					break;
+				}
+				if(input[*here+2]=='n' && input[*here+3]=='e' && input[*here+4]=='w' && input[*here+5]=='l' && input[*here+6]=='i' && input[*here+7]=='n' && input[*here+8]=='e'){
+					*here += 9;
+					for(k=2 ; k<9 ; k++){
+						st[k] = input[*here+k];
+					}
+					atom = make_string(st);
+					return atom;
+					break;
+				}
+				if(input[*here+2]=='s' && input[*here+3]=='p' && input[*here+4]=='a' && input[*here+5]=='c' && input[*here+6]=='e'){
+					*here += 7;
+					for(k=2 ; k<7 ; k++){
+						st[k] = input[*here+k];
+					}
+					atom = make_string(st);
 					return atom;
 					break;
 				}
 		}
 
 		break;
+
+	case '\"' :
 		
+		while(input[*here+k+1] != '\"'){
+			st[k] = input[*here+k+1];
+		}
+		atom = make_string(st);
+		return atom;
+		break;
+		
+
 	}
-		
+	if((48 <= input[*here]) && (input[*here] <= 57)){
+		nb = (int) input[*here];
+		while(input[*here+k+1] != 32){
+			if(input[*here+k+1]=='45'){
+				*here +=1;
+				nb = -1;
+			}
+			if((48 <= input[*here+k+1]) && (input[*here+k+1] <= 57)){
+				nb = nb*10+ (int)input[*here+k+1];
+			}
+		}
+		atom = make_integer(nb);
+		return atom;
+	}
 }
-
-
-object sfs_read_pair( char *stream, uint *i ) {
-
-    object pair = NULL;
-
 	
 
-    return pair;
+
+
+object sfs_read_pair( char *stream, uint *i ){
+
+	object pair = NULL;
+
+	*(pair->this.pair.car) = *(sfs_read( stream, *i+1));
+	if(stream[*i+2] == ')'){
+		pair->this.pair.cdr = nil; 
+	}
+	else{
+		*(pair->this.pair.cdr) = *(sfs_read_pair(stream, *i+2));
+	}
+	pair = make_pair(pair->this.pair);
+	return pair;
 }
 

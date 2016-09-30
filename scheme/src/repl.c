@@ -31,8 +31,8 @@ void usage_error( char *command ) {
 
 
 object nil;
-object vrai;
 object faux;
+object vrai;
 
 void init_interpreter ( void ) {
 
@@ -123,8 +123,8 @@ int main ( int argc, char *argv[] ) {
         /* puis d'en lire une autre */
         /* METTRE EN COMMENTAIRE LES DEUX LIGNES SUIVANTES */
         /* POUR PASSER A L'INCREMENT 1 */
-        printf("%s\n", input );
-        continue;
+        /*printf("%s\n", input );*/
+        /*continue;*/
 
         here  = 0;
         sexpr = sfs_read( input, &here );
@@ -152,7 +152,7 @@ int main ( int argc, char *argv[] ) {
         }
 
         printf( "==> " );
-        sfs_print( output );
+        sfs_print( output);
         printf( "\n" );
     }
 

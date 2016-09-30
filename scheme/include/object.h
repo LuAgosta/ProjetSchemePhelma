@@ -20,8 +20,8 @@ extern "C" {
 
 typedef struct pair_t {
 
-            struct object_t *car;
-            struct object_t *cdr;
+            struct object_t* car;
+            struct object_t* cdr;
 
 } pair;
 
@@ -67,6 +67,7 @@ object make_string(string st);
 extern object nil;
 extern object vrai;
 extern object faux;
+extern object ERROR;
 
 #ifdef __cplusplus
 }
