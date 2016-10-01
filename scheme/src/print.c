@@ -31,15 +31,15 @@ void sfs_print_atom( object o ) {
 		break ; 
 
 		case SFS_SYMBOL : 
-			printf ( " %s " , o->this.symbol ) ; 
+			printf ( "%s" , o->this.symbol ) ; 
 		break ; 
 
 		case SFS_NUMBER : 
 			if ( o->this.number.numtype == NUM_INTEGER ) { 
-				printf (" %d" , o->this.number.this.integer ) ; 
+				printf ("%d" , o->this.number.this.integer ) ; 
 			}
 			else {
-				printf ( " %lf " , o->this.number.this.real ) ; 
+				printf ( "%lf" , o->this.number.this.real ) ; 
 			}
 		
 		break ; 
@@ -50,10 +50,10 @@ void sfs_print_atom( object o ) {
 
 		case SFS_BOOLEAN :
 			if ( o->this.special == vrai ) {
-				printf( "#t" ) ; 
+				printf("#t") ; 
 			}
 			else {
-				printf ( "#f" ); 
+				printf ("#f"); 
 			} 
 	
 	}
@@ -67,10 +67,11 @@ void sfs_print_pair( object o ) {
 
 	sfs_print(o->this.pair.car);
 	
-	if(o -> this.pair.car->type = SFS_NIL){
+	if(o -> this.pair.cdr->type = SFS_NIL){
 		printf(")");
 	}
 	else{
+		printf(" ");
 		sfs_print_pair(o -> this.pair.cdr);
 	}
 }
@@ -80,7 +81,7 @@ void sfs_print_pair( object o ) {
 void sfs_print( object o ) {
 	
     if ( o->type == SFS_PAIR ) {
-	printf('(');
+	printf("(");
         sfs_print_pair( o );
     }
     else {
