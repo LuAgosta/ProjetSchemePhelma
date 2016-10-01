@@ -288,15 +288,23 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 }
 
 
-object sfs_read( char *input, uint *here ) {
 
+
+object sfs_read( char *input, uint *here ) {
+	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
+		*here += 1;
+	}
     if ( input[*here] == '(' ) {
-        if ( input[(*here)+1] == ')' ) {
-            *here += 2;
+		*here += 1;
+	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
+		*here += 1;
+	}
+        if ( input[(*here)] == ')' ) {
+            *here += 1;
             return nil;
         }
         else {
-            (*here)++;
+            
             return sfs_read_pair( input, here );
         }
     }
@@ -305,81 +313,159 @@ object sfs_read( char *input, uint *here ) {
     }
 }
 
+
 object sfs_read_atom( char *input, uint *here ) {
 	int k = 0;
+	char* p;
 	string st;
-	int nb;
+	/*int signe = 1;*/
+	int nb = 0;
+	int cond0 = 1;
 	object atom = NULL;
-
+	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
+		*here += 1;
+	}
+	
 	switch(input[*here]){
 	
 	case '#' :
 		
 		switch(input[*here+1]){
 			
-			case 't' :
-				*here += 2;
-				return vrai;
+			case 'm' :
+				*here += 1;
+				return NULL;
 				break;
+
+			case 'u' :
+				*here += 1;
+				return NULL;
+				break;
+			
+			case 't' :
+				if(input[*here+2]==' ' || input[*here+2]=='\0' || input[*here+2]=='(' || input[*here+2]==')'){
+					*here += 1;
+					return vrai;
+					break;
+				}
+				else{
+					return NULL;
+				}
 		
 			case 'f' :
-				*here += 2;
-				return faux;
-				break;
-			case '/' :
-				if(((33 <= input[*here+2]) && (input[*here+2] <= 47)) || ((58 <= input[*here+2]) && (input[*here+2] <= 128))){
-					*here += 3;
-					atom = make_char(input[*here+2]);
-					return atom;
+				if(input[*here+2]==' ' || input[*here+2]=='\0' || input[*here+2]=='(' || input[*here+2]==')'){
+					*here += 1;
+					return faux;
 					break;
 				}
+				else{
+					return NULL;
+				}
+			case '\\' :
+			
 				if(input[*here+2]=='n' && input[*here+3]=='e' && input[*here+4]=='w' && input[*here+5]=='l' && input[*here+6]=='i' && input[*here+7]=='n' && input[*here+8]=='e'){
-					*here += 9;
-					for(k=2 ; k<9 ; k++){
-						st[k] = input[*here+k];
+					if(input[*here+9]==' ' || input[*here+9]=='\0' || input[*here+9]=='(' || input[*here+9]==')'){
+						*here += 8;
+						atom = make_char('\n');
+						return atom;
+						break;
 					}
-					atom = make_string(st);
-					return atom;
-					break;
+					else{
+						return NULL;
+					}
 				}
 				if(input[*here+2]=='s' && input[*here+3]=='p' && input[*here+4]=='a' && input[*here+5]=='c' && input[*here+6]=='e'){
-					*here += 7;
-					for(k=2 ; k<7 ; k++){
-						st[k] = input[*here+k];
+					if(input[*here+7]==' ' || input[*here+7]=='\0' || input[*here+7]=='(' || input[*here+7]==')'){
+						*here += 6;
+						atom = make_char(' ');
+						return atom;
+						break;
 					}
-					atom = make_string(st);
-					return atom;
-					break;
+					else{
+						return NULL;
+					}
+					
+				}
+				if(((33 <= input[*here+2]) && (input[*here+2] <= 128))){
+					if(input[*here+3]==' ' || input[*here+3]=='\0' || input[*here+3]=='(' || input[*here+3]==')'){
+						atom = make_char(input[*here+2]);
+						*here += 2;
+						return atom;
+						break;
+					}
+					else{
+						return NULL;
+					}
 				}
 		}
 
 		break;
 
+
+
 	case '\"' :
 		
 		while(input[*here+k+1] != '\"'){
+
+			if((input[*here+k+1] == '\\') && (input[*here+k+2] == '\"' )){		/*string with an anti-slash*/
+				st[k] = '\"';
+				k += 1;
+				*here += 1;
+			}
+
 			st[k] = input[*here+k+1];
+			k += 1;
 		}
+		st[k]='\0';
+		
+		*here += k+1;
 		atom = make_string(st);
 		return atom;
 		break;
 		
 
 	}
-	if((48 <= input[*here]) && (input[*here] <= 57)){
-		nb = (int) input[*here];
-		while(input[*here+k+1] != 32){
-			if(input[*here+k+1]=='45'){
-				*here +=1;
-				nb = -1;
-			}
-			if((48 <= input[*here+k+1]) && (input[*here+k+1] <= 57)){
-				nb = nb*10+ (int)input[*here+k+1];
+
+	if((strtol(input+*here, &p, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
+		if(strtol(input+*here, &p, 10)==0){
+			if((input[*here]=='0') || (input[*here]=='+') || (input[*here]=='-')){
+				while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')&& (input[*here+k+1]!='\n')){
+					if(input[*here+k+1]!='0'){
+						cond0 = 0;
+					}
+					k += 1;
+				}
+				*here += k;
+				if(cond0==1){
+					atom = make_integer(0);
+					return atom;
+				}
 			}
 		}
+		nb = strtol(input+*here, &p, 10);
 		atom = make_integer(nb);
+		while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')')){
+			k += 1;
+		}
+		*here += k;
 		return atom;
+
 	}
+
+	
+	while ( (33 <= input[*here+k] ) && ( input[*here+k] <= 126 ) && ( input[*here+k]!=40 ) && ( input[*here+k]!=41 ) && ( input[*here+k]!=34 ) ) {
+        
+            st[k] = input[*here+k] ;
+            k += 1 ;
+	}
+        
+	st[k]= '\0';
+	*here += k-1;
+        atom = make_symbol(st) ;
+        return atom ;     
+    	
+	
+return(NULL);
 }
 	
 
@@ -388,15 +474,21 @@ object sfs_read_atom( char *input, uint *here ) {
 object sfs_read_pair( char *stream, uint *i ){
 
 	object pair = NULL;
+	pair = make_object(SFS_PAIR);
 
-	*(pair->this.pair.car) = *(sfs_read( stream, *i+1));
-	if(stream[*i+2] == ')'){
-		pair->this.pair.cdr = nil; 
+	pair->this.pair.car = sfs_read( stream, i);
+	while(stream[*i+1]==' ' || stream[*i+1]=='\t' || stream[*i+1]=='\0'){
+		*i += 1;
+	}
+	if(stream[*i+1] == ')'){
+		pair->this.pair.cdr = nil;
+		*i += 1;
 	}
 	else{
-		*(pair->this.pair.cdr) = *(sfs_read_pair(stream, *i+2));
+		*i += 1;
+		pair->this.pair.cdr = sfs_read_pair(stream, i);
 	}
-	pair = make_pair(pair->this.pair);
+	
 	return pair;
 }
 
