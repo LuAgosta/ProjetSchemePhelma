@@ -316,9 +316,7 @@ object sfs_read( char *input, uint *here ) {
 
 object sfs_read_atom( char *input, uint *here ) {
 	int k = 0;
-	char* p;
 	string st;
-	/*int signe = 1;*/
 	int nb = 0;
 	int cond0 = 1;
 	object atom = NULL;
@@ -426,8 +424,8 @@ object sfs_read_atom( char *input, uint *here ) {
 
 	}
 
-	if((strtol(input+*here, &p, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
-		if(strtol(input+*here, &p, 10)==0){
+	if((strtol(input+*here, NULL, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
+		if(strtol(input+*here, NULL, 10)==0){
 			if((input[*here]=='0') || (input[*here]=='+') || (input[*here]=='-')){
 				while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')&& (input[*here+k+1]!='\n')){
 					if(input[*here+k+1]!='0'){
@@ -442,9 +440,9 @@ object sfs_read_atom( char *input, uint *here ) {
 				}
 			}
 		}
-		nb = strtol(input+*here, &p, 10);
+		nb = strtol(input+*here, NULL, 10);
 		atom = make_integer(nb);
-		while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')')){
+		while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')){
 			k += 1;
 		}
 		*here += k;
