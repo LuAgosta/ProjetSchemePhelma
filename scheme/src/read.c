@@ -301,18 +301,16 @@ int parenthesis ( char c ) {
 	return 0; 
 }
 
-
-
 object sfs_read( char *input, uint *here ) {
-	while ( blanks (input [*here] ) ) {
-		*here+=1 ; 
+	while(blanks(input[*here])){
+		*here += 1;
 	}
     if ( input[*here] == '(' ) {
-	while ( blanks (input [*here+1] ) ) {
-		*here+=1 ; 
+		*here += 1;
+	while(blanks(input[*here])){
+		*here += 1;
 	}
         if ( input[(*here)] == ')' ) {
-            *here += 1;
             return nil;
         }
         else {
@@ -330,9 +328,12 @@ object sfs_read_atom( char *input, uint *here ) {
 	int k = 0;
 	string st;
 	int nb = 0;
+	char* p = NULL;
 	int cond0 = 1;
 	object atom = NULL;
-
+	while(blanks(input[*here])){
+		*here += 1;
+	}
 	
 	switch(input[*here]){
 	
@@ -340,45 +341,45 @@ object sfs_read_atom( char *input, uint *here ) {
 		
 		switch(input[*here+1]){
 			
-			
+			/*Booléen*/
+
 			case 't' :
-				if(blanks (input[*here+2]) || parenthesis (input [*here+2]) ){
+				if(blanks(input[*here+2]) || parenthesis(input[*here+2])){
 					*here += 1;
 					return vrai;
-					
 				}
 				else{
 					return NULL;
 				}
 		
 			case 'f' :
-				if(blanks (input [*here+2]) || parenthesis (input [*here+2]) ){
+				if(blanks(input[*here+2]) || parenthesis(input[*here+2])){
 					*here += 1;
 					return faux;
-					
 				}
 				else{
 					return NULL;
 				}
+
+			/*Caractères*/
+
 			case '\\' :
 			
 				if(input[*here+2]=='n' && input[*here+3]=='e' && input[*here+4]=='w' && input[*here+5]=='l' && input[*here+6]=='i' && input[*here+7]=='n' && input[*here+8]=='e'){
-					if(input[*here+9]==' ' || input[*here+9]=='\0' || input[*here+9]=='(' || input[*here+9]==')'){
+					if(blanks(input[*here+9]) || parenthesis(input[*here+9])){
 						*here += 8;
 						atom = make_char('\n');
 						return atom;
-					
 					}
 					else{
 						return NULL;
 					}
 				}
 				if(input[*here+2]=='s' && input[*here+3]=='p' && input[*here+4]=='a' && input[*here+5]=='c' && input[*here+6]=='e'){
-					if(input[*here+7]==' ' || input[*here+7]=='\0' || input[*here+7]=='(' || input[*here+7]==')'){
+					if(blanks(input[*here+7]) || parenthesis(input[*here+7])){
 						*here += 6;
 						atom = make_char(' ');
 						return atom;
-		
 					}
 					else{
 						return NULL;
@@ -386,11 +387,10 @@ object sfs_read_atom( char *input, uint *here ) {
 					
 				}
 				if(((33 <= input[*here+2]) && (input[*here+2] <= 128))){
-					if(blanks (input [*here+3]) || parenthesis (input [*here+3]) ){
+					if(blanks(input[*here+3]) || parenthesis(input[*here+3])){
 						atom = make_char(input[*here+2]);
 						*here += 2;
 						return atom;
-						
 					}
 					else{
 						return NULL;
@@ -400,7 +400,7 @@ object sfs_read_atom( char *input, uint *here ) {
 
 		break;
 
-
+	/*chaîne de caractères*/
 
 	case '\"' :
 		
@@ -420,43 +420,50 @@ object sfs_read_atom( char *input, uint *here ) {
 		*here += k+1;
 		atom = make_string(st);
 		return atom;
-		break;
 		
 
 	}
-	if (input[*here] == 35 ) {
-		*here += 1 ; 
-		return NULL ; 
+
+	/*booléen invalide*/
+
+	if(input[*here]==35){
+		*here += 1;
+		return NULL;
 	}
 
-	if((strtol(input+*here, NULL, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
-		if(strtol(input+*here, NULL, 10)==0){
-			if((input[*here]=='0') || (input[*here]=='+') || (input[*here]=='-')){
-				while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')&& (input[*here+k+1]!='\n')){
-					if(input[*here+k+1]!='0'){
-						cond0 = 0;
+	/*Entier*/
+		
+	if((strtol(input+*here, &p, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
+		if(p[0]==' ' || p[0]=='\t' || p[0]==')' || p[0]=='(' || p[0]=='\0'){	/*Il est possible d'avoir par exemple 01fonction. Dans ce cas, l'objet sera considéré comme un symbole et non une erreur*/
+			if(strtol(input+*here, &p, 10)==0){
+				if((input[*here]=='0') || (input[*here]=='+') || (input[*here]=='-')){
+					while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')&& (input[*here+k+1]!='\n')){
+						if(input[*here+k+1]!='0'){
+							cond0 = 0;
+						}
+						k += 1;
 					}
-					k += 1;
-				}
-				*here += k;
-				if(cond0==1){
-					atom = make_integer(0);
-					return atom;
+					*here += k;
+					if(cond0==1){
+						atom = make_integer(0);
+						return atom;
+					}
 				}
 			}
+			nb = strtol(input+*here, &p, 10);
+			atom = make_integer(nb);
+			while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\"') && (input[*here+k+1]!='\0')){
+				k += 1;
+			}
+			*here += k;
+			return atom;
 		}
-		nb = strtol(input+*here, NULL, 10);
-		atom = make_integer(nb);
-		while((input[*here+k+1]!=' ') && (input[*here+k+1]!='(') && (input[*here+k+1]!=')') && (input[*here+k+1]!='\0')){
-			k += 1;
-		}
-		*here += k;
-		return atom;
 
 	}
 
+	/*Symbole*/
 	
-	while ( (33 <= input[*here+k] ) && ( input[*here+k] <= 126 ) && parenthesis(input[*here+k]) == 0  && ( input[*here+k]!=34 ) ) {
+	while ( (33 <= input[*here+k] ) && ( input[*here+k] <= 126 ) && ( input[*here+k]!=40 ) && ( input[*here+k]!=41 ) && ( input[*here+k]!=34 ) ) {
         
             st[k] = input[*here+k] ;
             k += 1 ;
@@ -478,8 +485,9 @@ object sfs_read_pair( char *stream, uint *i ){
 
 	object pair = NULL;
 	pair = make_object(SFS_PAIR);
+
 	pair->this.pair.car = sfs_read( stream, i);
-	while(blanks (stream [*i+1])){
+	while(blanks(stream[*i+1])){
 		*i += 1;
 	}
 	if(stream[*i+1] == ')'){
@@ -493,4 +501,3 @@ object sfs_read_pair( char *stream, uint *i ){
 	
 	return pair;
 }
-
