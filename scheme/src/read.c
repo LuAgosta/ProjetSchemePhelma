@@ -287,17 +287,29 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
     return S_OK;
 }
 
+int blanks (char c ) {
+	if (' '==c || '\t' == c || '\n' == c || '\0' == c )  {
+		return 1 ; 
+	}
+	return 0 ; 
+}
+
+int parenthesis ( char c ) {
+	if (40 == c || 41 == c ) {
+		return 1 ;
+	}
+	return 0; 
+	}
 
 
 
 object sfs_read( char *input, uint *here ) {
-	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
-		*here += 1;
+	while ( blanks (input [*here] ) ) {
+		*here+=1 ; 
 	}
     if ( input[*here] == '(' ) {
-		*here += 1;
-	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
-		*here += 1;
+	while ( blanks (input [*here+1] ) ) {
+		*here+=1 ; 
 	}
         if ( input[(*here)] == ')' ) {
             *here += 1;
@@ -320,8 +332,8 @@ object sfs_read_atom( char *input, uint *here ) {
 	int nb = 0;
 	int cond0 = 1;
 	object atom = NULL;
-	while(input[*here]==' ' || input[*here]=='\t' || input[*here]=='\0'){
-		*here += 1;
+	while ( blanks (input [*here] ) ) {
+		*here+=1 ; 
 	}
 	
 	switch(input[*here]){
@@ -330,18 +342,9 @@ object sfs_read_atom( char *input, uint *here ) {
 		
 		switch(input[*here+1]){
 			
-			case 'm' :
-				*here += 1;
-				return NULL;
-				break;
-
-			case 'u' :
-				*here += 1;
-				return NULL;
-				break;
 			
 			case 't' :
-				if(input[*here+2]==' ' || input[*here+2]=='\0' || input[*here+2]=='(' || input[*here+2]==')'){
+				if(blanks ( input[*here+2] == 0 ) ){
 					*here += 1;
 					return vrai;
 					break;
