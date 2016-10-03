@@ -51,9 +51,11 @@ void sfs_print_atom( object o ) {
 		case SFS_BOOLEAN :
 			if ( o->this.special == vrai ) {
 				printf("#t") ; 
+				break;
 			}
 			else {
 				printf ("#f"); 
+				break;
 			} 
 	
 	}
@@ -79,6 +81,11 @@ void sfs_print_pair( object o ) {
 
 
 void sfs_print( object o ) {
+	
+	if(o == NULL){
+		printf("ERROR");
+		return;
+	}
 	
     if ( o->type == SFS_PAIR ) {
 	printf("(");
