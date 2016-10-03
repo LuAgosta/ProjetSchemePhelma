@@ -299,7 +299,7 @@ int parenthesis ( char c ) {
 		return 1 ;
 	}
 	return 0; 
-	}
+}
 
 
 
@@ -332,9 +332,7 @@ object sfs_read_atom( char *input, uint *here ) {
 	int nb = 0;
 	int cond0 = 1;
 	object atom = NULL;
-	while ( blanks (input [*here] ) ) {
-		*here+=1 ; 
-	}
+
 	
 	switch(input[*here]){
 	
@@ -344,20 +342,20 @@ object sfs_read_atom( char *input, uint *here ) {
 			
 			
 			case 't' :
-				if(blanks ( input[*here+2] == 0 ) ){
+				if(blanks (input[*here+2]) || parenthesis (input [*here+2]) ){
 					*here += 1;
 					return vrai;
-					break;
+					
 				}
 				else{
 					return NULL;
 				}
 		
 			case 'f' :
-				if(input[*here+2]==' ' || input[*here+2]=='\0' || input[*here+2]=='(' || input[*here+2]==')'){
+				if(blanks (input [*here+2]) || parenthesis (input [*here+2]) ){
 					*here += 1;
 					return faux;
-					break;
+					
 				}
 				else{
 					return NULL;
@@ -369,7 +367,7 @@ object sfs_read_atom( char *input, uint *here ) {
 						*here += 8;
 						atom = make_char('\n');
 						return atom;
-						break;
+					
 					}
 					else{
 						return NULL;
@@ -380,7 +378,7 @@ object sfs_read_atom( char *input, uint *here ) {
 						*here += 6;
 						atom = make_char(' ');
 						return atom;
-						break;
+		
 					}
 					else{
 						return NULL;
@@ -388,11 +386,11 @@ object sfs_read_atom( char *input, uint *here ) {
 					
 				}
 				if(((33 <= input[*here+2]) && (input[*here+2] <= 128))){
-					if(input[*here+3]==' ' || input[*here+3]=='\0' || input[*here+3]=='(' || input[*here+3]==')'){
+					if(blanks (input [*here+3]) || parenthesis (input [*here+3]) ){
 						atom = make_char(input[*here+2]);
 						*here += 2;
 						return atom;
-						break;
+						
 					}
 					else{
 						return NULL;
@@ -426,6 +424,10 @@ object sfs_read_atom( char *input, uint *here ) {
 		
 
 	}
+	if (input[*here] == 35 ) {
+		*here += 1 ; 
+		return NULL ; 
+	}
 
 	if((strtol(input+*here, NULL, 10)!=0) || (input[*here]=='0') || ((input[*here]=='+') && (input[*here+1]=='0')) || ((input[*here]=='-') && (input[*here+1]=='0'))){
 		if(strtol(input+*here, NULL, 10)==0){
@@ -454,7 +456,7 @@ object sfs_read_atom( char *input, uint *here ) {
 	}
 
 	
-	while ( (33 <= input[*here+k] ) && ( input[*here+k] <= 126 ) && ( input[*here+k]!=40 ) && ( input[*here+k]!=41 ) && ( input[*here+k]!=34 ) ) {
+	while ( (33 <= input[*here+k] ) && ( input[*here+k] <= 126 ) && parenthesis(input[*here+k]) == 0  && ( input[*here+k]!=34 ) ) {
         
             st[k] = input[*here+k] ;
             k += 1 ;
@@ -476,9 +478,8 @@ object sfs_read_pair( char *stream, uint *i ){
 
 	object pair = NULL;
 	pair = make_object(SFS_PAIR);
-
 	pair->this.pair.car = sfs_read( stream, i);
-	while(stream[*i+1]==' ' || stream[*i+1]=='\t' || stream[*i+1]=='\0'){
+	while(blanks (stream [*i+1])){
 		*i += 1;
 	}
 	if(stream[*i+1] == ')'){
