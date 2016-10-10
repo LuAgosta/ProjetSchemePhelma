@@ -49,7 +49,7 @@ object make_boolean(void) {
 
 }
 
-object make_integer(int n) {
+object make_integer(long n) {
 
 	object i = make_object(SFS_NUMBER);
 	
