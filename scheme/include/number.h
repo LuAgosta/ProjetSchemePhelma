@@ -15,6 +15,7 @@
 extern "C" {
 #endif
 
+#include <limits.h>
 #include "basic.h"
 
 
