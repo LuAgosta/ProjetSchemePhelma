@@ -34,15 +34,24 @@ void sfs_print_atom( object o ) {
 			printf ( "%s" , o->this.symbol ) ; 
 		break ; 
 
+	
 		case SFS_NUMBER : 
 			if ( o->this.number.numtype == NUM_INTEGER ) { 
-				printf ("%d" , o->this.number.this.integer ) ; 
+				if(o->this.number.this.integer == LONG_MAX){
+					printf("+inf");
+					break;
+				}
+				if(o->this.number.this.integer == LONG_MIN){
+					printf("-inf");
+					break;
+				}
+				printf ("%ld" , o->this.number.this.integer ) ; 
 			}
 			else {
 				printf ("%lf" , o->this.number.this.real ) ; 
 			}
 		
-		break ; 
+			break ; 
 
 		case SFS_NIL :
 			printf("()") ;
