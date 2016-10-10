@@ -327,7 +327,7 @@ object sfs_read( char *input, uint *here ) {
 object sfs_read_atom( char *input, uint *here ) {
 	int k = 0;
 	string st;
-	int nb = 0;
+	long nb = 0;
 	char* p = NULL;
 	int cond0 = 1;
 	object atom = NULL;
