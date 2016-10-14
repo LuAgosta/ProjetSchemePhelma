@@ -64,6 +64,11 @@ object sfs_eval( object input ) {
 		}
 		return faux ; 
 	}
+	/* if */
+	if (is_form ("if", input ) ) {
+		if ( vrai == eval ( input->this.pair.cdr ) ) { 
+
+
 
 	 
 
