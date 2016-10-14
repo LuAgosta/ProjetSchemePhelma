@@ -69,7 +69,6 @@ void sfs_print_atom( object o ) {
 		
 } 
 
-
 void sfs_print_pair( object o ) {
 
 	sfs_print(o->this.pair.car);
@@ -77,9 +76,14 @@ void sfs_print_pair( object o ) {
 	if(o->this.pair.cdr->type == SFS_NIL){
 		printf(")");
 	}
-	else{
+	if(o->this.pair.cdr->type == SFS_PAIR){
 		printf(" ");
 		sfs_print_pair(o -> this.pair.cdr);
+	}
+	if(o->this.pair.cdr->type == SFS_CHARACTER || o->this.pair.cdr->type == SFS_SYMBOL || o->this.pair.cdr->type == SFS_STRING || o->this.pair.cdr->type == SFS_NUMBER || o->this.pair.cdr->type == SFS_BOOLEAN){
+		printf(".");
+		sfs_print_atom(o->this.pair.cdr);
+		printf(")");
 	}
 }
 
