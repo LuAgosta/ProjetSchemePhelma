@@ -80,11 +80,12 @@ object make_char(char ch) {
 
 }
 
-object make_pair(pair pa) {
+object make_pair(object o1, object o2) {
 
 	object p = make_object(SFS_PAIR);
 
-	p->this.pair = pa;
+	p->this.pair.car = o1;
+	p->this.pair.cdr = o2;
 
 	return p;
 
@@ -98,4 +99,32 @@ object make_string(char* st) {
 
 	return s;
 
+}
+
+object caar(object o){
+	return(o->this.pair.car->this.pair.car);
+	}
+
+object cadr(object o){
+	return(o->this.pair.cdr->this.pair.car);
+	}
+
+object cdar(object o){
+	return(o->this.pair.car->this.pair.cdr);
+	}
+
+object cddr(object o){
+	return(o->this.pair.cdr->this.pair.cdr);
+	}
+
+object cadar(object o){
+	return(cdar(o)->this.pair.car);
+}
+
+object caddr(object o){
+	return(cddr(o)->this.pair.car);
+}
+
+object cdaar(object o){
+	return(caar(o)->this.pair.cdr);
 }
