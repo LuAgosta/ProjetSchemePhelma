@@ -52,8 +52,16 @@ object make_boolean(void);
 object make_integer(long n);
 object make_symbol(string sym);
 object make_char(char ch);
-object make_pair(pair pa);
+object make_pair(object o1, object o2);
 object make_string(string st);
+object caar(object o);
+object cadr(object o);
+object cdar(object o);
+object cddr(object o);
+object cadar(object o);
+object caddr(object o);
+object cdaar(object o);
+
 
 #define SFS_NUMBER       0x00
 #define SFS_CHARACTER    0x01
