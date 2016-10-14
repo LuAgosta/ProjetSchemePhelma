@@ -17,7 +17,7 @@ extern "C" {
 
 
 #include "object.h"
-
+int is_form (char* , object ) ;
 object sfs_eval( object );
 
 #ifdef __cplusplus
