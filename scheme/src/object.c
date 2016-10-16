@@ -137,3 +137,11 @@ object caddr(object o){
 object cdaar(object o){
 	return(caar(o)->this.pair.cdr);
 }
+
+object cdddr(object o){
+	return(cddr(o)->this.pair.cdr);
+}
+
+object cadddr(object o){
+	return(cdddr(o)->this.pair.car);
+}
