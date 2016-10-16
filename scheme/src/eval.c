@@ -38,41 +38,51 @@ object sfs_eval( object input ) {
 		}
 		return faux ; 
 	}
+
 	if ( is_form ("!=", input ) ) {
 		if ( sfs_eval(cadr(input)) != sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
+
 	if  (is_form ("<" , input )) { 
 		if(sfs_eval(cadr(input)) < sfs_eval(caddr (input))  ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
+
 	if ( is_form (">", input ) ) {
 		if ( sfs_eval(cadr(input)) > sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
+
 	if ( is_form ("<=", input ) ) {
 		if ( sfs_eval(cadr(input)) <= sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
+
 	if ( is_form (">=", input ) ) {
 		if ( sfs_eval(cadr(input)) >= sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
-	
+		return faux ; 
+	}
+
 	/* if */
 	if (is_form ("if", input ) ) {
-		if ( vrai == eval ( input->this.pair.cdr ) ) { 
+		if (vrai == sfs_eval(cadr(input))) {
+			return sfs_eval(caddr(input)) ; 
 		}
-
-
+		else {
+			return sfs_eval (cadddr(input)) ; 
+		}
+	}
 
 	 
 
