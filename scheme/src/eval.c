@@ -29,7 +29,7 @@ object sfs_eval( object input ) {
 	/* quote */ 
 
 		if ( is_form ( "quote" , input ) ) { 
-			return cdar (input) ; 
+			return cadr (input) ; 
 		}
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
