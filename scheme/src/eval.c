@@ -19,7 +19,7 @@ int is_form (char* name, object input ) {
 
 object sfs_eval( object input ) {
 /**auto-evaluants**/ 
-	if ((input -> type !=  SFS_SYMBOL ) &&  (input ->type != SFS_PAIR)  ) {
+	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR) && (input->type != SFS_NIL)) {
 		return input ; 
 	}
 
