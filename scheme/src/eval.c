@@ -61,9 +61,16 @@ object sfs_eval( object input ) {
 		return input ; 
 	}
 
+	/*Existence de la variable dans un environnement ?*/
+	if(input->type == SFS_SYMBOL){
+		object val = in_lenv(input);
+		if(val != nil) {
+			return val;
+		}
+	/*else afficher message d'erreur !!!*/
+	}
 	
- 
-/** formes **/ 
+	/** formes **/ 
 	/* quote */ 
 
 		if ( is_form ( "quote" , input ) ) { 
