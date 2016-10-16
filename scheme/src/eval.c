@@ -33,41 +33,40 @@ object sfs_eval( object input ) {
 		}
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
-		if ( sfs_eval(input->this.pair.cdr) == sfs_eval(cddr(input)) ) {
+		if ( sfs_eval(cadr(input)) == sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 	if ( is_form ("!=", input ) ) {
-		if ( sfs_eval(input->this.pair.cdr) != sfs_eval(cddr(input)) ) {
+		if ( sfs_eval(cadr(input)) != sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 	if  (is_form ("<" , input )) { 
-		if(sfs_eval(input-> this.pair.cdr) < sfs_eval(cddr (input))  ) {
+		if(sfs_eval(cadr(input)) < sfs_eval(caddr (input))  ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 	if ( is_form (">", input ) ) {
-		if ( sfs_eval(input->this.pair.cdr) > sfs_eval(cddr(input)) ) {
+		if ( sfs_eval(cadr(input)) > sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 	if ( is_form ("<=", input ) ) {
-		if ( sfs_eval(input->this.pair.cdr) <= sfs_eval(cddr(input)) ) {
+		if ( sfs_eval(cadr(input)) <= sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 	if ( is_form (">=", input ) ) {
-		if ( sfs_eval(input->this.pair.cdr) >= sfs_eval(cddr(input)) ) {
+		if ( sfs_eval(cadr(input)) >= sfs_eval(caddr(input)) ) {
 			return vrai ; 
 		}
-		return faux ; 
-	}
+	
 	/* if */
 	if (is_form ("if", input ) ) {
 		if ( vrai == eval ( input->this.pair.cdr ) ) { 
