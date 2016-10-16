@@ -25,6 +25,13 @@ object sfs_eval( object input ) {
 	if (input -> type == SFS_PAIR && input -> this.pair.car -> type != ( SFS_SYMBOL && SFS_PAIR ) ) {
 		return input -> this.pair.car ;
 	}
+	
+/* quote */ 
+
+		if ( is_form ( "quote" , input ) ) { 
+			return cdar (input) ; 
+		}
+
  
 /** formes **/ 
 	/* > < >= <= = */ 
