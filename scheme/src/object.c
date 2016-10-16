@@ -61,15 +61,22 @@ object make_integer(long n) {
 }
 
 object make_symbol(char* sym) {
-
-	object s = make_object(SFS_SYMBOL);
-
-	strcpy(s->this.symbol , sym);
-
-	tsym = make_pair(s,tsym);   /*ajout du symbole créé à la table des symboles*/
-
+	object s = tsym;
+	while(s->this.pair.cdr != nil){
+		if(strcmp(s->this.pair.car->this.string,sym)==0){
+			return(s->this.pair.car);					/*le symbole existe déjà, on renvoie l'adresse*/
+   		 }
+    		s=s->this.pair.cdr;
+ 	}
+  	if(s->this.pair.car != nil){
+      		if(strcmp(s->this.pair.car->this.string,sym)==0){
+      			return(s->this.pair.car);
+    		}
+  	}
+	s = make_object(SFS_SYMBOL);  /*il n'existe pas encore, on le crée et on renvoie sont adresse*/
+	strcpy(s->this.symbol, sym);
+  	tsym = make_pair(s,tsym);     /*ajout du symbole créé à la table des symboles*/
 	return s;
-
 }
 
 object make_char(char ch) {
