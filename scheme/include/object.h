@@ -61,6 +61,8 @@ object cddr(object o);
 object cadar(object o);
 object caddr(object o);
 object cdaar(object o);
+object cdddr(object o);
+object cadddr(object o);
 
 
 #define SFS_NUMBER       0x00
