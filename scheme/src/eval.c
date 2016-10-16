@@ -72,10 +72,17 @@ object sfs_eval( object input ) {
 	
 	/** formes **/ 
 	/* quote */ 
-
-		if ( is_form ( "quote" , input ) ) { 
-			return cadr (input) ; 
-		}
+	if ( is_form ( "quote" , input ) ) { 
+		return cadr (input) ; 
+	}
+	
+	/*define*/
+	if ( is_form("define",input)){
+		output = cadr(input);
+		addvar(output,sfs_eval(caddr(input)));
+		return output;
+	}
+	
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
 		if ( sfs_eval(cadr(input)) == sfs_eval(caddr(input)) ) {
