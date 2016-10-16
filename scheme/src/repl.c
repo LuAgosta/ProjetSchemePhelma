@@ -33,12 +33,16 @@ void usage_error( char *command ) {
 object nil;
 object faux;
 object vrai;
+object lenv;	/*liste d'environnements*/
+object tsym; /*table de symbole*/
 
 void init_interpreter ( void ) {
 
     nil      = make_nil();
     vrai     = make_boolean();
     faux    = make_boolean();
+    lenv = make_pair(nil,nil);
+    tsym = make_pair(nil,nil);
 
 }
 
