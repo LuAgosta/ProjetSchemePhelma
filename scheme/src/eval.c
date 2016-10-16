@@ -24,14 +24,13 @@ object sfs_eval( object input ) {
 	}
 
 	
-/* quote */ 
+ 
+/** formes **/ 
+	/* quote */ 
 
 		if ( is_form ( "quote" , input ) ) { 
 			return cdar (input) ; 
 		}
-
- 
-/** formes **/ 
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
 		if ( sfs_eval(input->this.pair.cdr) == sfs_eval(cddr(input)) ) {
@@ -72,6 +71,7 @@ object sfs_eval( object input ) {
 	/* if */
 	if (is_form ("if", input ) ) {
 		if ( vrai == eval ( input->this.pair.cdr ) ) { 
+		}
 
 
 
