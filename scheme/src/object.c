@@ -65,7 +65,9 @@ object make_symbol(char* sym) {
 	object s = make_object(SFS_SYMBOL);
 
 	strcpy(s->this.symbol , sym);
-	
+
+	tsym = make_pair(s,tsym);   /*ajout du symbole créé à la table des symboles*/
+
 	return s;
 
 }
