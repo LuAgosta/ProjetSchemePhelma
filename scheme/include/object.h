@@ -75,7 +75,8 @@ object cdaar(object o);
 extern object nil;
 extern object vrai;
 extern object faux;
-extern object ERROR;
+extern object lenv;	/*liste d'environnements*/
+extern object tsym; 	/*table de symbole*/
 
 #ifdef __cplusplus
 }
