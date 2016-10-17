@@ -302,8 +302,26 @@ int parenthesis ( char c ) {
 }
 
 object sfs_read( char *input, uint *here ) {
+	char input2[BIGSTRING];
+  	int k=1;
 	while(blanks(input[*here])){
 		*here += 1;
+	}
+	 if (input[*here] == '\''){
+		input2[0] = '(';
+		input2[1] = 'q';
+		input2[2] = 'u';
+		input2[3] = 'o';
+		input2[4] = 't';
+		input2[5] = 'e';
+		input2[6] = ' ';
+		while(input[*here+k] != '\0'){
+			input2[6+k]=input[*here+k];
+			k++;
+		}
+		input2[6+k] = ')';
+		input2[7+k] = '\0';
+		return sfs_read(input2,here);
 	}
     if ( input[*here] == '(' ) {
 		*here += 1;
