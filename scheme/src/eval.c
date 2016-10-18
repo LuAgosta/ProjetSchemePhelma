@@ -128,14 +128,39 @@ object sfs_eval( object input ) {
 
 	/* if */
 	if (is_form ("if", input ) ) {
-		if (vrai == sfs_eval(cadr(input))) {
-			return sfs_eval(caddr(input)) ; 
+		if (faux == sfs_eval(cadr(input))) {
+			input = cadddr(input) ; 
+			goto restart ; 
 		}
 		else {
-			return sfs_eval (cadddr(input)) ; 
+			input = caddr (input) ;
+			goto restart ;
 		}
 	}
 
+	/* or */ 
+	if (is_form("or", input ) ) {
+		while (input->this.pair.cdr != nil ) {
+			input = input->this.pair.cdr ; 
+			if (sfs_eval(input->this.pair.car) == vrai ) {
+				return vrai ;
+			}
+
+		}
+		return faux ;
+	}
+
+	/* and */ 
+	if (is_form ("and", input )) {
+		while (input->this.pair.cdr != nil ) {
+			input = input->this.pair.cdr ;
+			if (sfs_eval(input->this.pair.car) == faux ){
+				return faux ;
+			}	
+		}
+		return vrai; 
+	}
+	
 	 
 
 
