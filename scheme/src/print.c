@@ -91,7 +91,7 @@ void sfs_print_pair( object o ) {
 
 void sfs_print( object o ) {
 	if(o == NULL){
-		printf("ERROR");
+		WARNING_MSG("Erreur");
 		return;
 	}
     if ( o->type == SFS_PAIR ) {
