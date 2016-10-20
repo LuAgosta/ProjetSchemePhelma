@@ -56,9 +56,10 @@ object in_lenv(object var){
 
 
 object sfs_eval( object input ) {
-	restart :
 	object output = NULL;
-/**auto-evaluants**/ 
+	long n;
+	restart :
+	/*auto-evaluants*/ 
 	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR) && (input->type != SFS_NIL)) {
 		return input ; 
 	}
@@ -72,7 +73,7 @@ object sfs_eval( object input ) {
 	/*else afficher message d'erreur !!!*/
 	}
 	
-	/** formes **/ 
+	/** formes et primitives **/ 
 	/* quote */ 
 	if ( is_form ( "quote" , input ) ) { 
 		return cadr (input) ; 
@@ -83,6 +84,60 @@ object sfs_eval( object input ) {
 		output = cadr(input);
 		addvar(output,sfs_eval(caddr(input)));
 		return output;
+	}
+	
+	/* if */
+	if (is_form ("if", input ) ) {
+		if (faux == sfs_eval(cadr(input))) {
+			input = cadddr(input) ; 
+			goto restart ; 
+		}
+		else {
+			input = caddr (input) ;
+			goto restart ;
+		}
+	}
+	
+	/*Opérations + - * / */
+	if ( is_form ("+", input ) || is_form ("-", input ) || is_form ("*", input ) || is_form ("/", input )){
+		if((sfs_eval(cadr(input))->type == SFS_NUMBER) && (sfs_eval(caddr(input))->type == SFS_NUMBER)){
+			if ( is_form ("+", input )){
+				n =  sfs_eval(cadr(input))->this.number.this.integer + sfs_eval(caddr(input))->this.number.this.integer;
+				output = make_integer(n);
+				return(output);
+			}
+
+			if ( is_form ("-", input )){
+				n =  sfs_eval(cadr(input))->this.number.this.integer - sfs_eval(caddr(input))->this.number.this.integer;
+				output = make_integer(n);
+				return(output);
+			}
+
+			if ( is_form ("*", input )){
+				n =  sfs_eval(cadr(input))->this.number.this.integer * sfs_eval(caddr(input))->this.number.this.integer;
+				output = make_integer(n);
+				return(output);
+			}
+
+			if ( is_form ("/", input )){
+				if(sfs_eval(caddr(input))->this.number.this.integer != 0){
+					if(sfs_eval(cadr(input))->this.number.this.integer % sfs_eval(caddr(input))->this.number.this.integer == 0){
+						n =  sfs_eval(cadr(input))->this.number.this.integer / sfs_eval(caddr(input))->this.number.this.integer;
+						output = make_integer(n);
+						return(output);
+					}
+					else{
+						WARNING_MSG("Attention, pour l'instant notre interpréteur ne gère pas les nombres réels (nombres en virgule flottante)");
+					}
+				}
+				else{
+					WARNING_MSG("Attention, la division par 0 est impossible");
+				}
+			}
+		}
+		else{
+			WARNING_MSG("Attention, cette opération s'applique uniquement à des nombres");
+		}
 	}
 	
 	/* > < >= <= = */ 
@@ -126,18 +181,6 @@ object sfs_eval( object input ) {
 			return vrai ; 
 		}
 		return faux ; 
-	}
-
-	/* if */
-	if (is_form ("if", input ) ) {
-		if (faux == sfs_eval(cadr(input))) {
-			input = cadddr(input) ; 
-			goto restart ; 
-		}
-		else {
-			input = caddr (input) ;
-			goto restart ;
-		}
 	}
 
 	/* or */ 
