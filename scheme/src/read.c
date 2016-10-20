@@ -356,9 +356,9 @@ object sfs_read_atom( char *input, uint *here ) {
 	switch(input[*here]){
 	
 	case '#' :
-		
+
 		switch(input[*here+1]){
-			
+
 			/*Booléen*/
 
 			case 't' :
@@ -367,22 +367,24 @@ object sfs_read_atom( char *input, uint *here ) {
 					return vrai;
 				}
 				else{
-					return NULL;
+					WARNING_MSG("Erreur, booléen invalide");
+          				return NULL;
 				}
-		
+
 			case 'f' :
 				if(blanks(input[*here+2]) || parenthesis(input[*here+2])){
 					*here += 1;
 					return faux;
 				}
 				else{
-					return NULL;
+					WARNING_MSG("Erreur, booléen invalide");
+          				return NULL;
 				}
 
 			/*Caractères*/
 
 			case '\\' :
-			
+
 				if(input[*here+2]=='n' && input[*here+3]=='e' && input[*here+4]=='w' && input[*here+5]=='l' && input[*here+6]=='i' && input[*here+7]=='n' && input[*here+8]=='e'){
 					if(blanks(input[*here+9]) || parenthesis(input[*here+9])){
 						*here += 8;
@@ -390,6 +392,7 @@ object sfs_read_atom( char *input, uint *here ) {
 						return atom;
 					}
 					else{
+            					WARNING_MSG("Erreur, caractère invalide");
 						return NULL;
 					}
 				}
@@ -400,22 +403,24 @@ object sfs_read_atom( char *input, uint *here ) {
 						return atom;
 					}
 					else{
+            					WARNING_MSG("Erreur, caractère invalide");
 						return NULL;
 					}
-					
+
 				}
-				if(((33 <= input[*here+2]) && (input[*here+2] <= 128))){
+				if(((33 <= input[*here+2]) && (input[*here+2] <= 253))){
 					if(blanks(input[*here+3]) || parenthesis(input[*here+3])){
 						atom = make_char(input[*here+2]);
 						*here += 2;
 						return atom;
 					}
 					else{
+            					WARNING_MSG("Erreur, caractère invalide");
 						return NULL;
 					}
 				}
 		}
-
+    		WARNING_MSG("Erreur, booléen invalide");
 		break;
 
 	/*chaîne de caractères*/
