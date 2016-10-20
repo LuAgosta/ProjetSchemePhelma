@@ -87,42 +87,42 @@ object sfs_eval( object input ) {
 	
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
-		if ( sfs_eval(cadr(input)) == sfs_eval(caddr(input)) ) {
+		if ( sfs_eval(cadr(input))->this.number.this.integer == sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 
 	if ( is_form ("!=", input ) ) {
-		if ( sfs_eval(cadr(input)) != sfs_eval(caddr(input)) ) {
+		if ( sfs_eval(cadr(input))->this.number.this.integer != sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 
 	if  (is_form ("<" , input )) { 
-		if(sfs_eval(cadr(input)) < sfs_eval(caddr (input))  ) {
+		if(sfs_eval(cadr(input))->this.number.this.integer < sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 
 	if ( is_form (">", input ) ) {
-		if ( sfs_eval(cadr(input)) > sfs_eval(caddr(input)) ) {
+		if ( sfs_eval(cadr(input))->this.number.this.integer > sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 
 	if ( is_form ("<=", input ) ) {
-		if ( sfs_eval(cadr(input)) <= sfs_eval(caddr(input)) ) {
+		if ( sfs_eval(cadr(input))->this.number.this.integer <= sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
 	}
 
 	if ( is_form (">=", input ) ) {
-		if ( sfs_eval(cadr(input)) >= sfs_eval(caddr(input)) ) {
+		if (sfs_eval(cadr(input))->this.number.this.integer >= sfs_eval(caddr (input))->this.number.this.integer ) {
 			return vrai ; 
 		}
 		return faux ; 
