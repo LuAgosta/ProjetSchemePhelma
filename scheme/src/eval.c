@@ -10,6 +10,7 @@
 
 #include "eval.h"
 
+/* Regarder la forme ou primitive utilisée */
 int is_form (char* name, object input ) {
 
 	if ( input-> type == SFS_PAIR && input -> this.pair.car -> type == SFS_SYMBOL && 0 == strcmp(name, input->this.pair.car ->this.symbol) ) {
