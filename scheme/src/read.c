@@ -420,7 +420,6 @@ object sfs_read_atom( char *input, uint *here ) {
 					}
 				}
 		}
-    		WARNING_MSG("Erreur, booléen invalide");
 		break;
 
 	/*chaîne de caractères*/
@@ -450,7 +449,7 @@ object sfs_read_atom( char *input, uint *here ) {
 	/*booléen invalide*/
 
 	if(input[*here]==35){
-		*here += 1;
+		WARNING_MSG("Erreur, booléen invalide");
 		return NULL;
 	}
 
