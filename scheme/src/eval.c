@@ -54,6 +54,13 @@ object in_lenv(object var){
 	return nil;		/*il faut afficher un msg d'erreur du type Unbound Variable*/
 }
 
+/*Modifier un object*/
+void modify_object(object tomod, object mod) {
+
+	tomod -> type = mod -> type ; 
+	tomod -> this = mod -> this ;  
+
+}
 
 object sfs_eval( object input ) {
 	object output = NULL;
@@ -85,6 +92,13 @@ object sfs_eval( object input ) {
 		addvar(output,sfs_eval(caddr(input)));
 		return output;
 	}
+	
+	/*set!*/
+	if ( is_form("set!", input)){ 
+		
+		modify_object (in_lenv(cadr(input)), caddr(input)) ; 
+		return cadr(input) ; 
+	} 
 	
 	/* if */
 	if (is_form ("if", input ) ) {
