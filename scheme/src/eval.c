@@ -75,7 +75,7 @@ object sfs_eval( object input ) {
 	/*Existence de la variable dans un environnement ?*/
 	if( input->type == SFS_SYMBOL ){ 
 		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Variable non trouvée");
+			WARNING_MSG("Variable non existante");
 			return NULL; 
 		}
 		else {	
@@ -84,7 +84,7 @@ object sfs_eval( object input ) {
 				return val;
 			}	
 			else {
-				WARNING_MSG("Variable non trouvée");
+				WARNING_MSG("Variable non existante");
 				return NULL; 
 			}
 		}
@@ -106,9 +106,21 @@ object sfs_eval( object input ) {
 	
 	/*set!*/
 	if ( is_form("set!", input)){ 
-		
-		modify_object (in_lenv(cadr(input)), caddr(input)) ; 
-		return cadr(input) ; 
+		if (lenv -> this.pair.car == nil){
+			WARNING_MSG("Variable non existante");
+			return NULL; 
+		}
+		else {	
+			object val = in_lenv(cadr(input));
+			if(val == nil){
+				WARNING_MSG("Variable non existante"); 
+				return NULL; 
+			}
+			else {	
+				modify_object (in_lenv(cadr(input)), caddr(input)) ; 
+				return cadr(input) ; 
+			}
+		}
 	} 
 	
 	/* if */
