@@ -22,6 +22,7 @@ int is_form (char* , object ) ;
 object sfs_eval( object );
 void addvar(object var, object val);
 object in_lenv(object var);
+void modify_object(object tomod, object mod); 
 
 #ifdef __cplusplus
 }
