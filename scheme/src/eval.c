@@ -73,12 +73,22 @@ object sfs_eval( object input ) {
 	}
 
 	/*Existence de la variable dans un environnement ?*/
-	if(input->type == SFS_SYMBOL){
-		object val = in_lenv(input);
-		if(val != nil) {
-			return val;
+	if( input->type == SFS_SYMBOL ){ 
+		if (lenv -> this.pair.car == nil){
+			WARNING_MSG("Variable non trouvée");
+			return NULL; 
 		}
-	/*else afficher message d'erreur !!!*/
+		else {	
+			object val = in_lenv(input);
+			if(val != nil) { /* pour l'instant lenv = environnement courant*/  
+				return val;
+			}	
+			else {
+				WARNING_MSG("Variable non trouvée");
+				return NULL; 
+			}
+		}
+
 	}
 	
 	/** formes et primitives **/ 
