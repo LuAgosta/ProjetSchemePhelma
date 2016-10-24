@@ -11,3 +11,5 @@ a
 b
 (set! a 3)
 b
+(set! b 12)
+a
