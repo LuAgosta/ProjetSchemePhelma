@@ -149,41 +149,26 @@ object sfs_eval( object input ) {
 	/*Opérations + - * / */
 	if ( is_form ("+", input ) || is_form ("-", input ) || is_form ("*", input ) || is_form ("/", input )){
 		if((sfs_eval(cadr(input))->type == SFS_NUMBER) && (sfs_eval(caddr(input))->type == SFS_NUMBER)){
+			if(cdddr(input)->type != SFS_NIL){
+				WARNING_MSG("L'opération %s ne prend que deux arguments", input->this.pair.car ->this.symbol);
+				return NULL;
+			}
 			if ( is_form ("+", input )){
-				if(cdddr(input)->type != SFS_NIL){
-					WARNING_MSG("L'opération + ne prend que deux arguments");
-					return NULL;
-				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer + sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
-
 			if ( is_form ("-", input )){
-				if(cdddr(input)->type != SFS_NIL){
-					WARNING_MSG("L'opération - ne prend que deux arguments");
-					return NULL;
-				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer - sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
-
 			if ( is_form ("*", input )){
-				if(cdddr(input)->type != SFS_NIL){
-					WARNING_MSG("L'opération * ne prend que deux arguments");
-					return NULL;
-				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer * sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
-
 			if ( is_form ("/", input )){
-				if(cdddr(input)->type != SFS_NIL){
-					WARNING_MSG("L'opération / ne prend que deux arguments");
-					return NULL;
-				}
 				if(sfs_eval(caddr(input))->this.number.this.integer != 0){
 					if(sfs_eval(cadr(input))->this.number.this.integer % sfs_eval(caddr(input))->this.number.this.integer == 0){
 						n =  sfs_eval(cadr(input))->this.number.this.integer / sfs_eval(caddr(input))->this.number.this.integer;
@@ -200,101 +185,63 @@ object sfs_eval( object input ) {
 			}
 		}
 		else{
+			if(caddr(input)->type == SFS_NIL){
+				WARNING_MSG("Erreur, l'opérateur %s doit prendre deux arguements", input->this.pair.car ->this.symbol);
+				return NULL;
+			}
 			WARNING_MSG("Attention, cette opération s'applique uniquement à des nombres");
+			return NULL;
 		}
 	}
 
 	/* > < >= <= = */
-	if ( is_form ("=", input ) ) {
+	if(is_form ("=", input ) || is_form ("!=", input ) || is_form ("<", input ) || is_form (">", input ) || is_form ("<=", input ) || is_form (">=", input )){
 		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison = doit prendre deux arguments");
+			WARNING_MSG("Erreur, l'opérateur de comparaison %s doit prendre deux arguments", input->this.pair.car ->this.symbol);
 			return NULL;
 		}
 		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison = ne prend que deux arguments");
+			WARNING_MSG("Erreur, l'opérateur de comparaison %s ne prend que deux arguments", input->this.pair.car ->this.symbol);
 			return NULL;
 		}
-		if ( sfs_eval(cadr(input))->this.number.this.integer == sfs_eval(caddr(input))->this.number.this.integer ) {
-			return vrai ;
+		if ( is_form ("=", input ) ) {
+			if ( sfs_eval(cadr(input))->this.number.this.integer == sfs_eval(caddr(input))->this.number.this.integer ) {
+				return vrai ;
+			}
+			return faux ;
 		}
-		return faux ;
+		if ( is_form ("!=", input ) ) {
+			if ( sfs_eval(cadr(input))->this.number.this.integer != sfs_eval(caddr(input))->this.number.this.integer ) {
+				return vrai ;
+			}
+			return faux ;
+		}
+		if  (is_form ("<" , input )) {
+			if(sfs_eval(cadr(input))->this.number.this.integer < sfs_eval(caddr (input))->this.number.this.integer  ) {
+				return vrai ;
+			}
+			return faux ;
+		}
+		if ( is_form (">", input ) ) {
+			if ( sfs_eval(cadr(input))->this.number.this.integer > sfs_eval(caddr(input))->this.number.this.integer ) {
+				return vrai ;
+			}
+			return faux ;
+		}
+		if ( is_form ("<=", input ) ) {
+			if ( sfs_eval(cadr(input))->this.number.this.integer <= sfs_eval(caddr(input))->this.number.this.integer ) {
+				return vrai ;
+			}
+			return faux ;
+		}
+		if ( is_form (">=", input ) ) {
+			if ( sfs_eval(cadr(input))->this.number.this.integer >= sfs_eval(caddr(input))->this.number.this.integer ) {
+				return vrai ;
+			}
+			return faux ;
+		}
 	}
-
-	if ( is_form ("!=", input ) ) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison != doit prendre deux arguments");
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison != ne prend que deux arguments");
-			return NULL;
-		}
-		if ( sfs_eval(cadr(input))->this.number.this.integer != sfs_eval(caddr(input))->this.number.this.integer ) {
-			return vrai ;
-		}
-		return faux ;
-	}
-
-	if  (is_form ("<" , input )) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison < doit prendre deux arguments");
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison < ne prend que deux arguments");
-			return NULL;
-		}
-		if(sfs_eval(cadr(input))->this.number.this.integer < sfs_eval(caddr (input))->this.number.this.integer  ) {
-			return vrai ;
-		}
-		return faux ;
-	}
-
-	if ( is_form (">", input ) ) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison > doit prendre deux arguments");
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison > ne prend que deux arguments");
-			return NULL;
-		}
-		if ( sfs_eval(cadr(input))->this.number.this.integer > sfs_eval(caddr(input))->this.number.this.integer ) {
-			return vrai ;
-		}
-		return faux ;
-	}
-
-	if ( is_form ("<=", input ) ) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison <= doit prendre deux arguments");
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison <= ne prend que deux arguments");
-			return NULL;
-		}
-		if ( sfs_eval(cadr(input))->this.number.this.integer <= sfs_eval(caddr(input))->this.number.this.integer ) {
-			return vrai ;
-		}
-		return faux ;
-	}
-
-	if ( is_form (">=", input ) ) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison >= doit prendre deux arguments");
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison >= ne prend que deux arguments");
-			return NULL;
-		}
-		if ( sfs_eval(cadr(input))->this.number.this.integer >= sfs_eval(caddr(input))->this.number.this.integer ) {
-			return vrai ;
-		}
-		return faux ;
-	}
-
+	
 	/* or */ 
 	if (is_form("or", input ) ) {
 		while (input->this.pair.cdr != nil ) {
