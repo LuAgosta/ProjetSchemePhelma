@@ -6,3 +6,9 @@
 (define a 9)
 (set! a 10)
 a
+(set! a "toto")
+a
+(define b a)
+b
+(set! a 3)
+b
