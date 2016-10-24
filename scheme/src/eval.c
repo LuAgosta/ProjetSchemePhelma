@@ -18,6 +18,23 @@ int is_form (char* name, object input ) {
 	}
 	return 0 ; 
 }
+/* Regarder si le premier éléments n'est une forme */
+int isnot_form ( object input){
+	if (input->type == SFS_PAIR && input -> this.pair.car -> type != SFS_SYMBOL) {
+		return 1 ;
+	}
+	return 0; 
+}
+
+/*Regarder si le premier éléments est une fonction*/		
+int is_fonction(object input) {
+	if (input->type == SFS_PAIR && input->this.pair.car ->type == SFS_SYMBOL ){
+		return 1 ;
+	}
+	else {
+		return 0 ;
+	}
+}
 
 
 object sfs_eval( object input ) {
@@ -234,6 +251,30 @@ object sfs_eval( object input ) {
 		return vrai;
 	}
 	
+	/* pair invalid */
+	
+	
+	if (isnot_form(input)) {
+		WARNING_MSG("Expression invaldide"); 
+		return NULL;
+	}
+	
+	/* fonction invalide */ 
+	
+	if (is_fonction(input)) {
+		if (lenv -> this.pair.car == nil){
+			WARNING_MSG("La fonction %s n'est pas définie" , input->this.pair.car-> this.symbol) ; 
+			return NULL ;
+		}
+		else {
+			object val = in_lenv(input->this.pair.car) ; 
+			if (val == NULL) {
+				WARNING_MSG("La fonction %s n'est pas définie" , input->this.pair.car-> this.symbol) ; 
+				return NULL ;
+			}
+		}
+			
+	}
 	 
 
 
