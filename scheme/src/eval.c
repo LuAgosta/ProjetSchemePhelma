@@ -86,17 +86,16 @@ object sfs_eval( object input ) {
 			return output;
 		}
 		else {
-			object val = in_lenv(output); 
+			object val = in_envc(output);
 			if (val == NULL ){
 				addvar(output,sfs_eval(caddr(input)));
-				return output;	
+				return output;
 			}
-			else { 
-				modify_object (val, caddr(input)) ; 
+			else {
+				modify_object (val, sfs_eval(caddr(input))) ;
 				return output ;
 			}
 		}
-				
 	}
 
 	/*set!*/
@@ -112,7 +111,7 @@ object sfs_eval( object input ) {
 				return NULL; 
 			}
 			else {	
-				modify_object (val, caddr(input)) ; 
+				modify_object (val,sfs_eval(caddr(input))) ; 
 				return cadr(input) ; 
 			}
 		}
