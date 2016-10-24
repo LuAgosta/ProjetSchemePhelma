@@ -281,7 +281,7 @@ object sfs_eval( object input ) {
 	
 	
 	if (isnot_form(input)) {
-		WARNING_MSG("Erreur, l'expression invalide"); 
+		WARNING_MSG("Erreur, l'expression est invalide"); 
 		return NULL;
 	}
 	
