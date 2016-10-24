@@ -20,7 +20,6 @@ extern "C" {
   
 int is_form (char* , object ) ;
 object sfs_eval( object );
-void modify_object(object tomod, object mod); 
 
 #ifdef __cplusplus
 }
