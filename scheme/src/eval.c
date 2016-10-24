@@ -81,24 +81,38 @@ object sfs_eval( object input ) {
 	/*define*/
 	if ( is_form("define",input)){
 		output = cadr(input);
-		addvar(output,sfs_eval(caddr(input)));
-		return output;
+		if ( lenv-> this.pair.car == nil ) {
+			addvar(output,sfs_eval(caddr(input)));
+			return output;
+		}
+		else {
+			object val = in_lenv(output); 
+			if (val == NULL ){
+				addvar(output,sfs_eval(caddr(input)));
+				return output;	
+			}
+			else { 
+				modify_object (val, caddr(input)) ; 
+				return output ;
+			}
+		}
+				
 	}
-	
+
 	/*set!*/
 	if ( is_form("set!", input)){ 
 		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Variable non existante");
+			WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol);
 			return NULL; 
 		}
 		else {	
 			object val = in_lenv(cadr(input));
-			if(val == nil){
-				WARNING_MSG("Variable non existante"); 
+			if(val == NULL){
+				WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol); 
 				return NULL; 
 			}
 			else {	
-				modify_object (in_lenv(cadr(input)), caddr(input)) ; 
+				modify_object (val, caddr(input)) ; 
 				return cadr(input) ; 
 			}
 		}
@@ -251,7 +265,7 @@ object sfs_eval( object input ) {
 		return vrai;
 	}
 	
-	/* pair invalid */
+	/* pair invalide */
 	
 	
 	if (isnot_form(input)) {
