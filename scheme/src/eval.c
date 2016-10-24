@@ -72,10 +72,6 @@ object sfs_eval( object input ) {
 		return input ; 
 	}
 	
-	if(input->type != SFS_NIL && (input->this.pair.cdr->type == SFS_NIL) && (input->this.pair.car->type == SFS_BOOLEAN || input->this.pair.car->type == SFS_NUMBER || input->this.pair.car->type == SFS_CHARACTER || input->this.pair.car->type == SFS_STRING)){
-		WARNING_MSG("Erreur, l'expression est invalide");
-		return NULL;
-	}
 
 	/*Existence de la variable dans un environnement ?*/
 	if( input->type == SFS_SYMBOL ){ 
