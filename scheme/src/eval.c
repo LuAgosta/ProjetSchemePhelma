@@ -150,24 +150,40 @@ object sfs_eval( object input ) {
 	if ( is_form ("+", input ) || is_form ("-", input ) || is_form ("*", input ) || is_form ("/", input )){
 		if((sfs_eval(cadr(input))->type == SFS_NUMBER) && (sfs_eval(caddr(input))->type == SFS_NUMBER)){
 			if ( is_form ("+", input )){
+				if(cdddr(input)->type != SFS_NIL){
+					WARNING_MSG("L'opération + ne prend que deux arguments");
+					return NULL;
+				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer + sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
 
 			if ( is_form ("-", input )){
+				if(cdddr(input)->type != SFS_NIL){
+					WARNING_MSG("L'opération - ne prend que deux arguments");
+					return NULL;
+				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer - sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
 
 			if ( is_form ("*", input )){
+				if(cdddr(input)->type != SFS_NIL){
+					WARNING_MSG("L'opération * ne prend que deux arguments");
+					return NULL;
+				}
 				n =  sfs_eval(cadr(input))->this.number.this.integer * sfs_eval(caddr(input))->this.number.this.integer;
 				output = make_integer(n);
 				return(output);
 			}
 
 			if ( is_form ("/", input )){
+				if(cdddr(input)->type != SFS_NIL){
+					WARNING_MSG("L'opération / ne prend que deux arguments");
+					return NULL;
+				}
 				if(sfs_eval(caddr(input))->this.number.this.integer != 0){
 					if(sfs_eval(cadr(input))->this.number.this.integer % sfs_eval(caddr(input))->this.number.this.integer == 0){
 						n =  sfs_eval(cadr(input))->this.number.this.integer / sfs_eval(caddr(input))->this.number.this.integer;
@@ -187,6 +203,7 @@ object sfs_eval( object input ) {
 			WARNING_MSG("Attention, cette opération s'applique uniquement à des nombres");
 		}
 	}
+
 	
 	/* > < >= <= = */ 
 	if ( is_form ("=", input ) ) {
