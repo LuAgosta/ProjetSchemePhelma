@@ -8,6 +8,7 @@ extern "C" {
 #include "object.h"
 
 void addvar(object var, object val);
+object in_envc(object var);
 object in_lenv(object var);
 
 #ifdef __cplusplus
