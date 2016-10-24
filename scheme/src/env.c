@@ -7,6 +7,21 @@ void addvar(object var, object val){
 	lenv->this.pair.car = make_pair(make_pair(var,val),o);
 }
 
+/*Recherche d'une variable dans l'environnements courant*/
+object in_envc(object var){
+	object l = lenv->this.pair.car;
+	while(l->this.pair.cdr != nil){
+		if(strcmp(caar(l)->this.string,var->this.string)==0){
+			return(cdar(l));
+		}
+		l = l->this.pair.cdr;
+	}
+	if(strcmp(caar(l)->this.string,var->this.string)==0){
+		return(cdar(l));
+	}
+	return NULL;
+}
+
 /*Recherche d'une variable dans tous les environnements (courant inclu)*/
 object in_lenv(object var){
 	object k = lenv;
