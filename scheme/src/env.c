@@ -49,5 +49,5 @@ object in_lenv(object var){
 	if(strcmp(caar(l)->this.string,var->this.string)==0){
 		return(cdar(l));
 	}
-	return nil;		/*il faut afficher un msg d'erreur du type Unbound Variable*/
+	return NULL;		/*il faut afficher un msg d'erreur du type Unbound Variable*/
 }
