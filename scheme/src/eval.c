@@ -195,10 +195,18 @@ object sfs_eval( object input ) {
 		}
 	}
 	
-	/* or */ 
+	/* or */
 	if (is_form("or", input ) ) {
+		if(cddr(input)->type == SFS_NIL){
+			WARNING_MSG("Erreur, la forme or doit prendre deux arguments");
+			return NULL;
+		}
+		if(cdddr(input)->type != SFS_NIL){
+			WARNING_MSG("Erreur, la forme or ne prend que deux arguments");
+			return NULL;
+		}
 		while (input->this.pair.cdr != nil ) {
-			input = input->this.pair.cdr ; 
+			input = input->this.pair.cdr ;
 			if (sfs_eval(input->this.pair.car) == vrai ) {
 				return vrai ;
 			}
@@ -207,15 +215,23 @@ object sfs_eval( object input ) {
 		return faux ;
 	}
 
-	/* and */ 
+	/* and */
 	if (is_form ("and", input )) {
+		if(cddr(input)->type == SFS_NIL){
+			WARNING_MSG("Erreur, la forme and doit prendre deux arguments");
+			return NULL;
+		}
+		if(cdddr(input)->type != SFS_NIL){
+			WARNING_MSG("Erreur, la forme and ne prend que deux arguments");
+			return NULL;
+		}
 		while (input->this.pair.cdr != nil ) {
 			input = input->this.pair.cdr ;
 			if (sfs_eval(input->this.pair.car) == faux ){
 				return faux ;
-			}	
+			}
 		}
-		return vrai; 
+		return vrai;
 	}
 	
 	 
