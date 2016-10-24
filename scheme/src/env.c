@@ -7,7 +7,7 @@ void addvar(object var, object val){
 	lenv->this.pair.car = make_pair(make_pair(var,val),o);
 }
 
-/*Recherche d'une variable dans environnements*/
+/*Recherche d'une variable dans tous les environnements (courant inclu)*/
 object in_lenv(object var){
 	object k = lenv;
 	object l;
