@@ -54,6 +54,7 @@ object make_symbol(string sym);
 object make_char(char ch);
 object make_pair(object o1, object o2);
 object make_string(string st);
+void modify_object(object tomod, object mod); 
 object caar(object o);
 object cadr(object o);
 object cdar(object o);
