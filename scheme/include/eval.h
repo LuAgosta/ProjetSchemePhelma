@@ -15,8 +15,8 @@
 extern "C" {
 #endif
 
-
 #include "object.h"
+#include "env.h"
   
 int is_form (char* , object ) ;
 object sfs_eval( object );
