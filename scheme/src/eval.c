@@ -39,6 +39,7 @@ int is_fonction(object input) {
 
 object sfs_eval( object input ) {
 	object output = NULL;
+	object o = NULL;
 	long n;
 	restart :
 	/*auto-evaluants*/ 
@@ -92,30 +93,42 @@ object sfs_eval( object input ) {
 				return output;
 			}
 			else {
-				modify_object (val, sfs_eval(caddr(input))) ;
-				return output ;
+				o = sfs_eval(caddr(input));
+				if(o == NULL){
+					return NULL;
+				}
+				else{
+					modify_object (val, o) ;
+					return output ;
+				}
 			}
 		}
 	}
 
 	/*set!*/
-	if ( is_form("set!", input)){ 
+	if ( is_form("set!", input)){
 		if (lenv -> this.pair.car == nil){
 			WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol);
-			return NULL; 
+			return NULL;
 		}
-		else {	
+		else {
 			object val = in_lenv(cadr(input));
 			if(val == NULL){
-				WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol); 
-				return NULL; 
+				WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol);
+				return NULL;
 			}
-			else {	
-				modify_object (val,sfs_eval(caddr(input))) ; 
-				return cadr(input) ; 
+			else {
+				o = sfs_eval(caddr(input));
+				if(o == NULL){
+					return NULL;
+				}
+				else{
+					modify_object (val, o) ;
+					return cadr(input) ;
+				}
 			}
 		}
-	} 
+	}
 	
 	/* if */
 	if (is_form ("if", input ) ) {
