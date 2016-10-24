@@ -110,6 +110,13 @@ object make_string(char* st) {
 
 }
 
+/*Modifier un object*/
+void modify_object(object tomod, object mod) {
+
+	tomod -> type = mod -> type ; 
+	tomod -> this = mod -> this ;  
+}
+
 object caar(object o){
 	return(o->this.pair.car->this.pair.car);
 	}
