@@ -93,8 +93,14 @@ object sfs_eval( object input ) {
 	
 	/** formes et primitives **/ 
 	/* quote */ 
-	if ( is_form ( "quote" , input ) ) { 
-		return cadr (input) ; 
+	if ( is_form ( "quote", input)){
+		if(cddr(input) == nil){
+			return cadr(input);
+		}
+		else{
+			WARNING_MSG("quote ne prend qu'un argument");
+			return NULL;
+		}
 	}
 	
 	/*define*/
