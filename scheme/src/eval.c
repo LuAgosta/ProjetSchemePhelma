@@ -108,14 +108,14 @@ object sfs_eval( object input ) {
 	/*set!*/
 	if ( is_form("set!", input)){
 		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol);
-			return NULL;
+			WARNING_MSG("Variable %s non définie", cadr(input)->this.symbol);
+			return nil;
 		}
 		else {
 			object val = in_lenv(cadr(input));
 			if(val == NULL){
-				WARNING_MSG("Variable %s non existante", cadr(input)->this.symbol);
-				return NULL;
+				WARNING_MSG("Variable %s non définie", cadr(input)->this.symbol);
+				return nil;
 			}
 			else {
 				o = sfs_eval(caddr(input));
