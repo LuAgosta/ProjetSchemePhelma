@@ -20,14 +20,6 @@ int is_form (char* name, object input ) {
 }
 
 
-/*Modifier un object*/
-void modify_object(object tomod, object mod) {
-
-	tomod -> type = mod -> type ; 
-	tomod -> this = mod -> this ;  
-
-}
-
 object sfs_eval( object input ) {
 	object output = NULL;
 	long n;
