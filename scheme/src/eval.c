@@ -56,7 +56,7 @@ object sfs_eval( object input ) {
 		}
 		else {	
 			object val = in_lenv(input);
-			if(val != nil) { /* pour l'instant lenv = environnement courant*/  
+			if(val != NULL) { /* pour l'instant lenv = environnement courant*/  
 				return val;
 			}	
 			else {
