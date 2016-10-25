@@ -40,6 +40,7 @@ int is_fonction(object input) {
 object sfs_eval( object input ) {
 	object output = NULL;
 	object o = NULL;
+	object o1 = NULL ; 
 	long n;
 	restart :
 	/*auto-evaluants*/ 
