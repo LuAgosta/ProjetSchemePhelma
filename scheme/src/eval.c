@@ -203,7 +203,6 @@ object sfs_eval( object input ) {
 		o = sfs_eval(cadr(input));
 		o1 = sfs_eval(caddr(input));
 		if(o == NULL || o1 == NULL){
-			WARNING_MSG("Erreur, variable non définie");
 			return NULL;
 		}
 		else{
