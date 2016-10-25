@@ -256,12 +256,12 @@ object sfs_eval( object input ) {
 	
 	/* or */
 	if (is_form("or", input ) ) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, la forme or doit prendre deux arguments");
+		if(input->this.pair.cdr->type == SFS_NIL ) {
+			WARNING_MSG("Erreur, la forme or doit prendre minimum deux arguments");
 			return NULL;
 		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, la forme or ne prend que deux arguments");
+		if(cddr(input)->type == SFS_NIL){
+			WARNING_MSG("Erreur, la forme or doit prendre minimum deux arguments");
 			return NULL;
 		}
 		while (input->this.pair.cdr != nil ) {
