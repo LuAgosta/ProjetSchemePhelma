@@ -136,6 +136,10 @@ object sfs_eval( object input ) {
 	
 	/* if */
 	if (is_form ("if", input ) ) {
+		if(cdddr(input)->this.pair.cdr != nil){
+			WARNING_MSG("Erreur, la forme if doit être formulée suivant le schéma : (if predicat consequence alternative)");
+			return NULL;
+		}
 		if (faux == sfs_eval(cadr(input))) {
 			input = cadddr(input) ; 
 			goto restart ; 
