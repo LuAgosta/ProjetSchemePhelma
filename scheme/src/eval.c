@@ -200,41 +200,49 @@ object sfs_eval( object input ) {
 			WARNING_MSG("Erreur, l'opérateur de comparaison %s ne prend que deux arguments", input->this.pair.car ->this.symbol);
 			return NULL;
 		}
-		if ( is_form ("=", input ) ) {
-			if ( sfs_eval(cadr(input))->this.number.this.integer == sfs_eval(caddr(input))->this.number.this.integer ) {
-				return vrai ;
-			}
-			return faux ;
+		o = sfs_eval(cadr(input));
+		o1 = sfs_eval(caddr(input));
+		if(o == NULL || o1 == NULL){
+			WARNING_MSG("Erreur, variable non définie");
+			return NULL;
 		}
-		if ( is_form ("!=", input ) ) {
-			if ( sfs_eval(cadr(input))->this.number.this.integer != sfs_eval(caddr(input))->this.number.this.integer ) {
-				return vrai ;
+		else{
+			if ( is_form ("=", input ) ) {
+				if ( o->this.number.this.integer == o1->this.number.this.integer ) {
+					return vrai ;
+				}
+				return faux ;
 			}
-			return faux ;
-		}
-		if  (is_form ("<" , input )) {
-			if(sfs_eval(cadr(input))->this.number.this.integer < sfs_eval(caddr (input))->this.number.this.integer  ) {
-				return vrai ;
+			if ( is_form ("!=", input ) ) {
+				if ( o->this.number.this.integer != o1->this.number.this.integer ) {
+					return vrai ;
+				}
+				return faux ;
 			}
-			return faux ;
-		}
-		if ( is_form (">", input ) ) {
-			if ( sfs_eval(cadr(input))->this.number.this.integer > sfs_eval(caddr(input))->this.number.this.integer ) {
-				return vrai ;
+			if  (is_form ("<" , input )) {
+				if(o->this.number.this.integer < o1->this.number.this.integer  ) {
+					return vrai ;
+				}
+				return faux ;
 			}
-			return faux ;
-		}
-		if ( is_form ("<=", input ) ) {
-			if ( sfs_eval(cadr(input))->this.number.this.integer <= sfs_eval(caddr(input))->this.number.this.integer ) {
-				return vrai ;
+			if ( is_form (">", input ) ) {
+				if ( o->this.number.this.integer > o1->this.number.this.integer ) {
+					return vrai ;
+				}
+				return faux ;
 			}
-			return faux ;
-		}
-		if ( is_form (">=", input ) ) {
-			if ( sfs_eval(cadr(input))->this.number.this.integer >= sfs_eval(caddr(input))->this.number.this.integer ) {
-				return vrai ;
+			if ( is_form ("<=", input ) ) {
+				if ( o->this.number.this.integer <= o1->this.number.this.integer ) {
+					return vrai ;
+				}
+				return faux ;
 			}
-			return faux ;
+			if ( is_form (">=", input ) ) {
+				if ( o->this.number.this.integer >= o1->this.number.this.integer ) {
+					return vrai ;
+				}
+				return faux ;
+			}
 		}
 	}
 	
