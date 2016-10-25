@@ -276,12 +276,12 @@ object sfs_eval( object input ) {
 
 	/* and */
 	if (is_form ("and", input )) {
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, la forme and doit prendre deux arguments");
+		if(input->this.pair.cdr->type == SFS_NIL ) {
+			WARNING_MSG("Erreur, la forme and doit prendre minimum deux arguments");
 			return NULL;
 		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, la forme and ne prend que deux arguments");
+		if(cddr(input)->type == SFS_NIL){
+			WARNING_MSG("Erreur, la forme and doit prendre minimum deux arguments");
 			return NULL;
 		}
 		while (input->this.pair.cdr != nil ) {
