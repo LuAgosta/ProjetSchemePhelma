@@ -82,6 +82,10 @@ object sfs_eval( object input ) {
 	/*define*/
 	if ( is_form("define",input)){
 		output = cadr(input);
+		if(cdddr(input) != nil){
+			WARNING_MSG("Erreur, define prend au plus deux arguments");
+			return NULL;
+		}
 		if ( lenv-> this.pair.car == nil ) {
 			addvar(output,sfs_eval(caddr(input)));
 			return output;
@@ -104,7 +108,7 @@ object sfs_eval( object input ) {
 			}
 		}
 	}
-
+	
 	/*set!*/
 	if ( is_form("set!", input)){
 		if (lenv -> this.pair.car == nil){
