@@ -9,9 +9,9 @@ a
 (define b a) 
 b
 (set! a "Robert")
-b
+b			; b doit prendre la nouvelle valeur de a
 (define a "Julie")
-b
+b			; b doit prendre la nouvelle valeur de a
 
 
 
@@ -23,7 +23,16 @@ d
 d
 (set! c 45)
 c
-d
+d			; d doit prendre la nouvelle valeur de c 
 (define c 952)
 c
-d
+d			; d doit prendre la nouvelle valeur de c		
+
+
+
+(define e "coucou")
+e
+(define f e)
+f
+(set! f "hello")
+e			; e NE doit PAS prendre la valeur de f (?)
