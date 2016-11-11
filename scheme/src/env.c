@@ -1,9 +1,14 @@
 #include <stdio.h>
 #include "env.h"
 
+/*Ajouter un environnement*/
+void addenv(void){
+	lenv = make_pair(nil,lenv);
+}
+
 /*Ajouter une variable et sa valeur dans l'environnement courant*/
 void addvar(object var, object val){
-  object o = lenv->this.pair.car;
+	object o = lenv->this.pair.car;
 	lenv->this.pair.car = make_pair(make_pair(var,val),o);
 }
 
@@ -22,7 +27,7 @@ object in_envc(object var){
 	return NULL;
 }
 
-/*Recherche d'une variable dans tous les environnements (courant inclu)*/
+/*Recherche d'une variable dans l'ensemble des environnements*/
 object in_lenv(object var){
 	object k = lenv;
 	object l;
@@ -49,5 +54,6 @@ object in_lenv(object var){
 	if(strcmp(caar(l)->this.string,var->this.string)==0){
 		return(cdar(l));
 	}
-	return NULL;		/*il faut afficher un msg d'erreur du type Unbound Variable*/
+	WARNING_MSG("Erreur, la variable %s n'est pas définie",var->this.string);
+	return NULL;
 }
