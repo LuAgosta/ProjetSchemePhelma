@@ -2,6 +2,5 @@
 ; TEST_COMMENT=Test define evolved
 ;
 
-
 (define a 45)
 (a "toto")
