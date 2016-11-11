@@ -14,7 +14,7 @@ b
 (set! a 12)
 a
 b             ; b NE doit PAS prendre la nouvelle valeur de a 
-(define a 56)
+(set! a 56)
 a
 b             ; b NE doit PAS prendre la nouvelle valeur de a 
 (set! c 1)    ; c n'étant pas préalablement définie, l'interpréteur retourne () 
