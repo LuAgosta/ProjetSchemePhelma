@@ -9,5 +9,3 @@ ford
 toto
 (define vrai #t)
 vrai
-(define bob 3)
-bob
