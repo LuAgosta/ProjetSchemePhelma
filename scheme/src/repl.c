@@ -19,6 +19,7 @@
 #include "read.h"
 #include "eval.h"
 #include "print.h"
+#include "env.h"
 
 /* mode d'interaction avec l'interpreteur (exemple)*/
 typedef enum {INTERACTIF,SCRIPT} inter_mode;
@@ -158,6 +159,9 @@ int main ( int argc, char *argv[] ) {
         printf( "==> " );
         sfs_print(output);
         printf( "\n" );
+        /*Pour afficherl'ensemble des environnements*/
+        /*sfs_print(lenv);
+        printf( "\n" );*/
     }
 
     if (mode == SCRIPT) {
