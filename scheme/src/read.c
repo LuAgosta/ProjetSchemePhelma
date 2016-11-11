@@ -168,7 +168,7 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
             }
         }
 
-        /* si la ligne est inutile 
+        /* si la ligne est inutile
         	=> on va directement à la prochaine iteration */
         if (first_usefull_char(chunk) == NULL) {
             continue;
@@ -215,9 +215,9 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
                     }
                     break;
                 case '"':
-                    if ( i<2 || chunk[i-1] != '\\' ) {
+                    if ( i<2 || chunk[i-1] != '\\') {
                         if ( in_string == FALSE ) {
-                            if(typeOfExpressionFound == BASIC_ATOME) {
+                            if(typeOfExpressionFound == BASIC_ATOME && chunk[i-1] != '\'') {
                                 WARNING_MSG("Parse error: invalid string after atom : '%s'", chunk+i);
                                 return S_KO;
                             }
@@ -289,16 +289,16 @@ uint  sfs_get_sexpr( char *input, FILE *fp ) {
 
 int blanks (char c ) {
 	if (' '==c || '\t' == c || '\n' == c || '\0' == c )  {
-		return 1 ; 
+		return 1 ;
 	}
-	return 0 ; 
+	return 0 ;
 }
 
 int parenthesis ( char c ) {
 	if (40 == c || 41 == c ) {
 		return 1 ;
 	}
-	return 0; 
+	return 0;
 }
 
 object sfs_read( char *input, uint *here ) {
