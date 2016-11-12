@@ -9,4 +9,15 @@
 
 #include "prim.h"
 
+object plus_p(object nums) {
+	long a = 0 ; 
+	object somme ;
+	while (nums -> this.pair.cdr != nil ) {
+		a +=  nums -> this.pair.car -> this.number.this.integer ; 
+		nums = nums ->this.pair.cdr ;
+	}
+	somme = make_integer (a) ;
+	return somme ; 
+	
+}
 
