@@ -9,9 +9,6 @@
 #ifndef _PRIM_H_
 #define _PRIM_H_
 
-#ifndef _PRIM_H_
-#define _PRIM_H_
-
 #ifdef __cplusplus
 extern "C" {
 #endif
