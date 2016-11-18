@@ -24,6 +24,8 @@ typedef struct pair_t {
             struct object_t* cdr;
 
 } pair;
+	
+typedef struct object_t *(*primitive)( struct object_t *);
 
 typedef struct object_t {
 
@@ -36,8 +38,7 @@ typedef struct object_t {
         string           string;
         string           symbol;
 	pair 		 pair;
-
-
+  	primitive        primitive;
         struct object_t *special;
 
     } this;
@@ -46,6 +47,7 @@ typedef struct object_t {
 
 
 object make_object( uint type );
+object make_primitive(primitive);
 object make_nil( void );
 object make_empty_list(void);
 object make_boolean(void);
@@ -73,13 +75,14 @@ object cadddr(object o);
 #define SFS_NIL          0x04
 #define SFS_BOOLEAN      0x05
 #define SFS_SYMBOL       0x06
-
+#define SFS_PRIMITIVE    0x07
 
 extern object nil;
 extern object vrai;
 extern object faux;
 extern object lenv;	/*liste d'environnements*/
 extern object tsym; 	/*table de symbole*/
+extern object plus_p;
 
 #ifdef __cplusplus
 }
