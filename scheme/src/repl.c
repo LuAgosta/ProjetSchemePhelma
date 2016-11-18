@@ -36,6 +36,7 @@ object faux;
 object vrai;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
+object plus_p;
 
 void init_interpreter ( void ) {
 
@@ -44,6 +45,8 @@ void init_interpreter ( void ) {
     faux    = make_boolean();
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
+    plus_p = make_primitive(&plus);
+    addvar(make_symbol("+"),plus_p);
 
 }
 
