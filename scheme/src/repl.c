@@ -20,6 +20,7 @@
 #include "eval.h"
 #include "print.h"
 #include "env.h"
+#include "prim.h"
 
 /* mode d'interaction avec l'interpreteur (exemple)*/
 typedef enum {INTERACTIF,SCRIPT} inter_mode;
