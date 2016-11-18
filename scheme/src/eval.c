@@ -41,7 +41,6 @@ object sfs_eval( object input ) {
 	object output = NULL;
 	object o = NULL;
 	object o1 = NULL;
-	long n;
 	restart :
 	/*auto-evaluants*/
 	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR) && (input->type != SFS_NIL)) {
@@ -74,8 +73,21 @@ object sfs_eval( object input ) {
 		}
 	/*}*/
 	}
+	
+	/**primitives**/
+	if(input->type == SFS_PAIR){
+		if(input->this.pair.car->type == SFS_SYMBOL){
+			object val = in_lenv(input->this.pair.car);
+			if(val != NULL) {
+				if(val->type == SFS_PRIMITIVE){
+					return((val->this.primitive)(input->this.pair.cdr));
+				}
+			}
+		}
+		return NULL;
+	}
 
-	/** formes et primitives **/
+	/** formes**/
 	/* quote */
 	if ( is_form ( "quote", input)){
 		if(cddr(input) == nil){
@@ -155,10 +167,10 @@ object sfs_eval( object input ) {
 			WARNING_MSG("Erreur, la forme if doit être formulée suivant le schéma : (if predicat consequence alternative)");
 			return NULL;
 		}
-		if(cdddr(input)->this.pair.cdr != nil){
+		/*if(cdddr(input)->this.pair.cdr != nil){
 			WARNING_MSG("Erreur, la forme if doit être formulée suivant le schéma : (if predicat consequence alternative)");
 			return NULL;
-		}
+		}*/
 		if (faux == sfs_eval(cadr(input))) {
 			input = cadddr(input) ;
 			goto restart ;
@@ -168,110 +180,6 @@ object sfs_eval( object input ) {
 			goto restart ;
 		}
 	}
-
-	/*Opérations + - * / à réimplémenter pour le livrable suivant*/
-	if ( is_form ("+", input ) || is_form ("-", input ) || is_form ("*", input ) || is_form ("/", input )){
-		if((sfs_eval(cadr(input))->type == SFS_NUMBER) && (sfs_eval(caddr(input))->type == SFS_NUMBER)){
-			if(cdddr(input)->type != SFS_NIL){
-				WARNING_MSG("L'opération %s ne prend que deux arguments", input->this.pair.car ->this.symbol);
-				return NULL;
-			}
-			if ( is_form ("+", input )){
-				n =  sfs_eval(cadr(input))->this.number.this.integer + sfs_eval(caddr(input))->this.number.this.integer;
-				output = make_integer(n);
-				return(output);
-			}
-			if ( is_form ("-", input )){
-				n =  sfs_eval(cadr(input))->this.number.this.integer - sfs_eval(caddr(input))->this.number.this.integer;
-				output = make_integer(n);
-				return(output);
-			}
-			if ( is_form ("*", input )){
-				n =  sfs_eval(cadr(input))->this.number.this.integer * sfs_eval(caddr(input))->this.number.this.integer;
-				output = make_integer(n);
-				return(output);
-			}
-			if ( is_form ("/", input )){
-				if(sfs_eval(caddr(input))->this.number.this.integer != 0){
-					if(sfs_eval(cadr(input))->this.number.this.integer % sfs_eval(caddr(input))->this.number.this.integer == 0){
-						n =  sfs_eval(cadr(input))->this.number.this.integer / sfs_eval(caddr(input))->this.number.this.integer;
-						output = make_integer(n);
-						return(output);
-					}
-					else{
-						WARNING_MSG("Attention, pour l'instant notre interpréteur ne gère pas les nombres réels (nombres en virgule flottante)");
-					}
-				}
-				else{
-					WARNING_MSG("Attention, la division par 0 est impossible");
-				}
-			}
-		}
-		else{
-			if(caddr(input)->type == SFS_NIL){
-				WARNING_MSG("Erreur, l'opérateur %s doit prendre deux arguments", input->this.pair.car ->this.symbol);
-				return NULL;
-			}
-			WARNING_MSG("Attention, cette opération s'applique uniquement à des nombres");
-			return NULL;
-		}
-	}
-
-	/* > < >= <= = à réimplémenter pour le livrable suivant*/
-	if(is_form ("=", input ) || is_form ("!=", input ) || is_form ("<", input ) || is_form (">", input ) || is_form ("<=", input ) || is_form (">=", input )){
-		if(cddr(input)->type == SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison %s doit prendre deux arguments", input->this.pair.car ->this.symbol);
-			return NULL;
-		}
-		if(cdddr(input)->type != SFS_NIL){
-			WARNING_MSG("Erreur, l'opérateur de comparaison %s ne prend que deux arguments", input->this.pair.car ->this.symbol);
-			return NULL;
-		}
-		o = sfs_eval(cadr(input));
-		o1 = sfs_eval(caddr(input));
-		if(o == NULL || o1 == NULL){
-			return NULL;
-		}
-		else{
-			if ( is_form ("=", input ) ) {
-				if ( o->this.number.this.integer == o1->this.number.this.integer ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-			if ( is_form ("!=", input ) ) {
-				if ( o->this.number.this.integer != o1->this.number.this.integer ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-			if  (is_form ("<" , input )) {
-				if(o->this.number.this.integer < o1->this.number.this.integer  ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-			if ( is_form (">", input ) ) {
-				if ( o->this.number.this.integer > o1->this.number.this.integer ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-			if ( is_form ("<=", input ) ) {
-				if ( o->this.number.this.integer <= o1->this.number.this.integer ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-			if ( is_form (">=", input ) ) {
-				if ( o->this.number.this.integer >= o1->this.number.this.integer ) {
-					return vrai ;
-				}
-				return faux ;
-			}
-		}
-	}
-
 
 		/* or */
 		if (is_form("or", input ) ) {
