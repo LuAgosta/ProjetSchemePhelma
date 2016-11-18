@@ -9,22 +9,19 @@
 #ifndef _PRIM_H_
 #define _PRIM_H_
 
+#ifndef _PRIM_H_
+#define _PRIM_H_
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <stdio.h>
-
 #include "object.h"
 
-
-
-
-
-
+object plus(object);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _PRIM_H_ */
+#endif
