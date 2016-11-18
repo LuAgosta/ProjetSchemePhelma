@@ -5,19 +5,27 @@
  */
 
 #include <stdio.h>
-
-
 #include "prim.h"
+#include "eval.h"
 
-object plus_p(object nums) {
-	long a = 0 ; 
+object plus(object nums) {
+	long a = 0 ;
 	object somme ;
+	object t ;
 	while (nums -> this.pair.cdr != nil ) {
-		a +=  nums -> this.pair.car -> this.number.this.integer ; 
+		t = sfs_eval(nums -> this.pair.car);
+		if(t == NULL){
+			return NULL;
+		}
+		a +=  sfs_eval(nums -> this.pair.car)->this.number.this.integer ;
 		nums = nums ->this.pair.cdr ;
 	}
+	t = sfs_eval(nums -> this.pair.car);
+	if(t == NULL){
+		return NULL;
+	}
+	a +=  sfs_eval(nums -> this.pair.car)->this.number.this.integer ;
 	somme = make_integer (a) ;
-	return somme ; 
-	
+	return somme ;
 }
 
