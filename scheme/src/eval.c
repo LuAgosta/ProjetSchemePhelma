@@ -9,6 +9,7 @@
  */
 
 #include "eval.h"
+#include "prim.h"
 
 /* Regarder la forme ou l'opérateur */
 int is_form (char* name, object input ) {
