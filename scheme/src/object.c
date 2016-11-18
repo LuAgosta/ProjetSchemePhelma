@@ -21,6 +21,16 @@ object make_object( uint type ) {
     return t;
 }
 
+object make_primitive(primitive p){
+
+  object o = make_object(SFS_PRIMITIVE);
+
+  o->this.primitive = p;
+  
+  return o;
+
+}
+
 object make_nil( void ) {
 
     object t = make_object( SFS_NIL );
