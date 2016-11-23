@@ -31,6 +31,9 @@ object numbertostring(object o);
 object stringtonumber(object o);
 object symboltostring(object o);
 object stringtosymbol(object o);
+  
+object cons(object list);
+object list(object o);
 
 #ifdef __cplusplus
 }
