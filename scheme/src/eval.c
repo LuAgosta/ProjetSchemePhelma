@@ -41,7 +41,6 @@ int is_fonction(object input) {
 object sfs_eval( object input ) {
 	object output = NULL;
 	object o = NULL;
-	object o1 = NULL;
 	restart :
 	/*auto-evaluants*/
 	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR) && (input->type != SFS_NIL)) {
