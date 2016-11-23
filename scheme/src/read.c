@@ -301,43 +301,62 @@ int parenthesis ( char c ) {
 	return 0;
 }
 
-object sfs_read( char *input, uint *here ) {
-	char input2[BIGSTRING];
-  	int k=1;
+object sfs_read( char *input, uint *here) {
+  uint     here2 = 0;
+  char input2[BIGSTRING];
+  int nbpar;
+  int k=1;
 	while(blanks(input[*here])){
 		*here += 1;
 	}
-	 if (input[*here] == '\''){
-		input2[0] = '(';
-		input2[1] = 'q';
-		input2[2] = 'u';
-		input2[3] = 'o';
-		input2[4] = 't';
-		input2[5] = 'e';
-		input2[6] = ' ';
-		while(input[*here+k] != '\0'){
-			input2[6+k]=input[*here+k];
-			k++;
-		}
-		input2[6+k] = ')';
-		input2[7+k] = '\0';
-		return sfs_read(input2,here);
-	}
-    if ( input[*here] == '(' ) {
+  if (input[*here] == '\''){    /*Conversion de 'a en (quote a)'*/
+    input2[0] = '(';
+    input2[1] = 'q';
+    input2[2] = 'u';
+    input2[3] = 'o';
+    input2[4] = 't';
+    input2[5] = 'e';
+    input2[6] = ' ';
+    if(input[*here+1]=='('){
+      input2[7] = '(';
+      k++;
+      nbpar=1;
+      while(nbpar != 0){
+        input2[6+k]=input[*here+k];
+        if(input[*here+k]=='('){
+          nbpar=nbpar+1;
+        }
+        if(input[*here+k]==')'){
+          nbpar=nbpar-1;
+        }
+        k++;
+      }
+    }
+    else{
+      while(input[*here+k] != '\0' && input[*here+k] != '(' && input[*here+k] != ')' && input[*here+k] != ' '){
+        input2[6+k]=input[*here+k];
+        k++;
+      }
+    }
+    input2[6+k] = ')';
+    input2[7+k] = '\0';
+    *here += k-1;
+    return sfs_read(input2, &here2);
+  }
+  if ( input[*here] == '(' ) {
 		*here += 1;
-	while(blanks(input[*here])){
-		*here += 1;
-	}
+	   while(blanks(input[*here])){
+		     *here += 1;
+       }
         if ( input[(*here)] == ')' ) {
             return nil;
         }
         else {
-            
-            return sfs_read_pair( input, here );
+            return sfs_read_pair( input, here);
         }
     }
     else {
-        return sfs_read_atom( input, here );
+        return sfs_read_atom( input, here);
     }
 }
 
