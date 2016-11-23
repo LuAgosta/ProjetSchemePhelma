@@ -312,3 +312,21 @@ object stringtosymbol(object o){
 	s=make_symbol(s->this.string);
 	return s;
 }
+object cons(object list) {
+	object newobject = NULL ;
+	if (list == nil || list->this.pair.cdr == nil ) {
+		WARNING_MSG("Erreur, cons prend deux arguments");
+		return NULL ; 
+		
+	}
+	if (cddr(list) != nil ){
+		WARNING_MSG("Erreur, cons ne prend que deux arguments");
+		return NULL ; 
+	}
+	if (sfs_eval (list->this.pair.car) == NULL || sfs_eval (cadr(list)) == NULL ){
+		return NULL ;
+	}
+	
+	newobject = make_pair(sfs_eval(list->this.pair.car), sfs_eval(cadr(list))) ;
+	return newobject ;
+}
