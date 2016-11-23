@@ -55,6 +55,9 @@ object stringtonumber_p;
 object symboltostring_p;
 object stringtosymbol_p;
 
+object cons_p;
+object list_p;
+
 void init_interpreter ( void ) {
 
     nil      = make_nil();
@@ -105,6 +108,12 @@ void init_interpreter ( void ) {
 
     stringtosymbol_p = make_primitive(&stringtosymbol);
     addvar(make_symbol("string->symbol"),stringtosymbol_p);
+    
+    cons_p = make_primitive(&cons);
+    addvar(make_symbol("cons"),cons_p);
+
+    list_p = make_primitive(&list);
+    addvar(make_symbol("list"),list_p);
 
 }
 
