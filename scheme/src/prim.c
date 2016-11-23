@@ -330,3 +330,18 @@ object cons(object list) {
 	newobject = make_pair(sfs_eval(list->this.pair.car), sfs_eval(cadr(list))) ;
 	return newobject ;
 }
+
+object list(object o){
+	object l = o;
+	object lr = l;
+	if(l->type != SFS_PAIR){
+		WARNING_MSG("list prend au moins un argument.");
+		return NULL;
+	}
+	do{
+		l->this.pair.car = sfs_eval(l->this.pair.car);
+		l = l->this.pair.cdr;
+	}
+	while(l != nil);
+	return lr;
+}
