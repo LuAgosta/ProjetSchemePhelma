@@ -37,7 +37,23 @@ object faux;
 object vrai;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
+
 object plus_p;
+
+object ifnull_p;
+object ifboolean_p;
+object ifsymbol_p;
+object ifinteger_p;
+object ifchar_p;
+object ifstring_p;
+object ifpair_p;
+
+object chartointeger_p;
+object integertochar_p;
+object numbertostring_p;
+object stringtonumber_p;
+object symboltostring_p;
+object stringtosymbol_p;
 
 void init_interpreter ( void ) {
 
@@ -46,8 +62,49 @@ void init_interpreter ( void ) {
     faux    = make_boolean();
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
+    
     plus_p = make_primitive(&plus);
     addvar(make_symbol("+"),plus_p);
+
+    
+    ifnull_p = make_primitive(&ifnull);
+    addvar(make_symbol("null?"),ifnull_p);
+
+    ifboolean_p = make_primitive(&ifboolean);
+    addvar(make_symbol("boolean?"),ifboolean_p);
+
+    ifsymbol_p = make_primitive(&ifsymbol);
+    addvar(make_symbol("symbol?"),ifsymbol_p);
+
+    ifinteger_p = make_primitive(&ifinteger);
+    addvar(make_symbol("integer?"),ifinteger_p);
+
+    ifchar_p = make_primitive(&ifchar);
+    addvar(make_symbol("char?"),ifchar_p);
+
+    ifstring_p = make_primitive(&ifstring);
+    addvar(make_symbol("string?"),ifstring_p);
+
+    ifpair_p = make_primitive(&ifpair);
+    addvar(make_symbol("pair?"),ifpair_p);
+
+    chartointeger_p = make_primitive(&chartointeger);
+    addvar(make_symbol("char->integer"),chartointeger_p);
+
+    integertochar_p = make_primitive(&integertochar);
+    addvar(make_symbol("integer->char"),integertochar_p);
+
+    numbertostring_p = make_primitive(&numbertostring);
+    addvar(make_symbol("number->string"),numbertostring_p);
+
+    stringtonumber_p = make_primitive(&stringtonumber);
+    addvar(make_symbol("string->number"),stringtonumber_p);
+
+    symboltostring_p = make_primitive(&symboltostring);
+    addvar(make_symbol("symbol->string"),symboltostring_p);
+
+    stringtosymbol_p = make_primitive(&stringtosymbol);
+    addvar(make_symbol("string->symbol"),stringtosymbol_p);
 
 }
 
