@@ -17,6 +17,21 @@ extern "C" {
 
 object plus(object);
 
+object ifnull(object o);
+object ifboolean(object o);
+object ifsymbol(object o);
+object ifinteger(object o);
+object ifchar(object o);
+object ifstring(object o);
+object ifpair(object o);
+
+object chartointeger(object o);
+object integertochar(object o);
+object numbertostring(object o);
+object stringtonumber(object o);
+object symboltostring(object o);
+object stringtosymbol(object o);
+
 #ifdef __cplusplus
 }
 #endif
