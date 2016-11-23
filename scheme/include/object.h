@@ -82,7 +82,27 @@ extern object vrai;
 extern object faux;
 extern object lenv;	/*liste d'environnements*/
 extern object tsym; 	/*table de symbole*/
+
+/**Primitives**/
+
 extern object plus_p;
+
+/*predicat*/
+extern object ifnull_p;
+extern object ifboolean_p;
+extern object ifsymbol_p;
+extern object ifinteger_p;
+extern object ifchar_p;
+extern object ifstring_p;
+extern object ifpair_p;
+
+extern object chartointeger_p;
+extern object integertochar_p;
+extern object numbertostring_p;
+extern object stringtonumber_p;
+extern object symboltostring_p;
+extern object stringtosymbol_p;
+
 
 #ifdef __cplusplus
 }
