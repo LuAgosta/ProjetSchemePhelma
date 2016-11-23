@@ -103,6 +103,8 @@ extern object stringtonumber_p;
 extern object symboltostring_p;
 extern object stringtosymbol_p;
 
+extern object cons_p;
+extern object list_p;
 
 #ifdef __cplusplus
 }
