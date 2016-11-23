@@ -75,19 +75,7 @@ object sfs_eval( object input ) {
 	/*}*/
 	}
 	
-	/**primitives**/
-	if(input->type == SFS_PAIR){
-		if(input->this.pair.car->type == SFS_SYMBOL){
-			object val = in_lenv(input->this.pair.car);
-			if(val != NULL) {
-				if(val->type == SFS_PRIMITIVE){
-					return((val->this.primitive)(input->this.pair.cdr));
-				}
-			}
-		}
-		return NULL;
-	}
-
+	
 	/** formes**/
 	/* quote */
 	if ( is_form ( "quote", input)){
@@ -221,6 +209,19 @@ object sfs_eval( object input ) {
 			return vrai;
 		}
 
+	/**primitives**/
+	if(input->type == SFS_PAIR){
+		if(input->this.pair.car->type == SFS_SYMBOL){
+			object val = in_lenv(input->this.pair.car);
+			if(val != NULL) {
+				if(val->type == SFS_PRIMITIVE){
+					return((val->this.primitive)(input->this.pair.cdr));
+				}
+			}
+		}
+		return NULL;
+	}
+	
 	/* pair invalide */
 	if (isnot_form(input)) {
 		WARNING_MSG("Erreur, l'expression est invalide");
