@@ -410,7 +410,7 @@ object quotient(object nums) {
 	object quotient = NULL ;
 	object t = NULL;
 	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
-		WARNING_MSG("Erreur, / prend deux arguments");
+		WARNING_MSG("Erreur, quotient prend deux arguments");
 		return NULL ; 
 	}
 	t = sfs_eval (nums->this.pair.car) ; 
@@ -418,7 +418,7 @@ object quotient(object nums) {
 		return NULL ;
 	}
 	if (t ->type != SFS_NUMBER ){
-		WARNING_MSG("Erreur,/ ne prend en argument que des entiers");
+		WARNING_MSG("Erreur, quotient ne prend en argument que des entiers");
 		return NULL ;
 	}
 	a = t-> this .number.this.integer ;
