@@ -65,6 +65,8 @@ object cons_p ;
 object car_p ;
 object cdr_p ;
 object list_p;
+object setcar_p;
+object setcdr_p;
 object eq_p;
 
 
@@ -150,6 +152,12 @@ void init_interpreter ( void ) {
 
     list_p = make_primitive(&list);
     addvar(make_symbol("list"),list_p);
+    
+    setcar_p = make_primitive(&setcar);
+    addvar(make_symbol("set-car!"),setcar_p);
+
+    setcdr_p = make_primitive(&setcdr);
+    addvar(make_symbol("set-cdr!"),setcdr_p);
     
     eq_p = make_primitive(&eq);
     addvar(make_symbol("eq?"),eq_p);
