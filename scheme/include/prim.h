@@ -40,7 +40,7 @@ object quotient(object nums) ;
 object inf(object nums) ; 
 object sup(object nums) ;
   
-object cons(object nums) ;
+object cons(object list) ;
 object car(object nums) ;
 object cdr(object nums) ;
 object list(object o);
