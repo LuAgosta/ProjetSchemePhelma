@@ -35,24 +35,24 @@ object in_lenv(object var){
 		l = k->this.pair.car;
 		while(l->this.pair.cdr != nil){
 			if(strcmp(caar(l)->this.string,var->this.string)==0){
-				return(cdar(l));
+				return(l->this.pair.car);
 			}
 			l = l->this.pair.cdr;
 		}
 		if(strcmp(caar(l)->this.string,var->this.string)==0){
-			return(cdar(l));
+			return(l->this.pair.car);
 		}
 		k=k->this.pair.cdr;
 	}
 	l = k->this.pair.car;
 	while(l->this.pair.cdr != nil){
 		if(strcmp(caar(l)->this.string,var->this.string)==0){
-			return(cdar(l));
+			return(l->this.pair.car);
 		}
 		l = l->this.pair.cdr;
 	}
 	if(strcmp(caar(l)->this.string,var->this.string)==0){
-		return(cdar(l));
+		return(l->this.pair.car);
 	}
 	WARNING_MSG("Erreur, la variable %s n'est pas définie",var->this.string);
 	return NULL;
