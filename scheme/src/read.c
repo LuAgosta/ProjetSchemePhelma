@@ -303,6 +303,7 @@ int parenthesis ( char c ) {
 
 object sfs_read( char *input, uint *here) {
   uint     here2 = 0;
+  object o = NULL;
   char input2[BIGSTRING];
   int nbpar;
   int k=1;
@@ -531,7 +532,7 @@ object sfs_read_atom( char *input, uint *here ) {
 
 
 object sfs_read_pair( char *stream, uint *i ){
-
+	object o = NULL;
 	object pair = NULL;
 	pair = make_object(SFS_PAIR);
   	o = sfs_read( stream, i);
