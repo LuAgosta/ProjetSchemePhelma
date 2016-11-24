@@ -115,6 +115,8 @@ extern object cons_p ;
 extern object car_p ;
 extern object cdr_p ;
 extern object list_p;
+extern object setcar_p;
+extern object setcdr_p;
 	
 extern object eq_p;
 
