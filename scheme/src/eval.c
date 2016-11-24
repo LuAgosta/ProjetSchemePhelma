@@ -111,13 +111,15 @@ object sfs_eval( object input ) {
 
 	/*set!*/
 	if ( is_form("set!", input)){
+		object o = NULL;
+		object pairvar = NULL;
 		if (lenv -> this.pair.car == nil){
 			WARNING_MSG("Erreur, la variable %s n'est pas définie", cadr(input)->this.symbol);
 			return nil;
 		}
 		else {
-			object val = in_lenv(cadr(input));
-			if(val == NULL){
+			pairvar = in_lenv(cadr(input));
+			if(pairvar == NULL){
 				return nil;
 			}
 			else {
@@ -126,7 +128,7 @@ object sfs_eval( object input ) {
 					return NULL;
 				}
 				else{
-					modify_object (val, o) ;
+					*pairvar=*make_pair(cadr(input),o);
 					return cadr(input) ;
 				}
 			}
