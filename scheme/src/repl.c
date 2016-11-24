@@ -58,6 +58,7 @@ object moins_p ;
 object egal_p ; 
 object mult_p ;
 object quotient_p ;
+object remaind_p ;
 object inf_p ;
 object sup_p ;
 
@@ -134,6 +135,9 @@ void init_interpreter ( void ) {
     
     quotient_p= make_primitive (&quotient) ; 
     addvar (make_symbol("quotient"),quotient_p) ;
+    
+    remaind_p= make_primitive (&remainder) ; 
+    addvar (make_symbol("remainder"),remaind_p) ;
     
     inf_p= make_primitive (&inf) ; 
     addvar (make_symbol("<"),inf_p) ;
