@@ -36,7 +36,8 @@ object plus(object nums) ;
 object moins(object nums) ; 
 object egal(object nums) ; 
 object multiple(object nums) ;
-object quotient(object nums) ; 
+object quotient(object nums) ;
+object remainder(object nums) ;
 object inf(object nums) ; 
 object sup(object nums) ;
   
