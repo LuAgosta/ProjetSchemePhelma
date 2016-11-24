@@ -44,6 +44,7 @@ object cons(object nums) ;
 object car(object nums) ;
 object cdr(object nums) ;
 object list(object o);
+object eq(object o);
 
 #ifdef __cplusplus
 }
