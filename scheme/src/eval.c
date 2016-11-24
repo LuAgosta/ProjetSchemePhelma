@@ -20,23 +20,7 @@ int is_form (char* name, object input ) {
 	return 0 ;
 }
 
-/* Regarder si le premier éléments n'est pas une forme */
-int isnot_form ( object input){
-	if (input->type == SFS_PAIR && input -> this.pair.car -> type != SFS_SYMBOL) {
-		return 1 ;
-	}
-	return 0;
-}
 
-/*Regarder si le premier éléments est une fonction*/
-int is_fonction(object input) {
-	if (input->type == SFS_PAIR && input->this.pair.car ->type == SFS_SYMBOL ){
-		return 1 ;
-	}
-	else {
-		return 0 ;
-	}
-}
 
 object sfs_eval( object input ) {
 	object output = NULL;
@@ -208,6 +192,40 @@ object sfs_eval( object input ) {
 			return vrai;
 		}
 
+/* pair invalide */
+	if (input->type == SFS_PAIR ) {
+		
+		switch (input->this.pair.car->type ) {
+		
+		
+			case SFS_NUMBER : 
+				WARNING_MSG(" %ld n'est pas une fonction" , input->this.pair.car-> this.number.this.integer) ;
+				return NULL ;
+
+			case SFS_STRING :
+				WARNING_MSG(" %s n'est pas un fonction" , input->this.pair.car-> this.string) ;
+				return NULL ;
+
+			case SFS_CHARACTER : 
+				WARNING_MSG(" %c n'est pas une fonction" , input->this.pair.car-> this.character) ;
+				return NULL ;
+			
+			case SFS_BOOLEAN : 
+				if (input-> this.pair.car == vrai ) {
+				WARNING_MSG(" #t n'est pas une fonction" ) ;
+				return NULL ;
+				}
+				if (input-> this.pair.car == faux ) {
+				WARNING_MSG(" #f n'est pas une fonction") ;
+				return NULL ;
+				}
+			case SFS_NIL : 
+				WARNING_MSG(" () n'est pas une fonction" ) ;
+				return NULL ;		
+		
+				
+		}
+	}	
 	/**primitives**/
 	if(input->type == SFS_PAIR){
 		if(input->this.pair.car->type == SFS_SYMBOL){
@@ -216,29 +234,16 @@ object sfs_eval( object input ) {
 				if(val->type == SFS_PRIMITIVE){
 					return((val->this.primitive)(input->this.pair.cdr));
 				}
+				else {
+					WARNING_MSG(" %s n'est pas une fonction" , input->this.pair.car-> this.symbol) ;
+					return NULL ; 
+				}
 			}
 		}
-		return NULL;
-	}
-	
-	/* pair invalide */
-	if (isnot_form(input)) {
-		WARNING_MSG("Erreur, l'expression est invalide");
 		return NULL;
 	}
 
-	/* fonction invalide */
-	if (is_fonction(input)) {
-		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("La fonction %s n'est pas définie" , input->this.pair.car-> this.symbol) ;
-			return NULL ;
-		}
-		else {
-			object val = in_lenv(input->this.pair.car) ;
-			if (val == NULL) {
-				return NULL ;
-			}
-		}
-	}
+
+
   return input;
 }
