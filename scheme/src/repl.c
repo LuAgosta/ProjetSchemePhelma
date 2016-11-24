@@ -38,7 +38,7 @@ object vrai;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
 
-object plus_p;
+
 
 object ifnull_p;
 object ifboolean_p;
@@ -55,7 +55,18 @@ object stringtonumber_p;
 object symboltostring_p;
 object stringtosymbol_p;
 
-object cons_p;
+
+
+object plus_p;
+object moins_p ; 
+object egal_p ; 
+object mult_p ;
+object quotient_p ;
+object inf_p ;
+object sup_p ;
+object cons_p ;
+object car_p ;
+object cdr_p ;
 object list_p;
 
 void init_interpreter ( void ) {
@@ -66,8 +77,7 @@ void init_interpreter ( void ) {
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
     
-    plus_p = make_primitive(&plus);
-    addvar(make_symbol("+"),plus_p);
+
 
     
     ifnull_p = make_primitive(&ifnull);
@@ -109,8 +119,35 @@ void init_interpreter ( void ) {
     stringtosymbol_p = make_primitive(&stringtosymbol);
     addvar(make_symbol("string->symbol"),stringtosymbol_p);
     
-    cons_p = make_primitive(&cons);
-    addvar(make_symbol("cons"),cons_p);
+    plus_p = make_primitive (&plus) ; 
+    addvar ( make_symbol("+"), plus_p) ; 
+    
+    moins_p = make_primitive (&moins) ; 
+    addvar (make_symbol("-"), moins_p) ; 
+    
+    egal_p = make_primitive (&egal) ; 
+    addvar (make_symbol("="),egal_p) ; 
+    
+    mult_p = make_primitive (&multiple) ; 
+    addvar (make_symbol("*"),mult_p) ; 
+    
+    quotient_p= make_primitive (&quotient) ; 
+    addvar (make_symbol("/"),quotient_p) ;
+    
+    inf_p= make_primitive (&inf) ; 
+    addvar (make_symbol("<"),inf_p) ;
+    
+    sup_p = make_primitive(&sup) ; 
+    addvar (make_symbol(">"), sup_p) ; 
+    
+    cons_p = make_primitive(&cons) ; 
+    addvar (make_symbol("cons"), cons_p) ;
+    
+    car_p = make_primitive(&car) ; 
+    addvar (make_symbol("car"), car_p) ;
+    
+    cdr_p = make_primitive(&cdr) ; 
+    addvar (make_symbol("cdr"), cdr_p) ;
 
     list_p = make_primitive(&list);
     addvar(make_symbol("list"),list_p);
