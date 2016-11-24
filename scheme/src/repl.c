@@ -38,8 +38,6 @@ object vrai;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
 
-
-
 object ifnull_p;
 object ifboolean_p;
 object ifsymbol_p;
@@ -55,8 +53,6 @@ object stringtonumber_p;
 object symboltostring_p;
 object stringtosymbol_p;
 
-
-
 object plus_p;
 object moins_p ; 
 object egal_p ; 
@@ -64,10 +60,13 @@ object mult_p ;
 object quotient_p ;
 object inf_p ;
 object sup_p ;
+
 object cons_p ;
 object car_p ;
 object cdr_p ;
 object list_p;
+object eq_p;
+
 
 void init_interpreter ( void ) {
 
@@ -151,6 +150,9 @@ void init_interpreter ( void ) {
 
     list_p = make_primitive(&list);
     addvar(make_symbol("list"),list_p);
+    
+    eq_p = make_primitive(&eq);
+    addvar(make_symbol("eq?"),eq_p);
 
 }
 
