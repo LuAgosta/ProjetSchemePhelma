@@ -7,7 +7,7 @@
 (define a '(4 5 6))
 (set-car! a 58)
 a
-(set-car! (quote (() 5) ) 8) .; on regarde si () est modifié
+(set-car! (quote (() 5) ) 8); on regarde si () est modifié
 () 
 
 
