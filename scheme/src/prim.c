@@ -430,7 +430,7 @@ object quotient(object nums) {
 			return NULL ;
 		}
 		if (t ->type != SFS_NUMBER ){
-			WARNING_MSG("Erreur, - ne prend en argument que des entiers");
+			WARNING_MSG("Erreur, quotient ne prend en argument que des entiers");
 			return NULL ;
 		}
 		if (t->this.number.this.integer == 0 ){
