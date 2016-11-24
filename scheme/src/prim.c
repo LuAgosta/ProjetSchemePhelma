@@ -375,8 +375,8 @@ object multiple(object nums) {
 	long a = 1 ;
 	object produit = NULL ;
 	object t = NULL;
-	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
-		WARNING_MSG("Erreur, * prend deux arguments");
+	if (nums == nil || nums->this.pair.cdr == nil ) {
+		WARNING_MSG("Erreur, * prend au moins deux arguments");
 		return NULL ; 
 	}
 	while (nums -> this.pair.cdr != nil ) {
@@ -409,8 +409,8 @@ object quotient(object nums) {
 	long b = 1 ; 
 	object quotient = NULL ;
 	object t = NULL;
-	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
-		WARNING_MSG("Erreur, quotient prend deux arguments");
+	if (nums == nil || nums->this.pair.cdr == nil) {
+		WARNING_MSG("Erreur, quotient prend au moins deux arguments");
 		return NULL ; 
 	}
 	t = sfs_eval (nums->this.pair.car) ; 
