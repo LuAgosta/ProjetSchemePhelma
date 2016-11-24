@@ -456,6 +456,7 @@ object egal(object nums) {
 	}
  
 	if (sfs_eval (nums->this.pair.car)->type != sfs_eval(cadr(nums))->type ) {
+		WARNING_MSG("Erreur, les deux arguments de = doivent être du même type");
 		return NULL ; 
 	}
 	
@@ -490,13 +491,22 @@ object egal(object nums) {
 			else {
 				return faux ; 
 			}
+		case SFS_BOOLEAN : 
+			if (sfs_eval (nums->this.pair.car) != sfs_eval (cadr(nums)) ){
+				return faux ; 
+			}
+			else {
+				return vrai ;
+			}
+		
 		
 		
 	}
 	
-		return faux; 
+		return vrai ; 
 	
 }
+
 
 object inf(object nums) {
 	
