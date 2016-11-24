@@ -7,5 +7,5 @@
 (define a '(4 5 6))
 (set-cdr! a 58)
 a
-(set-cdr! (quote (8)) 77) .; on regarde si () est modifié
+(set-cdr! (quote (8)) 77); on regarde si () est modifié
 () 
