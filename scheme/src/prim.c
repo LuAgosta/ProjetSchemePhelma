@@ -699,5 +699,79 @@ object eq(object o){
 	return faux;
 }
 
+object setcar(object list) {
+	object p = NULL;
+	object pairvar = NULL;
+	if (list == nil || list->this.pair.cdr == nil || cddr(list) != nil ){
+		WARNING_MSG("Erreur, set-car! prend deux arguments");
+		return NULL ;
+	}
+	p = sfs_eval (list->this.pair.car);
+	if ( p == NULL || sfs_eval (cadr (list)) == NULL ){
+		return NULL ;
+	}
+	if (p->type != SFS_PAIR ) {
+		WARNING_MSG("Erreur, la primitive set-car! prend en premier argument une paire");
+		return NULL ;
+	}
+	p = make_pair(sfs_eval (cadr (list)),p->this.pair.cdr);
+	if(list->this.pair.car->type == SFS_SYMBOL){
+		if (lenv -> this.pair.car == nil){
+			WARNING_MSG("Erreur, la variable %s n'est pas définie", list->this.pair.car->this.symbol);
+			return nil;
+		}
+		else {
+			pairvar = in_lenv(list->this.pair.car);
+			if(pairvar == NULL){
+				return nil;
+			}
+			if(p == NULL){
+				return NULL;
+			}
+			else{
+				*pairvar=*make_pair(list->this.pair.car,p);
+				return list->this.pair.car ;
+			}
+		}
+	}
+	return p;
+}
 
+object setcdr(object list){
+	object p = NULL;
+	object pairvar = NULL;
+	if (list == nil || list->this.pair.cdr == nil || cddr(list) != nil ){
+		WARNING_MSG("Erreur, set-cdr! prend deux arguments");
+		return NULL ;
+	}
+	p = sfs_eval (list->this.pair.car);
+	if ( p == NULL || sfs_eval (cadr (list)) == NULL ){
+		return NULL ;
+	}
+	if (p->type != SFS_PAIR ) {
+		WARNING_MSG("Erreur, la primitive set-cdr! prend en premier argument une paire");
+		return NULL ;
+	}
+	p = make_pair(p->this.pair.car,sfs_eval (cadr (list)));
+	if(list->this.pair.car->type == SFS_SYMBOL){
+		if (lenv -> this.pair.car == nil){
+			WARNING_MSG("Erreur, la variable %s n'est pas définie", list->this.pair.car->this.symbol);
+			return nil;
+		}
+		else {
+			pairvar = in_lenv(list->this.pair.car);
+			if(pairvar == NULL){
+				return nil;
+			}
+			if(p == NULL){
+				return NULL;
+			}
+			else{
+				*pairvar=*make_pair(list->this.pair.car,p);
+				return list->this.pair.car ;
+			}
+		}
+	}
+	return p;
+}
 
