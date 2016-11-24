@@ -19,8 +19,7 @@ extern "C" {
 #include "env.h"
   
 int is_form (char* , object ) ;
-int isnot_form (object); 
-int is_fonction(object) ;
+
 object sfs_eval( object );
 
 #ifdef __cplusplus
