@@ -443,6 +443,46 @@ object quotient(object nums) {
 	quotient = make_integer(a) ; 
 	return quotient; 
 }
+object remainder(object nums) {
+	long a = 1 ;
+	long b = 1 ; 
+	object quotient = NULL ;
+	object t = NULL;
+	if (nums == nil || nums->this.pair.cdr == nil  ) {
+		WARNING_MSG("Erreur, remainder prend au moins prend deux arguments");
+		return NULL ; 
+	}
+	t = sfs_eval (nums->this.pair.car) ; 
+	if (t == NULL ){
+		return NULL ;
+	}
+	if (t ->type != SFS_NUMBER ){
+		WARNING_MSG("Erreur, remainder ne prend en argument que des entiers");
+		return NULL ;
+	}
+	a = t-> this .number.this.integer ;
+
+	while (nums->this.pair.cdr != nil){
+		nums = nums->this.pair.cdr ; 
+		t =sfs_eval(nums->this.pair.car); 
+		if (t == NULL ){
+			return NULL ;
+		}
+		if (t ->type != SFS_NUMBER ){
+			WARNING_MSG("Erreur, remainder ne prend en argument que des entiers");
+			return NULL ;
+		}
+		if (t->this.number.this.integer == 0 ){
+			WARNING_MSG("Erreur, division par 0 impossible");
+			return NULL ;
+		}
+		b = t -> this.number.this.integer ; 
+		a = a % b ; 
+	}
+	quotient = make_integer(a) ; 
+	return quotient; 
+}
+
 
 
 object egal(object nums) {
