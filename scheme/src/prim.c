@@ -614,6 +614,7 @@ object car(object list) {
 	return evalcar ;
 }
 
+
 object cdr(object list) {
 	object evalcar = NULL ; 
 	
@@ -638,6 +639,62 @@ object cdr(object list) {
 	return evalcar ;
 }
 
+
+object eq(object o){
+	object o1 = NULL;
+	object o2 = NULL;
+	if(o->type == SFS_NIL){
+		WARNING_MSG("eq? admet deux arguments");
+		return NULL;
+	}
+	if(cddr(o)->type != SFS_NIL){
+		WARNING_MSG("eq? admet que deux arguments");
+		return NULL;
+	}
+	o1 = o->this.pair.car;
+	o2 = cadr(o);
+	if(o1->type == SFS_NUMBER && o2->type == SFS_NUMBER){
+		if(o2->this.number.this.integer == o1->this.number.this.integer){
+			return vrai;
+		}
+		return faux;
+	}
+	if(o1->type == SFS_NUMBER && o2->type != SFS_NUMBER){
+		if(sfs_eval(o2) == NULL){
+			return NULL;
+		}
+		if(sfs_eval(o2)->type == SFS_NUMBER){
+			if(sfs_eval(o2)->this.number.this.integer == o1->this.number.this.integer){
+				return vrai;
+			}
+			return faux;
+		}
+		else{
+			return faux;
+		}
+	}
+	if(o1->type != SFS_NUMBER && o2->type == SFS_NUMBER){
+		if(sfs_eval(o2) == NULL){
+			return NULL;
+		}
+		if(sfs_eval(o1)->type == SFS_NUMBER){
+			if(sfs_eval(o1)->this.number.this.integer == o2->this.number.this.integer){
+				return vrai;
+			}
+			return faux;
+		}
+		else{
+			return faux;
+		}
+	}
+	if(sfs_eval(o2) == NULL || sfs_eval(o1) == NULL){
+		return NULL;
+	}
+	if(sfs_eval(o2)==sfs_eval(o1)){
+		return vrai;
+	}
+	return faux;
+}
 
 
 
