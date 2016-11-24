@@ -585,16 +585,18 @@ object cons(object list) {
 object car(object list) {
 	object evalcar = NULL ; 
 	
+	if (list == nil || list->this.pair.cdr != nil ){
+		WARNING_MSG("Erreur, car prend un argument");
+		return NULL ; 
+	}
+
 	if (list->this.pair.car->type != SFS_PAIR) {
 		WARNING_MSG("Erreur, car ne prend en argument qu'une liste");
 		return NULL ; 
 	}
 
 
-	if (list->this.pair.cdr != nil ){
-		WARNING_MSG("Erreur, car ne prend qu'un argument");
-		return NULL ; 
-	}	
+	
 	if (sfs_eval (list->this.pair.car) == NULL ){
 		return NULL ;
 	}
@@ -609,14 +611,15 @@ object car(object list) {
 object cdr(object list) {
 	object evalcar = NULL ; 
 	
-	if (list->this.pair.car->type != SFS_PAIR) {
-		WARNING_MSG("Erreur, car ne prend en argument qu'une liste");
-		return NULL ; 
-	}
-	if (list->this.pair.cdr != nil ){
-		WARNING_MSG("Erreur, car ne prend qu'un argument");
+	if (list == nil || list->this.pair.cdr != nil ){
+		WARNING_MSG("Erreur, cdr prend un argument");
 		return NULL ; 
 	}	
+
+	if (list->this.pair.car->type != SFS_PAIR) {
+		WARNING_MSG("Erreur, cdr ne prend en argument qu'une liste");
+		return NULL ; 
+	}
 
 	if (sfs_eval (list->this.pair.car) == NULL ){
 		return NULL ;
@@ -629,7 +632,6 @@ object cdr(object list) {
 	evalcar =  sfs_eval(list->this.pair.car)->this.pair.cdr ; 
 	return evalcar ;
 }
-
 
 object eq(object o){
 	object o1 = NULL;
