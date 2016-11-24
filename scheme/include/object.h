@@ -85,7 +85,7 @@ extern object tsym; 	/*table de symbole*/
 
 /**Primitives**/
 
-extern object plus_p;
+
 
 /*predicat*/
 extern object ifnull_p;
@@ -103,7 +103,19 @@ extern object stringtonumber_p;
 extern object symboltostring_p;
 extern object stringtosymbol_p;
 
-extern object cons_p;
+/* arithmétique*/
+extern object plus_p ;
+extern object moins_p ; 
+extern object egal_p ;  
+extern object mult_p ;  
+extern object quotient_p ;
+extern object inf_p ;
+extern object sup_p ;
+	
+/* manipulation liste*/
+extern object cons_p ;
+extern object car_p ;
+extern object cdr_p ;
 extern object list_p;
 
 #ifdef __cplusplus
