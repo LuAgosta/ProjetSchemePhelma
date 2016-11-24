@@ -131,7 +131,7 @@ void init_interpreter ( void ) {
     addvar (make_symbol("*"),mult_p) ; 
     
     quotient_p= make_primitive (&quotient) ; 
-    addvar (make_symbol("/"),quotient_p) ;
+    addvar (make_symbol("quotient"),quotient_p) ;
     
     inf_p= make_primitive (&inf) ; 
     addvar (make_symbol("<"),inf_p) ;
