@@ -15,7 +15,7 @@ extern "C" {
 
 #include "object.h"
 
-object plus(object);
+
 
 object ifnull(object o);
 object ifboolean(object o);
@@ -32,7 +32,17 @@ object stringtonumber(object o);
 object symboltostring(object o);
 object stringtosymbol(object o);
   
-object cons(object list);
+object plus(object nums) ; 
+object moins(object nums) ; 
+object egal(object nums) ; 
+object multiple(object nums) ;
+object quotient(object nums) ; 
+object inf(object nums) ; 
+object sup(object nums) ;
+  
+object cons(object nums) ;
+object car(object nums) ;
+object cdr(object nums) ;
 object list(object o);
 
 #ifdef __cplusplus
