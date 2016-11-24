@@ -47,7 +47,7 @@ object sfs_eval( object input ) {
 			return NULL;
 		}
 		else {
-			object val = in_lenv(input);
+			object val = in_lenv(input)->this.pair.cdr;
 			if(val != NULL) { /* pour l'instant lenv = environnement courant*/
 				return val;
 			}
@@ -231,7 +231,7 @@ object sfs_eval( object input ) {
 	/**primitives**/
 	if(input->type == SFS_PAIR){
 		if(input->this.pair.car->type == SFS_SYMBOL){
-			object val = in_lenv(input->this.pair.car);
+			object val = in_lenv(input->this.pair.car)->this.pair.cdr;
 			if(val != NULL) {
 				if(val->type == SFS_PRIMITIVE){
 					return((val->this.primitive)(input->this.pair.cdr));
