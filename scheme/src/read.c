@@ -341,7 +341,11 @@ object sfs_read( char *input, uint *here) {
     input2[6+k] = ')';
     input2[7+k] = '\0';
     *here += k-1;
-    return sfs_read(input2, &here2);
+    o = sfs_read(input2, &here2);
+    if(o == NULL){
+      return NULL;
+    }
+    return o;
   }
   if ( input[*here] == '(' ) {
 		*here += 1;
@@ -356,7 +360,11 @@ object sfs_read( char *input, uint *here) {
         }
     }
     else {
-        return sfs_read_atom( input, here);
+        o=sfs_read_atom( input, here);
+        if(o == NULL){
+        return NULL;
+        }
+        return o;
     }
 }
 
@@ -516,7 +524,7 @@ object sfs_read_atom( char *input, uint *here ) {
         return atom ;     
     	
 	
-return(NULL);
+	return(NULL);
 }
 	
 
@@ -526,8 +534,11 @@ object sfs_read_pair( char *stream, uint *i ){
 
 	object pair = NULL;
 	pair = make_object(SFS_PAIR);
-
-	pair->this.pair.car = sfs_read( stream, i);
+  	o = sfs_read( stream, i);
+  	if(o == NULL){
+  	  return NULL;
+	}
+	pair->this.pair.car = o;
 	while(blanks(stream[*i+1])){
 		*i += 1;
 	}
