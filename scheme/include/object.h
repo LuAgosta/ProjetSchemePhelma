@@ -107,6 +107,7 @@ extern object moins_p ;
 extern object egal_p ;  
 extern object mult_p ;  
 extern object quotient_p ;
+extern object remaind_p ;
 extern object inf_p ;
 extern object sup_p ;
 	
