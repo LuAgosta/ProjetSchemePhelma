@@ -85,8 +85,6 @@ extern object tsym; 	/*table de symbole*/
 
 /**Primitives**/
 
-
-
 /*predicat*/
 extern object ifnull_p;
 extern object ifboolean_p;
@@ -117,6 +115,8 @@ extern object cons_p ;
 extern object car_p ;
 extern object cdr_p ;
 extern object list_p;
+	
+extern object eq_p;
 
 #ifdef __cplusplus
 }
