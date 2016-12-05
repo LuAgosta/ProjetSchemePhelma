@@ -68,6 +68,8 @@ object cdr_p ;
 object list_p;
 object setcar_p;
 object setcdr_p;
+
+object eqv_p;
 object eq_p;
 
 
@@ -162,6 +164,10 @@ void init_interpreter ( void ) {
 
     setcdr_p = make_primitive(&setcdr);
     addvar(make_symbol("set-cdr!"),setcdr_p);
+    
+    eqv_p = make_primitive(&eqv);
+    addvar(make_symbol("eqv?"),eqv_p);
+
     
     eq_p = make_primitive(&eq);
     addvar(make_symbol("eq?"),eq_p);
