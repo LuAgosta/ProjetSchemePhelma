@@ -47,6 +47,8 @@ object cdr(object nums) ;
 object list(object o);
 object setcar(object list);
 object setcdr(object list);
+
+object eqv(object o);
 object eq(object o);
 
 #ifdef __cplusplus
