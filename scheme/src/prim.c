@@ -12,7 +12,7 @@
 
 object ifnull(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("null? n'admet au moins un argument");
+		WARNING_MSG("null? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -28,7 +28,7 @@ object ifnull(object o){
 
 object ifboolean(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("boolean? n'admet au moins un argument");
+		WARNING_MSG("boolean? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -44,7 +44,7 @@ object ifboolean(object o){
 
 object ifsymbol(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("symbol? n'admet au moins un argument");
+		WARNING_MSG("symbol? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -60,7 +60,7 @@ object ifsymbol(object o){
 
 object ifinteger(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("integer? n'admet au moins un argument");
+		WARNING_MSG("integer? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -76,7 +76,7 @@ object ifinteger(object o){
 
 object ifchar(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("char? n'admet au moins un argument");
+		WARNING_MSG("char? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -92,7 +92,7 @@ object ifchar(object o){
 
 object ifstring(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string? n'admet au moins un argument");
+		WARNING_MSG("string? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -108,7 +108,7 @@ object ifstring(object o){
 
 object ifpair(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("pair? n'admet au moins un argument");
+		WARNING_MSG("pair? admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -126,7 +126,7 @@ object ifpair(object o){
 object chartointeger(object o){
 	object n = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("char->integer n'admet au moins un argument");
+		WARNING_MSG("char->integer admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -146,7 +146,7 @@ object chartointeger(object o){
 object integertochar(object o){
 	object c = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("integer->char n'admet au moins un argument");
+		WARNING_MSG("integer->char admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -167,7 +167,7 @@ object numbertostring(object o){
 	char str[BIGSTRING];
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("number->string n'admet au moins un argument");
+		WARNING_MSG("number->string admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -192,7 +192,7 @@ object stringtonumber(object o){
 	object n = NULL;
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string->number n'admet au moins un argument");
+		WARNING_MSG("string->number admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -217,7 +217,7 @@ object stringtonumber(object o){
 object symboltostring(object o){
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("symbol->string n'admet au moins un argument");
+		WARNING_MSG("symbol->string admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
@@ -237,7 +237,7 @@ object symboltostring(object o){
 object stringtosymbol(object o){
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string->symbol n'admet au moins un argument");
+		WARNING_MSG("string->symbol admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
