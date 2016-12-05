@@ -119,6 +119,7 @@ extern object list_p;
 extern object setcar_p;
 extern object setcdr_p;
 	
+extern object eqv_p;
 extern object eq_p;
 
 #ifdef __cplusplus
