@@ -8,22 +8,18 @@
 #include "prim.h"
 #include "eval.h"
 
-
 /*Prédicats*/
 
 object ifnull(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("null? admet au moins un argument");
+		WARNING_MSG("null? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("null? admet qu'un argument");
+		WARNING_MSG("null? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_NIL){
+	if(o->this.pair.car->type == SFS_NIL){
 		return vrai;
 	}
 	return faux;
@@ -32,17 +28,14 @@ object ifnull(object o){
 
 object ifboolean(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("boolean? admet au moins un argument");
+		WARNING_MSG("boolean? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("boolean? admet qu'un argument");
+		WARNING_MSG("boolean? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_BOOLEAN){
+	if(o->this.pair.car->type == SFS_BOOLEAN){
 		return vrai;
 	}
 	return faux;
@@ -51,17 +44,14 @@ object ifboolean(object o){
 
 object ifsymbol(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("symbol? admet au moins un argument");
+		WARNING_MSG("symbol? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("symbol? admet qu'un argument");
+		WARNING_MSG("symbol? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_SYMBOL){
+	if(o->this.pair.car->type == SFS_SYMBOL){
 		return vrai;
 	}
 	return faux;
@@ -70,17 +60,14 @@ object ifsymbol(object o){
 
 object ifinteger(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("integer? admet au moins un argument");
+		WARNING_MSG("integer? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("integer? admet qu'un argument");
+		WARNING_MSG("integer? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_NUMBER){
+	if(o->this.pair.car->type == SFS_NUMBER){
 		return vrai;
 	}
 	return faux;
@@ -89,17 +76,14 @@ object ifinteger(object o){
 
 object ifchar(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("char? admet au moins un argument");
+		WARNING_MSG("char? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("char? admet qu'un argument");
+		WARNING_MSG("char? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_CHARACTER){
+	if(o->this.pair.car->type == SFS_CHARACTER){
 		return vrai;
 	}
 	return faux;
@@ -108,17 +92,14 @@ object ifchar(object o){
 
 object ifstring(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string? admet au moins un argument");
+		WARNING_MSG("string? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("string? admet qu'un argument");
+		WARNING_MSG("string? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_STRING){
+	if(o->this.pair.car->type == SFS_STRING){
 		return vrai;
 	}
 	return faux;
@@ -127,17 +108,14 @@ object ifstring(object o){
 
 object ifpair(object o){
 	if(o->type == SFS_NIL){
-		WARNING_MSG("pair? admet au moins un argument");
+		WARNING_MSG("pair? n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("pair? admet qu'un argument");
+		WARNING_MSG("pair? n'admet qu'un argument");
 		return NULL;
 	}
-	if(sfs_eval(o->this.pair.car) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o->this.pair.car)->type == SFS_PAIR){
+	if(o->this.pair.car->type == SFS_PAIR){
 		return vrai;
 	}
 	return faux;
@@ -148,17 +126,14 @@ object ifpair(object o){
 object chartointeger(object o){
 	object n = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("char->integer admet au moins un argument");
+		WARNING_MSG("char->integer n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("pair? admet qu'un argument");
+		WARNING_MSG("char->interger n'admet qu'un argument");
 		return NULL;
 	}
-	n=sfs_eval(o->this.pair.car);
-	if(n==NULL){
-		return NULL;
-	}
+	n=o->this.pair.car;
 	if(n->type != SFS_CHARACTER){
 		WARNING_MSG("L'argument doit être un caractère");
 		return NULL;
@@ -171,17 +146,14 @@ object chartointeger(object o){
 object integertochar(object o){
 	object c = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("integer->char admet au moins un argument");
+		WARNING_MSG("integer->char n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("integer->char admet qu'un argument");
+		WARNING_MSG("integer->char n'admet qu'un argument");
 		return NULL;
 	}
-	c=sfs_eval(o->this.pair.car);
-	if(c==NULL){
-		return NULL;
-	}
+	c=o->this.pair.car;
 	if(c->type != SFS_NUMBER){
 		WARNING_MSG("L'argument doit être un entier");
 		return NULL;
@@ -195,17 +167,14 @@ object numbertostring(object o){
 	char str[BIGSTRING];
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("number->string admet au moins un argument");
+		WARNING_MSG("number->string n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("number->string admet qu'un argument");
+		WARNING_MSG("number->string n'admet qu'un argument");
 		return NULL;
 	}
-	s=sfs_eval(o->this.pair.car);
-	if(s==NULL){
-		return NULL;
-	}
+	s=o->this.pair.car;
 	if(s->type != SFS_NUMBER){
 		WARNING_MSG("L'argument doit être un entier");
 		return NULL;
@@ -223,17 +192,14 @@ object stringtonumber(object o){
 	object n = NULL;
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string->number admet au moins un argument");
+		WARNING_MSG("string->number n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("string->number admet qu'un argument");
+		WARNING_MSG("string->number n'admet qu'un argument");
 		return NULL;
 	}
-	s=sfs_eval(o->this.pair.car);
-	if(s==NULL){
-		return NULL;
-	}
+	s=o->this.pair.car;
 	if(s->type != SFS_STRING){
 		WARNING_MSG("L'argument doit être une chaîne de caractère");
 		return NULL;
@@ -251,17 +217,14 @@ object stringtonumber(object o){
 object symboltostring(object o){
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("symbol->string admet au moins un argument");
+		WARNING_MSG("symbol->string n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("symbol->string admet qu'un argument");
+		WARNING_MSG("symbol->string n'admet qu'un argument");
 		return NULL;
 	}
-	s=sfs_eval(o->this.pair.car);
-	if(s==NULL){
-		return NULL;
-	}
+	s=o->this.pair.car;
 	if(s->type != SFS_SYMBOL){
 		WARNING_MSG("L'argument doit être un symbole");
 		return NULL;
@@ -274,17 +237,14 @@ object symboltostring(object o){
 object stringtosymbol(object o){
 	object s = NULL;
 	if(o->type == SFS_NIL){
-		WARNING_MSG("string->symbol admet au moins un argument");
+		WARNING_MSG("string->symbol n'admet au moins un argument");
 		return NULL;
 	}
 	if(o->this.pair.cdr->type != SFS_NIL){
-		WARNING_MSG("string->symbol admet qu'un argument");
+		WARNING_MSG("string->symbol n'admet qu'un argument");
 		return NULL;
 	}
-	s=sfs_eval(o->this.pair.car);
-	if(s==NULL){
-		return NULL;
-	}
+	s=o->this.pair.car;
 	if(s->type != SFS_STRING){
 		WARNING_MSG("L'argument doit être une chaîne de caractère");
 		return NULL;
@@ -304,25 +264,19 @@ object plus(object nums) {
 	}
 	while (nums -> this.pair.cdr != nil ) {
 
-		t = sfs_eval(nums -> this.pair.car);
-		if(t == NULL){
-			return NULL;
-		}
+		t = nums -> this.pair.car;
 		if ( t -> type != SFS_NUMBER ) {
 			WARNING_MSG("Erreur, + ne prend en argument que des entiers");
-			return NULL ; 
+			return NULL ;
 		}
 
 		a += t->this.number.this.integer ;
 		nums = nums ->this.pair.cdr ;
 	}
-	t = sfs_eval(nums -> this.pair.car);
-	if(t == NULL){
-		return NULL;
-	}
+	t = nums -> this.pair.car;
 	if ( t -> type != SFS_NUMBER ) {
 		WARNING_MSG("Erreur, + ne prend en argument que des entiers");
-		return NULL ; 
+		return NULL ;
 	}
 	a +=  t->this.number.this.integer ;
 	somme = make_integer (a) ;
@@ -334,17 +288,14 @@ object plus(object nums) {
 
 object moins(object nums) {
 	long a = 0 ;
-	long b = 0 ;  
+	long b = 0 ;
 	object sous = NULL ;
 	object t = NULL ;
 	if (nums == nil ) {
 		WARNING_MSG("Erreur, - prend au moins un argument");
 		return NULL ;
 	}
-	t = sfs_eval (nums->this.pair.car) ; 
-	if (t == NULL ){
-		return NULL ;
-	}
+	t = nums->this.pair.car ;
 	if (t ->type != SFS_NUMBER ){
 		WARNING_MSG("Erreur, - ne prend en argument que des entiers");
 		return NULL ;
@@ -352,23 +303,20 @@ object moins(object nums) {
 	a = t-> this .number.this.integer ;
 	if (nums->this.pair.cdr == nil ) {
 		sous = make_integer(-a) ;
-		return sous ; 
+		return sous ;
 	}
 	while (nums->this.pair.cdr != nil){
-		nums = nums->this.pair.cdr ; 
-		t =sfs_eval(nums->this.pair.car); 
-		if (t == NULL ){
-			return NULL ;
-		}
+		nums = nums->this.pair.cdr ;
+		t =nums->this.pair.car;
 		if (t ->type != SFS_NUMBER ){
 			WARNING_MSG("Erreur, - ne prend en argument que des entiers");
 			return NULL ;
 		}
-		b = t -> this.number.this.integer ; 
-		a = a - b ; 
+		b = t -> this.number.this.integer ;
+		a = a - b ;
 	}
-	sous = make_integer(a) ; 
-	return sous ; 
+	sous = make_integer(a) ;
+	return sous ;
 }
 
 object multiple(object nums) {
@@ -377,27 +325,21 @@ object multiple(object nums) {
 	object t = NULL;
 	if (nums == nil || nums->this.pair.cdr == nil ) {
 		WARNING_MSG("Erreur, * prend au moins deux arguments");
-		return NULL ; 
+		return NULL ;
 	}
 	while (nums -> this.pair.cdr != nil ) {
-		t = sfs_eval(nums -> this.pair.car);
-		if(t == NULL){
-			return NULL;
-		}
+		t = nums -> this.pair.car;
 		if ( t -> type != SFS_NUMBER ) {
 			WARNING_MSG("Erreur, * ne prend en argument que des entiers");
-			return NULL ; 
+			return NULL ;
 		}
 		a *=  t->this.number.this.integer ;
 		nums = nums ->this.pair.cdr ;
 	}
-	t = sfs_eval(nums -> this.pair.car);
-	if(t == NULL){
-		return NULL;
-	}
+	t = nums -> this.pair.car;
 	if ( t -> type != SFS_NUMBER ) {
 		WARNING_MSG("Erreur, * ne prend en argument que des entiers");
-		return NULL ; 
+		return NULL ;
 		}
 	a *=  t->this.number.this.integer ;
 	produit = make_integer (a) ;
@@ -406,17 +348,14 @@ object multiple(object nums) {
 
 object quotient(object nums) {
 	long a = 1 ;
-	long b = 1 ; 
+	long b = 1 ;
 	object quotient = NULL ;
 	object t = NULL;
 	if (nums == nil || nums->this.pair.cdr == nil) {
 		WARNING_MSG("Erreur, quotient prend au moins deux arguments");
-		return NULL ; 
-	}
-	t = sfs_eval (nums->this.pair.car) ; 
-	if (t == NULL ){
 		return NULL ;
 	}
+	t = nums->this.pair.car ;
 	if (t ->type != SFS_NUMBER ){
 		WARNING_MSG("Erreur, quotient ne prend en argument que des entiers");
 		return NULL ;
@@ -424,11 +363,8 @@ object quotient(object nums) {
 	a = t-> this .number.this.integer ;
 
 	while (nums->this.pair.cdr != nil){
-		nums = nums->this.pair.cdr ; 
-		t =sfs_eval(nums->this.pair.car); 
-		if (t == NULL ){
-			return NULL ;
-		}
+		nums = nums->this.pair.cdr ;
+		t =nums->this.pair.car;
 		if (t ->type != SFS_NUMBER ){
 			WARNING_MSG("Erreur, quotient ne prend en argument que des entiers");
 			return NULL ;
@@ -437,25 +373,22 @@ object quotient(object nums) {
 			WARNING_MSG("Erreur, division par 0 impossible");
 			return NULL ;
 		}
-		b = t -> this.number.this.integer ; 
-		a = a / b ; 
+		b = t -> this.number.this.integer ;
+		a = a / b ;
 	}
-	quotient = make_integer(a) ; 
-	return quotient; 
+	quotient = make_integer(a) ;
+	return quotient;
 }
 object remainder(object nums) {
 	long a = 1 ;
-	long b = 1 ; 
+	long b = 1 ;
 	object quotient = NULL ;
 	object t = NULL;
 	if (nums == nil || nums->this.pair.cdr == nil  ) {
-		WARNING_MSG("Erreur, remainder prend au moins prend deux arguments");
-		return NULL ; 
-	}
-	t = sfs_eval (nums->this.pair.car) ; 
-	if (t == NULL ){
+		WARNING_MSG("Erreur, remainder prend au moins deux arguments");
 		return NULL ;
 	}
+	t = nums->this.pair.car ;
 	if (t ->type != SFS_NUMBER ){
 		WARNING_MSG("Erreur, remainder ne prend en argument que des entiers");
 		return NULL ;
@@ -463,11 +396,8 @@ object remainder(object nums) {
 	a = t-> this .number.this.integer ;
 
 	while (nums->this.pair.cdr != nil){
-		nums = nums->this.pair.cdr ; 
-		t =sfs_eval(nums->this.pair.car); 
-		if (t == NULL ){
-			return NULL ;
-		}
+		nums = nums->this.pair.cdr ;
+		t =nums->this.pair.car;
 		if (t ->type != SFS_NUMBER ){
 			WARNING_MSG("Erreur, remainder ne prend en argument que des entiers");
 			return NULL ;
@@ -476,121 +406,69 @@ object remainder(object nums) {
 			WARNING_MSG("Erreur, division par 0 impossible");
 			return NULL ;
 		}
-		b = t -> this.number.this.integer ; 
-		a = a % b ; 
+		b = t -> this.number.this.integer ;
+		a = a % b ;
 	}
-	quotient = make_integer(a) ; 
-	return quotient; 
+	quotient = make_integer(a) ;
+	return quotient;
 }
 
 
-
 object egal(object nums) {
-	
-	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums) != nil ) {
-		WARNING_MSG("Erreur, =  prend deux arguments");
+	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
+		WARNING_MSG("Erreur, = prend deux arguments");
 		return NULL ;
 	}
-	if (sfs_eval (nums->this.pair.car) == NULL || sfs_eval (cadr(nums)) == NULL ) {
-			return NULL ;
+	if (nums->this.pair.car -> type != SFS_NUMBER || cadr(nums) -> type != SFS_NUMBER ) {
+		WARNING_MSG("Erreur, = ne prend en argument que des entiers");
+		return NULL ;
 	}
- 
-	if (sfs_eval (nums->this.pair.car)->type != sfs_eval(cadr(nums))->type ) {
-		WARNING_MSG("Erreur, les deux arguments de = doivent être du même type");
-		return NULL ; 
+	if( nums->this.pair.car->this.number.this.integer == cadr(nums)->this.number.this.integer) {
+		return vrai;
 	}
-	
-	switch (sfs_eval (nums->this.pair.car)->type) {
-	
-	 	case SFS_SYMBOL : 
-			if (sfs_eval (nums->this.pair.car) == sfs_eval (cadr(nums)) ) {
-				return vrai; 
-			}
-			else {
-				return faux ; 
-			}
-
-		case SFS_NUMBER :
-			if( sfs_eval (nums->this.pair.car)->this.number.this.integer == sfs_eval (cadr(nums))->this.number.this.integer ) {
-				return vrai; 
-			}
-			else {
-				return faux ; 
-			}
-		case SFS_CHARACTER :
-			if( sfs_eval (nums->this.pair.car)->this.character == sfs_eval (cadr(nums))->this.character ) {
-				return vrai; 
-			}
-			else {
-				return faux ; 
-			}
-		case SFS_STRING:
-			if( strcmp (sfs_eval (nums->this.pair.car)->this.string, sfs_eval (cadr(nums))->this.string)==0) {
-				return vrai; 
-			}
-			else {
-				return faux ; 
-			}
-		case SFS_BOOLEAN : 
-			if (sfs_eval (nums->this.pair.car) != sfs_eval (cadr(nums)) ){
-				return faux ; 
-			}
-			else {
-				return vrai ;
-			}
-		
-		
-		
+	else {
+		return faux ;
 	}
-	
-		return vrai ; 
-	
 }
 
 
 object inf(object nums) {
-	
+
 	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
 		WARNING_MSG("Erreur, < prend deux arguments");
-		return NULL ; 
-	}	
-	if (sfs_eval (nums->this.pair.car) == NULL || sfs_eval (cadr(nums)) == NULL ){
 		return NULL ;
 	}
-	if (sfs_eval(nums->this.pair.car) -> type != SFS_NUMBER || sfs_eval(cadr(nums)) -> type != SFS_NUMBER ) {
+	if (nums->this.pair.car -> type != SFS_NUMBER || cadr(nums) -> type != SFS_NUMBER ) {
 		WARNING_MSG("Erreur, < ne prend en argument que des entiers");
-		return NULL ; 
+		return NULL ;
 	}
 
-	if( sfs_eval (nums->this.pair.car)->this.number.this.integer < sfs_eval(cadr(nums))->this.number.this.integer) {
-		return vrai; 
+	if( nums->this.pair.car->this.number.this.integer < cadr(nums)->this.number.this.integer) {
+		return vrai;
 	}
 	else {
-		return faux ; 
+		return faux ;
 	}
 
 }
 
 object sup(object nums) {
-	
+
 	if (nums == nil || nums->this.pair.cdr == nil || cddr(nums)!= nil ) {
 		WARNING_MSG("Erreur, > prend deux arguments");
-		return NULL ; 
-	}
-
-	if (sfs_eval (nums->this.pair.car) == NULL || sfs_eval (cadr(nums)) == NULL ){
 		return NULL ;
 	}
-	if (sfs_eval(nums->this.pair.car) -> type != SFS_NUMBER || sfs_eval(cadr(nums)) -> type != SFS_NUMBER ) {
+
+	if (nums->this.pair.car -> type != SFS_NUMBER || cadr(nums) -> type != SFS_NUMBER ) {
 		WARNING_MSG("Erreur, > ne prend en argument que des entiers");
-		return NULL ; 
+		return NULL ;
 	}
 
-	if( sfs_eval (nums->this.pair.car)->this.number.this.integer > sfs_eval(cadr(nums))->this.number.this.integer) {
-		return vrai; 
+	if( nums->this.pair.car->this.number.this.integer > cadr(nums)->this.number.this.integer) {
+		return vrai;
 	}
 	else {
-		return faux ; 
+		return faux ;
 	}
 
 }
@@ -609,7 +487,7 @@ object list(object o){
 		return NULL;
 	}
 	do{
-		l->this.pair.car = sfs_eval(l->this.pair.car);
+		l->this.pair.car = l->this.pair.car;
 		l = l->this.pair.cdr;
 	}
 	while(l != nil);
@@ -620,198 +498,206 @@ object cons(object list) {
 	object newobject = NULL ;
 	if (list == nil || list->this.pair.cdr == nil || cddr(list) != nil) {
 		WARNING_MSG("Erreur, cons prend deux arguments");
-		return NULL ; 
-		
+		return NULL ;
+
 	}
 
-	if (sfs_eval (list->this.pair.car) == NULL || sfs_eval (cadr(list)) == NULL ){
-		return NULL ;
-	}
-	
-	newobject = make_pair(sfs_eval(list->this.pair.car), sfs_eval(cadr(list))) ;
+
+	newobject = make_pair(list->this.pair.car, cadr(list)) ;
 	return newobject ;
 }
 
 object car(object list) {
-	object evalcar = NULL ; 
-	
+	object evalcar = NULL ;
+
 	if (list == nil || list->this.pair.cdr != nil ){
 		WARNING_MSG("Erreur, car prend un argument");
-		return NULL ; 
+		return NULL ;
 	}
 
 	if (list->this.pair.car->type != SFS_PAIR) {
 		WARNING_MSG("Erreur, car ne prend en argument qu'une liste");
-		return NULL ; 
-	}
-
-
-	
-	if (sfs_eval (list->this.pair.car) == NULL ){
 		return NULL ;
 	}
-	if (sfs_eval (list->this.pair.car) ->type != SFS_PAIR ) {
+
+
+	if (list->this.pair.car ->type != SFS_PAIR ) {
 		WARNING_MSG("Erreur, l'expression est invalide");
 		return NULL ;
 	}
-	evalcar =  sfs_eval(list->this.pair.car)->this.pair.car ; 
+	evalcar =  list->this.pair.car->this.pair.car ;
 	return evalcar ;
 }
 
 object cdr(object list) {
-	object evalcar = NULL ; 
-	
+	object evalcar = NULL ;
+
 	if (list == nil || list->this.pair.cdr != nil ){
 		WARNING_MSG("Erreur, cdr prend un argument");
-		return NULL ; 
-	}	
+		return NULL ;
+	}
 
 	if (list->this.pair.car->type != SFS_PAIR) {
 		WARNING_MSG("Erreur, cdr ne prend en argument qu'une liste");
-		return NULL ; 
-	}
-
-	if (sfs_eval (list->this.pair.car) == NULL ){
 		return NULL ;
 	}
-	if (sfs_eval (list->this.pair.car) ->type != SFS_PAIR ) {
+
+	if (list->this.pair.car ->type != SFS_PAIR ) {
 		WARNING_MSG("Erreur, l'expression est invalide");
 		return NULL ;
 	}
-	
-	evalcar =  sfs_eval(list->this.pair.car)->this.pair.cdr ; 
+
+	evalcar =  list->this.pair.car->this.pair.cdr ;
 	return evalcar ;
 }
 
+
+object eqv(object o) {
+	if (o == nil || o->this.pair.cdr == nil || cddr(o) != nil ) {
+		WARNING_MSG("Erreur, eqv?  prend deux arguments");
+		return NULL ;
+	}
+	if (o->this.pair.car == NULL || cadr(o) == NULL ) {
+			return NULL ;
+	}
+
+	if (o->this.pair.car->type != cadr(o)->type ) {
+		return faux ;
+	}
+	switch (o->this.pair.car->type) {
+
+	 	case SFS_SYMBOL :
+			if (o->this.pair.car == cadr(o) ) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+
+		case SFS_NUMBER :
+			if( o->this.pair.car->this.number.this.integer == cadr(o)->this.number.this.integer ) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+		case SFS_CHARACTER :
+			if( o->this.pair.car->this.character == cadr(o)->this.character ) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+		case SFS_STRING:
+			if(o->this.pair.car == cadr(o)) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+			case SFS_PAIR:
+				if(o->this.pair.car == cadr(o)) {
+					return vrai;
+				}
+				else {
+					return faux ;
+				}
+		case SFS_BOOLEAN :
+			if (o->this.pair.car != cadr(o) ){
+				return faux ;
+			}
+			else {
+				return vrai ;
+			}
+	}
+		return vrai ;
+}
+
+
 object eq(object o){
-	object o1 = NULL;
-	object o2 = NULL;
-	if(o->type == SFS_NIL){
-		WARNING_MSG("eq? admet deux arguments");
-		return NULL;
+	if (o == nil || o->this.pair.cdr == nil || cddr(o) != nil ) {
+		WARNING_MSG("Erreur, eq?  prend deux arguments");
+		return NULL ;
 	}
-	if(cddr(o)->type != SFS_NIL){
-		WARNING_MSG("eq? admet que deux arguments");
-		return NULL;
+	if (o->this.pair.car == NULL || cadr(o) == NULL ) {
+			return NULL ;
 	}
-	o1 = o->this.pair.car;
-	o2 = cadr(o);
-	if(o1->type == SFS_NUMBER && o2->type == SFS_NUMBER){
-		if(o2->this.number.this.integer == o1->this.number.this.integer){
-			return vrai;
-		}
-		return faux;
+
+	if (o->this.pair.car->type != cadr(o)->type ) {
+		return faux ;
 	}
-	if(o1->type == SFS_NUMBER && o2->type != SFS_NUMBER){
-		if(sfs_eval(o2) == NULL){
-			return NULL;
-		}
-		if(sfs_eval(o2)->type == SFS_NUMBER){
-			if(sfs_eval(o2)->this.number.this.integer == o1->this.number.this.integer){
+	switch (o->this.pair.car->type) {
+
+	 	case SFS_SYMBOL :			/* <=> eqv? */
+			if (o->this.pair.car == cadr(o) ) {
 				return vrai;
 			}
-			return faux;
-		}
-		else{
-			return faux;
-		}
-	}
-	if(o1->type != SFS_NUMBER && o2->type == SFS_NUMBER){
-		if(sfs_eval(o2) == NULL){
-			return NULL;
-		}
-		if(sfs_eval(o1)->type == SFS_NUMBER){
-			if(sfs_eval(o1)->this.number.this.integer == o2->this.number.this.integer){
+			else {
+				return faux ;
+			}
+
+		case SFS_NUMBER :			/*#t si même adresse en mémoire*/
+			if(o->this.pair.car == cadr(o)) {
 				return vrai;
 			}
-			return faux;
-		}
-		else{
-			return faux;
-		}
+			else {
+				return faux ;
+			}
+		case SFS_CHARACTER :	/*#t si même adresse en mémoire*/
+			if(o->this.pair.car == cadr(o)) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+		case SFS_STRING:			/* <=> eqv? */
+			if(o->this.pair.car == cadr(o)) {
+				return vrai;
+			}
+			else {
+				return faux ;
+			}
+			case SFS_PAIR:			/* <=> eqv? */
+				if(o->this.pair.car == cadr(o)) {
+					return vrai;
+				}
+				else {
+					return faux ;
+				}
+		case SFS_BOOLEAN :			/* <=> eqv? */
+			if (o->this.pair.car != cadr(o) ){
+				return faux ;
+			}
+			else {
+				return vrai ;
+			}
 	}
-	if(sfs_eval(o2) == NULL || sfs_eval(o1) == NULL){
-		return NULL;
-	}
-	if(sfs_eval(o2)==sfs_eval(o1)){
-		return vrai;
-	}
-	return faux;
+		return vrai ;
 }
 
 object setcar(object list) {
-	object p = NULL;
-	object pairvar = NULL;
 	if (list == nil || list->this.pair.cdr == nil || cddr(list) != nil ){
 		WARNING_MSG("Erreur, set-car! prend deux arguments");
 		return NULL ;
 	}
-	p = sfs_eval (list->this.pair.car);
-	if ( p == NULL || sfs_eval (cadr (list)) == NULL ){
-		return NULL ;
-	}
-	if (p->type != SFS_PAIR ) {
+	if (list->this.pair.car->type != SFS_PAIR ) {
 		WARNING_MSG("Erreur, la primitive set-car! prend en premier argument une paire");
 		return NULL ;
 	}
-	p = make_pair(sfs_eval (cadr (list)),p->this.pair.cdr);
-	if(list->this.pair.car->type == SFS_SYMBOL){
-		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Erreur, la variable %s n'est pas définie", list->this.pair.car->this.symbol);
-			return nil;
-		}
-		else {
-			pairvar = in_lenv(list->this.pair.car);
-			if(pairvar == NULL){
-				return nil;
-			}
-			if(p == NULL){
-				return NULL;
-			}
-			else{
-				*pairvar=*make_pair(list->this.pair.car,p);
-				return list->this.pair.car ;
-			}
-		}
-	}
-	return p;
+	list->this.pair.car->this.pair.car = cadr (list);
+	return list->this.pair.car;
 }
 
-object setcdr(object list){
-	object p = NULL;
-	object pairvar = NULL;
+object setcdr(object list) {
 	if (list == nil || list->this.pair.cdr == nil || cddr(list) != nil ){
 		WARNING_MSG("Erreur, set-cdr! prend deux arguments");
 		return NULL ;
 	}
-	p = sfs_eval (list->this.pair.car);
-	if ( p == NULL || sfs_eval (cadr (list)) == NULL ){
-		return NULL ;
-	}
-	if (p->type != SFS_PAIR ) {
+	if (list->this.pair.car->type != SFS_PAIR ) {
 		WARNING_MSG("Erreur, la primitive set-cdr! prend en premier argument une paire");
 		return NULL ;
 	}
-	p = make_pair(p->this.pair.car,sfs_eval (cadr (list)));
-	if(list->this.pair.car->type == SFS_SYMBOL){
-		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Erreur, la variable %s n'est pas définie", list->this.pair.car->this.symbol);
-			return nil;
-		}
-		else {
-			pairvar = in_lenv(list->this.pair.car);
-			if(pairvar == NULL){
-				return nil;
-			}
-			if(p == NULL){
-				return NULL;
-			}
-			else{
-				*pairvar=*make_pair(list->this.pair.car,p);
-				return list->this.pair.car ;
-			}
-		}
-	}
-	return p;
+	list->this.pair.car->this.pair.cdr = cadr (list);
+	return list->this.pair.car;
 }
 
