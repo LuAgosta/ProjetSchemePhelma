@@ -198,6 +198,26 @@ object sfs_eval( object input ) {
 			return vrai;
 		}
 
+		/* begin */
+		if (is_form ("begin" , input)) {
+			if (input->this.pair.cdr == nil) {
+				WARNING_MSG("Erreur, la forme begin doit prendre minimum un argument");
+				return NULL;
+			}
+			object output = NULL ; 
+			while (input->this.pair.cdr != nil) {
+				input = input->this.pair.cdr ;
+				output = input->this.pair.car ;
+				if (sfs_eval(output) == NULL ) {
+					return NULL ; 
+				}
+				else { 
+					output = sfs_eval(output) ; 
+				}
+			}
+			return output ; 
+		}
+
 /* pair invalide */
 	if (input->type == SFS_PAIR ) {
 		
