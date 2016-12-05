@@ -27,6 +27,14 @@ typedef struct pair_t {
 	
 typedef struct object_t *(*primitive)( struct object_t *);
 
+typedef struct compound_t{
+ 
+	struct object_t *parms ; 
+	struct object_t *body ; 
+	struct object_t *env ; 
+} compound ; 
+
+
 typedef struct object_t {
 
     uint type;
@@ -39,6 +47,7 @@ typedef struct object_t {
         string           symbol;
 	pair 		 pair;
   	primitive        primitive;
+	compound 	 compound  ;
         struct object_t *special;
 
     } this;
@@ -76,6 +85,7 @@ object cadddr(object o);
 #define SFS_BOOLEAN      0x05
 #define SFS_SYMBOL       0x06
 #define SFS_PRIMITIVE    0x07
+#define SFS_COMPOUND	 0x08
 
 extern object nil;
 extern object vrai;
