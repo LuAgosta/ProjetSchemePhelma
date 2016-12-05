@@ -120,12 +120,24 @@ object make_string(char* st) {
 
 }
 
+
+object make_compound ( object parms, object body, object env) {
+
+	object comp = make_object(SFS_COMPOUND) ; 
+
+	comp->this.compound.parms = parms ;
+	comp->this.compound.body = body ;
+	comp->this.compound.env = env ;
+
+	return comp ; 
+}
 /*Modifier un object*/
 void modify_object(object tomod, object mod) {
 
 	tomod -> type = mod -> type ; 
 	tomod -> this = mod -> this ;  
 }
+
 
 object caar(object o){
 	return(o->this.pair.car->this.pair.car);
