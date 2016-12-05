@@ -10,7 +10,6 @@
 
 #include "eval.h"
 #include "prim.h"
-
 /* Regarder la forme ou l'opérateur */
 int is_form (char* name, object input ) {
 
@@ -20,7 +19,24 @@ int is_form (char* name, object input ) {
 	return 0 ;
 }
 
-
+object sfs_eval_list( object input){
+	object output = input;
+	object o;
+	while (input->this.pair.cdr->type != SFS_NIL){
+		o = sfs_eval(input->this.pair.car);
+		if(o==NULL){
+			return NULL;
+		}
+		input->this.pair.car = o;
+		input = input->this.pair.cdr;
+	}
+	o = sfs_eval(input->this.pair.car);
+	if(o==NULL){
+		return NULL;
+	}
+	input->this.pair.car = o;
+	return output;
+}
 
 object sfs_eval( object input ) {
 	object output = NULL;
@@ -61,8 +77,8 @@ object sfs_eval( object input ) {
 		}
 	/*}*/
 	}
-	
-	
+
+
 	/** formes**/
 	/* quote */
 	if ( is_form ( "quote", input)){
@@ -262,18 +278,20 @@ object sfs_eval( object input ) {
 			val = val->this.pair.cdr;
 			if(val != NULL) {
 				if(val->type == SFS_PRIMITIVE){
-					return((val->this.primitive)(input->this.pair.cdr));
+					o = sfs_eval_list(input->this.pair.cdr);
+					if(o==NULL){
+						return NULL;
+					}
+					return((val->this.primitive)(o));
 				}
 				else {
 					WARNING_MSG(" %s n'est pas une fonction" , input->this.pair.car-> this.symbol) ;
-					return NULL ; 
+					return NULL ;
 				}
 			}
 		}
 		return NULL;
 	}
-
-
 
   return input;
 }
