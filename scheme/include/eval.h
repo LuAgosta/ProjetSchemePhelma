@@ -21,6 +21,7 @@ extern "C" {
 int is_form (char* , object ) ;
 
 object sfs_eval( object );
+object sfs_eval_list( object input);
 
 #ifdef __cplusplus
 }
