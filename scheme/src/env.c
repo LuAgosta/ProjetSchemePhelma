@@ -2,14 +2,20 @@
 #include "env.h"
 
 /*Ajouter un environnement*/
-void addenv(void){
-	lenv = make_pair(nil,lenv);
+object addenv(void){
+	return make_pair(nil,lenv);
 }
 
 /*Ajouter une variable et sa valeur dans l'environnement courant*/
 void addvar(object var, object val){
 	object o = lenv->this.pair.car;
 	lenv->this.pair.car = make_pair(make_pair(var,val),o);
+}
+
+/*Ajouter une variable et sa valeur dans l'environnement env*/
+void addvarenv(object var, object val, object env){
+	object o = env->this.pair.car;
+	env->this.pair.car = make_pair(make_pair(var,val),o);
 }
 
 /*Recherche d'une variable dans l'environnements courant*/
