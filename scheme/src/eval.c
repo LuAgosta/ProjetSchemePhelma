@@ -104,7 +104,7 @@ object sfs_eval( object input ) {
 				return NULL;
 			}
 			addvar(output,o);
-			return output;
+			return noreturnscheme;
 		}
 		else {
 			object val = in_envc(output);
@@ -114,7 +114,7 @@ object sfs_eval( object input ) {
 					return NULL;
 				}
 				addvar(output,sfs_eval(caddr(input)));
-				return output;
+				return noreturnscheme;
 			}
 			else {
 				o = sfs_eval(caddr(input));
@@ -135,12 +135,12 @@ object sfs_eval( object input ) {
 		object pairvar = NULL;
 		if (lenv -> this.pair.car == nil){
 			WARNING_MSG("Erreur, la variable %s n'est pas définie", cadr(input)->this.symbol);
-			return nil;
+			return NULL;
 		}
 		else {
 			pairvar = in_lenv(cadr(input));
 			if(pairvar == NULL){
-				return nil;
+				return NULL;
 			}
 			else {
 				o = sfs_eval(caddr(input));
@@ -149,7 +149,7 @@ object sfs_eval( object input ) {
 				}
 				else{
 					*pairvar=*make_pair(cadr(input),o);
-					return cadr(input) ;
+					return noreturnscheme ;
 				}
 			}
 		}
