@@ -10,6 +10,8 @@
 
 #include "eval.h"
 #include "prim.h"
+#include "print.h"
+
 /* Regarder la forme ou l'opérateur */
 int is_form (char* name, object input ) {
 
@@ -19,18 +21,37 @@ int is_form (char* name, object input ) {
 	return 0 ;
 }
 
-object sfs_eval_list( object input){
+object formbegin(object input, object env){
+	object output = NULL ;
+	output = input->this.pair.car;
+	if(output != nil){
+		output = sfs_eval(output,env);
+	}
+	while (input->this.pair.cdr != nil) {
+		input = input->this.pair.cdr ;
+		output = sfs_eval(input->this.pair.car,env) ;
+		if (output == NULL ) {
+			return NULL ;
+		}
+		else {
+			output = sfs_eval(output,env) ;
+		}
+	}
+	return output ;
+}
+
+object sfs_eval_list( object input, object envc){
 	object output = input;
-	object o;
+	object o = NULL;
 	while (input->this.pair.cdr->type != SFS_NIL){
-		o = sfs_eval(input->this.pair.car);
+		o = sfs_eval(input->this.pair.car, envc);
 		if(o==NULL){
 			return NULL;
 		}
 		input->this.pair.car = o;
 		input = input->this.pair.cdr;
 	}
-	o = sfs_eval(input->this.pair.car);
+	o = sfs_eval(input->this.pair.car,envc);
 	if(o==NULL){
 		return NULL;
 	}
@@ -38,32 +59,23 @@ object sfs_eval_list( object input){
 	return output;
 }
 
-object sfs_eval( object input ) {
+object sfs_eval( object input, object envc) {
 	object output = NULL;
 	object o = NULL;
 	restart :
 	/*auto-evaluants*/
-	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR) && (input->type != SFS_NIL)) {
+	if ((input->type != SFS_SYMBOL) && (input->type != SFS_PAIR)) {
 		return input ;
 	}
 
-	/*Pour faire un test évolué de set! et define (voir le README dans ../scheme/tests_step1/setdefenv)*/
-	/*if(input->type == SFS_SYMBOL){
-		if(strcmp(input->this.symbol,"addenv") == 0){
-			addenv();
-			INFO_MSG("Un nouvelle environnement a été créé");
-		}
-	}*/
-
 	/*Existence de la variable dans un environnement ?*/
 	if( input->type == SFS_SYMBOL ){
-		/*if(strcmp(input->this.symbol,"addenv") != 0){*/
 		if (lenv -> this.pair.car == nil){
 			WARNING_MSG("Erreur, la variable %s n'est pas définie",input->this.symbol);
 			return NULL;
 		}
 		else {
-			object val = in_lenv(input);
+			object val = in_envs(input,envc);
 			if(val == NULL){
 				return NULL;
 			}
@@ -75,7 +87,6 @@ object sfs_eval( object input ) {
 				return NULL;
 			}
 		}
-	/*}*/
 	}
 
 
@@ -98,26 +109,26 @@ object sfs_eval( object input ) {
 			WARNING_MSG("Erreur, define prend deux arguments");
 			return NULL;
 		}
-		if ( lenv-> this.pair.car == nil ) {
-			o = sfs_eval(caddr(input));
+		if ( envc-> this.pair.car == nil ) {
+			o = sfs_eval(caddr(input),envc);
 			if(o == NULL){
 				return NULL;
 			}
-			addvar(output,o);
+			addvarenv(output,o, envc);
 			return noreturnscheme;
 		}
 		else {
 			object val = in_envc(output);
 			if (val == NULL ){
-				o = sfs_eval(caddr(input));
+				o = sfs_eval(caddr(input),envc);
 				if(o == NULL){
 					return NULL;
 				}
-				addvar(output,sfs_eval(caddr(input)));
+				addvarenv(output,sfs_eval(caddr(input),envc),envc);
 				return noreturnscheme;
 			}
 			else {
-				o = sfs_eval(caddr(input));
+				o = sfs_eval(caddr(input),envc);
 				if(o == NULL){
 					return NULL;
 				}
@@ -138,12 +149,12 @@ object sfs_eval( object input ) {
 			return NULL;
 		}
 		else {
-			pairvar = in_lenv(cadr(input));
+			pairvar = in_envs(cadr(input),envc);
 			if(pairvar == NULL){
 				return NULL;
 			}
 			else {
-				o = sfs_eval(caddr(input));
+				o = sfs_eval(caddr(input),envc);
 				if(o == NULL){
 					return NULL;
 				}
@@ -165,7 +176,7 @@ object sfs_eval( object input ) {
 			WARNING_MSG("Erreur, la forme if doit être formulée suivant le schéma : (if predicat consequence alternative)");
 			return NULL;
 		}*/
-		if (faux == sfs_eval(cadr(input))) {
+		if (faux == sfs_eval(cadr(input),envc)) {
 			input = cadddr(input) ;
 			goto restart ;
 		}
@@ -187,7 +198,7 @@ object sfs_eval( object input ) {
 			}
 			while (input->this.pair.cdr != nil ) {
 				input = input->this.pair.cdr ;
-				if (sfs_eval(input->this.pair.car) == vrai ) {
+				if (sfs_eval(input->this.pair.car,envc) == vrai ) {
 					return vrai ;
 				}
 
@@ -207,7 +218,7 @@ object sfs_eval( object input ) {
 			}
 			while (input->this.pair.cdr != nil ) {
 				input = input->this.pair.cdr ;
-				if (sfs_eval(input->this.pair.car) == faux ){
+				if (sfs_eval(input->this.pair.car,envc) == faux ){
 					return faux ;
 				}
 			}
@@ -220,27 +231,66 @@ object sfs_eval( object input ) {
 				WARNING_MSG("Erreur, la forme begin doit prendre minimum un argument");
 				return NULL;
 			}
-			object output = NULL ; 
-			while (input->this.pair.cdr != nil) {
-				input = input->this.pair.cdr ;
-				output = input->this.pair.car ;
-				if (sfs_eval(output) == NULL ) {
-					return NULL ; 
-				}
-				else { 
-					output = sfs_eval(output) ; 
-				}
-			}
-			return output ; 
+			return formbegin(input->this.pair.cdr,envc);
 		}
+
+		/* lambda */
+		if (is_form ("lambda" , input)) {
+			/*if (input->this.pair.cdr == nil  || cdddr(input) != nil ) {
+				WARNING_MSG("Erreur, la forme lambda doit prend deux arguments");
+				return NULL;
+			}
+			else {*/
+			if(input->this.pair.cdr == nil || cddr(input) == nil){
+				WARNING_MSG("Erreur, la forme lambda prend au moins deux arguments");
+				return NULL;
+			}
+				object agregat = NULL ;
+				agregat = make_compound(cadr(input) , cddr (input) , envc ) ;
+				return agregat ;
+			/*}*/
+		}
+
+		/* compound */
+		o = sfs_eval(input->this.pair.car, envc);
+		if ( input-> type == SFS_PAIR && o-> type == SFS_COMPOUND ) {
+			if (input-> this.pair.cdr == nil) {
+				WARNING_MSG("Erreur");
+				return NULL;
+			}
+			else {
+				object output = NULL ;
+				object newenv = NULL;
+				object b = NULL;
+				b = copyobject(o->this.compound.body);
+				object listpara = o-> this.compound.parms;
+				object listval = input->this.pair.cdr ;
+				newenv = addenv() ;
+				while ( listpara->this.pair.cdr != nil) {
+					if(listval->this.pair.cdr != nil){
+						addvarenv (listpara-> this.pair.car , listval->this.pair.car, newenv);
+					}
+					else{
+						WARNING_MSG("Nombre d'argument insuffisant");
+						return NULL;
+					}
+					listpara = listpara->this.pair.cdr;
+					listval = listval->this.pair.cdr;
+				}
+				addvarenv (listpara-> this.pair.car , listval->this.pair.car, newenv);
+				output = formbegin (b, newenv ) ;
+				return output  ;
+			}
+		}
+
 
 /* pair invalide */
 	if (input->type == SFS_PAIR ) {
-		
+
 		switch (input->this.pair.car->type ) {
-		
-		
-			case SFS_NUMBER : 
+
+
+			case SFS_NUMBER :
 				WARNING_MSG(" %ld n'est pas une fonction" , input->this.pair.car-> this.number.this.integer) ;
 				return NULL ;
 
@@ -248,11 +298,11 @@ object sfs_eval( object input ) {
 				WARNING_MSG(" %s n'est pas un fonction" , input->this.pair.car-> this.string) ;
 				return NULL ;
 
-			case SFS_CHARACTER : 
+			case SFS_CHARACTER :
 				WARNING_MSG(" %c n'est pas une fonction" , input->this.pair.car-> this.character) ;
 				return NULL ;
-			
-			case SFS_BOOLEAN : 
+
+			case SFS_BOOLEAN :
 				if (input-> this.pair.car == vrai ) {
 				WARNING_MSG(" #t n'est pas une fonction" ) ;
 				return NULL ;
@@ -261,24 +311,24 @@ object sfs_eval( object input ) {
 				WARNING_MSG(" #f n'est pas une fonction") ;
 				return NULL ;
 				}
-			case SFS_NIL : 
+			case SFS_NIL :
 				WARNING_MSG(" () n'est pas une fonction" ) ;
-				return NULL ;		
-		
-				
+				return NULL ;
+
+
 		}
-	}	
+	}
 	/**primitives**/
 	if(input->type == SFS_PAIR){
 		if(input->this.pair.car->type == SFS_SYMBOL){
-			object val = in_lenv(input->this.pair.car);
+			object val = in_envs(input->this.pair.car,envc);
 			if(val ==NULL){
 				return NULL;
 			}
 			val = val->this.pair.cdr;
 			if(val != NULL) {
 				if(val->type == SFS_PRIMITIVE){
-					o = sfs_eval_list(input->this.pair.cdr);
+					o = sfs_eval_list(input->this.pair.cdr,envc);
 					if(o==NULL){
 						return NULL;
 					}
