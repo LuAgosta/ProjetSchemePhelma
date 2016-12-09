@@ -272,7 +272,7 @@ int main ( int argc, char *argv[] ) {
             continue ;
         }
 
-        output = sfs_eval( sexpr );
+        output = sfs_eval( sexpr, lenv );
         if( NULL == output) {
             /* si fichier alors on sort*/
             if (mode == SCRIPT) {
