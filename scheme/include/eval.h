@@ -17,11 +17,11 @@ extern "C" {
 
 #include "object.h"
 #include "env.h"
-  
-int is_form (char* , object ) ;
 
-object sfs_eval( object );
-object sfs_eval_list( object input);
+int is_form (char* , object ) ;
+object formbegin(object input, object env);
+object sfs_eval( object, object );
+object sfs_eval_list( object, object);
 
 #ifdef __cplusplus
 }
