@@ -76,6 +76,7 @@ object caddr(object o);
 object cdaar(object o);
 object cdddr(object o);
 object cadddr(object o);
+object copyobject(object input);
 
 
 #define SFS_NUMBER       0x00
