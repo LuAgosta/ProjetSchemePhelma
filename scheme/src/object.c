@@ -174,3 +174,41 @@ object cdddr(object o){
 object cadddr(object o){
 	return(cdddr(o)->this.pair.car);
 }
+
+object copyobject(object input){    /*pas les primitives et les coumpounds pour l'instant*/
+  object output = NULL;
+  switch(input->type){
+
+    case SFS_NIL :
+      output = nil;
+    break;
+
+    case SFS_NUMBER :
+      output = make_integer(input->this.number.this.integer);
+    break;
+
+    case SFS_SYMBOL :
+      output = make_symbol(input->this.symbol);
+    break;
+
+    case SFS_STRING :
+      output = make_string(input->this.string);
+    break;
+
+    case SFS_BOOLEAN :
+      if (input == vrai){
+        output = vrai;
+      }
+      output = faux;
+    break;
+
+    case SFS_PAIR :
+      output = make_pair(copyobject(input->this.pair.car),copyobject(input->this.pair.cdr));
+    break;
+
+    case SFS_CHARACTER :
+      output = make_char(input->this.character);
+    break;
+  }
+  return output;
+}
