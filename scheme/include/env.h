@@ -9,9 +9,9 @@ extern "C" {
 
 void addvar(object var, object val);
 void addvarenv(object var, object val, object env);
-object addenv(void);
+object addenv();
 object in_envc(object var);
-object in_lenv(object var);
+object in_envs(object var, object env);
 
 #ifdef __cplusplus
 }
