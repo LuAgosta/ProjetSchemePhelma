@@ -35,6 +35,7 @@ void usage_error( char *command ) {
 object nil;
 object faux;
 object vrai;
+object noreturnscheme;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
 
