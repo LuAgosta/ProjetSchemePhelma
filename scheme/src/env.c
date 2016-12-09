@@ -2,7 +2,7 @@
 #include "env.h"
 
 /*Ajouter un environnement*/
-object addenv(void){
+object addenv(){
 	return make_pair(nil,lenv);
 }
 
@@ -34,8 +34,8 @@ object in_envc(object var){
 }
 
 /*Recherche d'une variable dans l'ensemble des environnements*/
-object in_lenv(object var){
-	object k = lenv;
+object in_envs(object var, object env){
+	object k = env;
 	object l;
 	while(k->this.pair.cdr != nil){
 		l = k->this.pair.car;
@@ -63,3 +63,4 @@ object in_lenv(object var){
 	WARNING_MSG("Erreur, la variable %s n'est pas définie",var->this.string);
 	return NULL;
 }
+
