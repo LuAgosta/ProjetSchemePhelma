@@ -68,7 +68,12 @@ void sfs_print_atom( object o ) {
 			}
 			else {
 				printf ("#f"); 
-			} 
+			}
+		break ;
+		
+		case SFS_COMPOUND :
+			printf("#<procedure>");
+		break ;
 	
 	}
 		
