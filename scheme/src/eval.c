@@ -81,7 +81,7 @@ object sfs_eval( object input, object envc) {
 			}
 			val = val->this.pair.cdr;
 			if(val != NULL) { /* pour l'instant lenv = environnement courant*/
-				return val;
+				return sfs_eval(val, envc);
 			}
 			else {
 				return NULL;
