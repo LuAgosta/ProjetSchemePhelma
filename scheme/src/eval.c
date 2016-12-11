@@ -95,11 +95,19 @@ object sfs_eval( object input, object envc) {
 			return NULL;
 		}
 	}
-
+	
 	/*define*/
 	if ( is_form("define",input)){
 		output = cadr(input);
-		if( input->this.pair.cdr == nil || cdddr(input) != nil){
+		if( input->this.pair.cdr == nil){
+			WARNING_MSG("Erreur, define admet au moins deux arguments");
+			return NULL;
+		}
+		if(cadr(input)->type == SFS_PAIR){
+			input = make_pair(make_symbol("define"),make_pair(caadr(input) ,make_pair(make_pair(make_symbol("lambda") , make_pair(cdadr(input) , cddr(input))),nil)));
+			return (sfs_eval(input, envc));
+		}
+		if(cdddr(input) != nil){
 			WARNING_MSG("Erreur, define prend deux arguments");
 			return NULL;
 		}
@@ -109,6 +117,7 @@ object sfs_eval( object input, object envc) {
 				return NULL;
 			}
 			addvarenv(output,o, envc);
+
 			return noreturnscheme;
 		}
 		else {
