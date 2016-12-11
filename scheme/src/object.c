@@ -120,6 +120,15 @@ object make_string(char* st) {
 
 }
 
+object make_noreturnscheme(void){
+
+    object t = make_object( SFS_NORETURNSCHEME );
+
+    t->this.special = t;
+
+    return t;
+}
+
 
 object make_compound ( object parms, object body, object env) {
 
