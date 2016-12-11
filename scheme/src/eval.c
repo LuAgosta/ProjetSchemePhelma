@@ -144,8 +144,8 @@ object sfs_eval( object input, object envc) {
 	if ( is_form("set!", input)){
 		object o = NULL;
 		object pairvar = NULL;
-		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Erreur, la variable %s n'est pas définie", cadr(input)->this.symbol);
+		if( input->this.pair.cdr == nil || cdddr(input) != nil){
+			WARNING_MSG("Erreur, set! prend deux arguments");
 			return NULL;
 		}
 		else {
@@ -153,15 +153,13 @@ object sfs_eval( object input, object envc) {
 			if(pairvar == NULL){
 				return NULL;
 			}
-			else {
-				o = sfs_eval(caddr(input),envc);
-				if(o == NULL){
-					return NULL;
-				}
-				else{
-					*pairvar=*make_pair(cadr(input),o);
-					return noreturnscheme ;
-				}
+			o = sfs_eval(caddr(input),envc);
+			if(o == NULL){
+				return NULL;
+			}
+			else{
+				*pairvar=*make_pair(cadr(input),o);
+				return noreturnscheme ;
 			}
 		}
 	}
