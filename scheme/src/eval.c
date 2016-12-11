@@ -76,7 +76,7 @@ object sfs_eval( object input, object envc) {
 		}
 		val = val->this.pair.cdr;
 		if(val != NULL) {
-			return sfs_eval(val, envc);
+			return val;
 		}
 		else {
 			return NULL;
