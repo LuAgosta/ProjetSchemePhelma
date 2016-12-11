@@ -106,6 +106,7 @@ extern object ifinteger_p;
 extern object ifchar_p;
 extern object ifstring_p;
 extern object ifpair_p;
+extern object ifprocedure_p;
 
 extern object chartointeger_p;
 extern object integertochar_p;
