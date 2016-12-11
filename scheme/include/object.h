@@ -67,7 +67,6 @@ object make_pair(object o1, object o2);
 object make_string(string st);
 object make_noreturnscheme(void);
 object make_compound(object parms, object body, object env);
-void modify_object(object tomod, object mod);
 object caar(object o);
 object cadr(object o);
 object cdar(object o);
@@ -75,9 +74,12 @@ object cddr(object o);
 object cadar(object o);
 object caddr(object o);
 object cdaar(object o);
+object caadr(object o);
+object cdadr(object o);
 object cdddr(object o);
 object cadddr(object o);
 object copyobject(object input);
+
 
 
 #define SFS_NUMBER       0x00
