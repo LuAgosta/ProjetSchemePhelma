@@ -2,8 +2,8 @@
 #include "env.h"
 
 /*Ajouter un environnement*/
-object addenv(){
-	return make_pair(nil,lenv);
+object addenv(object env){
+	return make_pair(nil,env);
 }
 
 /*Ajouter une variable et sa valeur dans l'environnement courant*/
