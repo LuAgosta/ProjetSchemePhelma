@@ -46,6 +46,7 @@ object ifinteger_p;
 object ifchar_p;
 object ifstring_p;
 object ifpair_p;
+object ifprocedure_p;
 
 object chartointeger_p;
 object integertochar_p;
@@ -105,6 +106,9 @@ void init_interpreter ( void ) {
 
     ifpair_p = make_primitive(&ifpair);
     addvar(make_symbol("pair?"),ifpair_p);
+    
+    ifprocedure_p = make_primitive(&ifprocedure);
+    addvar(make_symbol("procedure?"),ifprocedure_p);
 
     chartointeger_p = make_primitive(&chartointeger);
     addvar(make_symbol("char->integer"),chartointeger_p);
