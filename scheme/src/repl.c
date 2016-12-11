@@ -80,6 +80,7 @@ void init_interpreter ( void ) {
     nil      = make_nil();
     vrai     = make_boolean();
     faux    = make_boolean();
+    noreturnscheme = make_noreturnscheme();
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
     
@@ -288,12 +289,11 @@ int main ( int argc, char *argv[] ) {
             continue ;
         }
 
-        printf( "==> " );
-        sfs_print(output);
-        printf( "\n" );
-        /*Pour afficherl'ensemble des environnements*/
-        /*sfs_print(lenv);
-        printf( "\n" );*/
+        if(output != noreturnscheme){
+          printf( "==> " );
+          sfs_print(output);
+          printf( "\n" );
+        }
     }
 
     if (mode == SCRIPT) {
