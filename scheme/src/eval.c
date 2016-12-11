@@ -273,7 +273,7 @@ object sfs_eval( object input, object envc) {
 			addvarenv (caar (listpara), sfs_eval(cadar (listpara),newenv) , newenv) ;
 			output = formbegin (cddr (input) , newenv) ; 
 			return output ; 
-		}*/
+		}
 		
 		/*let */
 		if (is_form ("let" , input)) {
