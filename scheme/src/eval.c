@@ -68,7 +68,7 @@ object sfs_eval( object input, object envc) {
 		return input ;
 	}
 
-	/*Existence de la variable dans un environnement ?*/
+	/*Existence de la variable ?*/
 	if( input->type == SFS_SYMBOL ){
 		object val = in_envs(input,envc);
 		if(val == NULL){
@@ -268,7 +268,7 @@ object sfs_eval( object input, object envc) {
 				object b = NULL;
 				b = copyobject(o->this.compound.body);
 				object listpara = o-> this.compound.parms;
-				object listval = input->this.pair.cdr ;
+				object listval = sfs_eval_list(input->this.pair.cdr,envc);
 				newenv = addenv(o->this.compound.env) ;
 				while ( listpara->this.pair.cdr != nil) {
 					if(listval->this.pair.cdr != nil){
