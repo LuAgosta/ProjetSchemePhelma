@@ -253,6 +253,9 @@ object sfs_eval( object input, object envc) {
 
 		/* compound */
 		o = sfs_eval(input->this.pair.car, envc);
+		if(o == NULL){
+			return NULL;
+		}
 		if ( input-> type == SFS_PAIR && o-> type == SFS_COMPOUND ) {
 			if (input-> this.pair.cdr == nil) {
 				WARNING_MSG("Erreur");
