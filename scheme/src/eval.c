@@ -70,22 +70,16 @@ object sfs_eval( object input, object envc) {
 
 	/*Existence de la variable dans un environnement ?*/
 	if( input->type == SFS_SYMBOL ){
-		if (lenv -> this.pair.car == nil){
-			WARNING_MSG("Erreur, la variable %s n'est pas définie",input->this.symbol);
+		object val = in_envs(input,envc);
+		if(val == NULL){
 			return NULL;
 		}
+		val = val->this.pair.cdr;
+		if(val != NULL) {
+			return sfs_eval(val, envc);
+		}
 		else {
-			object val = in_envs(input,envc);
-			if(val == NULL){
-				return NULL;
-			}
-			val = val->this.pair.cdr;
-			if(val != NULL) { /* pour l'instant lenv = environnement courant*/
-				return sfs_eval(val, envc);
-			}
-			else {
-				return NULL;
-			}
+			return NULL;
 		}
 	}
 
