@@ -66,8 +66,8 @@ object make_char(char ch);
 object make_pair(object o1, object o2);
 object make_string(string st);
 object make_noreturnscheme(void);
-object make_compound(object parms, object body, object env) ; 
-void modify_object(object tomod, object mod); 
+object make_compound(object parms, object body, object env);
+void modify_object(object tomod, object mod);
 object caar(object o);
 object cadr(object o);
 object cdar(object o);
@@ -89,6 +89,8 @@ object copyobject(object input);
 #define SFS_SYMBOL       0x06
 #define SFS_PRIMITIVE    0x07
 #define SFS_COMPOUND	 0x08
+#define SFS_NORETURNSCHEME	 0x09
+
 
 extern object nil;
 extern object vrai;
