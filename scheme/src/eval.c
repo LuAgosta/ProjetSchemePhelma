@@ -105,7 +105,7 @@ object sfs_eval( object input, object envc) {
 	/*define*/
 	if ( is_form("define",input)){
 		output = cadr(input);
-		if(cdddr(input) != nil){
+		if( input->this.pair.cdr == nil || cdddr(input) != nil){
 			WARNING_MSG("Erreur, define prend deux arguments");
 			return NULL;
 		}
