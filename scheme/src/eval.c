@@ -286,7 +286,45 @@ object sfs_eval( object input, object envc) {
 				return output  ;
 			}
 		}
-
+		/*let */
+		if (is_form ("let" , input)) { 
+			if (input-> this.pair.cdr == nil || input -> this.pair.cdr == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			object output = NULL ; 
+			object listpara = cadr(input) ;
+			object newenv = NULL ; 
+			newenv = addenv (envc); 
+			while (listpara -> this.pair.cdr != nil) {
+				addvarenv ( caar(listpara), sfs_eval(cadar (listpara), envc) , newenv ) ; 
+			
+				listpara = listpara->this.pair.cdr ; 
+			}
+			addvarenv (caar (listpara), sfs_eval(cadar (listpara),envc) , newenv) ;
+			output = formbegin (cddr (input) , newenv) ; 
+			return output ; 
+		}
+		
+		/* let* */ 
+		if (is_form ("let*" , input)) { 
+			if (input-> this.pair.cdr == nil || input -> this.pair.cdr == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			object output = NULL ; 
+			object listpara = cadr(input) ;
+			object newenv = NULL ; 
+			newenv = addenv (envc); 
+			while (listpara -> this.pair.cdr != nil) {
+				addvarenv ( caar(listpara), sfs_eval(cadar (listpara), newenv) , newenv ) ; 
+			
+				listpara = listpara->this.pair.cdr ; 
+			}
+			addvarenv (caar (listpara), sfs_eval(cadar (listpara),newenv) , newenv) ;
+			output = formbegin (cddr (input) , newenv) ; 
+			return output ; 
+		}
 
 /* pair invalide */
 	if (input->type == SFS_PAIR ) {
