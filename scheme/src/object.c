@@ -176,6 +176,14 @@ object cdaar(object o){
 	return(caar(o)->this.pair.cdr);
 }
 
+object caadr(object o){
+	return(cadr(o)->this.pair.car);
+}
+
+object cdadr(object o){
+	return(cadr(o)->this.pair.cdr);
+}
+
 object cdddr(object o){
 	return(cddr(o)->this.pair.cdr);
 }
