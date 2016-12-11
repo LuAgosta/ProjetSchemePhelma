@@ -265,7 +265,7 @@ object sfs_eval( object input, object envc) {
 				b = copyobject(o->this.compound.body);
 				object listpara = o-> this.compound.parms;
 				object listval = input->this.pair.cdr ;
-				newenv = addenv() ;
+				newenv = addenv(o->this.compound.env) ;
 				while ( listpara->this.pair.cdr != nil) {
 					if(listval->this.pair.cdr != nil){
 						addvarenv (listpara-> this.pair.car , listval->this.pair.car, newenv);
