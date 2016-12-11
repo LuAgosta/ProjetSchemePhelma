@@ -288,7 +288,7 @@ object sfs_eval( object input, object envc) {
 		}
 		/*let */
 		if (is_form ("let" , input)) { 
-			if (input-> this.pair.cdr == nil || input -> this.pair.cdr == nil ) {
+			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
 				WARNING_MSG("Erreur, let prend au moins deux arguments");
 				return NULL;
 			}
@@ -308,7 +308,7 @@ object sfs_eval( object input, object envc) {
 		
 		/* let* */ 
 		if (is_form ("let*" , input)) { 
-			if (input-> this.pair.cdr == nil || input -> this.pair.cdr == nil ) {
+			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
 				WARNING_MSG("Erreur, let prend au moins deux arguments");
 				return NULL;
 			}
@@ -326,6 +326,7 @@ object sfs_eval( object input, object envc) {
 			return output ; 
 		}
 
+		
 /* pair invalide */
 	if (input->type == SFS_PAIR ) {
 
