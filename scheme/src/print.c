@@ -14,10 +14,6 @@
 
 void sfs_print_atom( object o ) {
 	
-	if(o == noreturnscheme){
-		return;
-	}
-	
 	switch ( o->type ) {
 		case SFS_STRING : 
 	 		printf ("\"%s\"" , o->this.string ) ; 
