@@ -234,7 +234,80 @@ object sfs_eval( object input, object envc) {
 			}
 			return formbegin(input->this.pair.cdr,envc);
 		}
+/*let */
+		if (is_form ("let" , input)) { 
+			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			object output = NULL ; 
+			object listpara = cadr(input) ;
+			object newenv = NULL ; 
+			newenv = addenv (envc); 
+			while (listpara -> this.pair.cdr != nil) {
+				addvarenv ( caar(listpara), sfs_eval(cadar (listpara), envc) , newenv ) ; 
+			
+				listpara = listpara->this.pair.cdr ; 
+			}
+			addvarenv (caar (listpara), sfs_eval(cadar (listpara),envc) , newenv) ;
+			output = formbegin (cddr (input) , newenv) ; 
+			return output ; 
+		}   
 
+		
+		/* let* */ 
+		if (is_form ("let*" , input)) { 
+			if (input-> this.pair.cdr == nil || c == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			object output = NULL ; 
+			object listpara = cadr(input) ;
+			object newenv = NULL ; 
+			newenv = addenv (envc); 
+			while (listpara -> this.pair.cdr != nil) {
+				addvarenv ( caar(listpara), sfs_eval(cadar (listpara), newenv) , newenv ) ; 
+			
+				listpara = listpara->this.pair.cdr ; 
+			}
+			addvarenv (caar (listpara), sfs_eval(cadar (listpara),newenv) , newenv) ;
+			output = formbegin (cddr (input) , newenv) ; 
+			return output ; 
+		}*/
+		
+		/*let */
+		if (is_form ("let" , input)) {
+			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			object o = NULL ;
+			object output = NULL ; 
+			object listparamlambda = NULL ; 
+			object listvallambda = NULL ;
+			object listlet = cadr(input) ;
+			/*if (listlet -> type != SFS_PAIR  || listlet -> this.pair.car -> type != SFS_PAIR ){
+				WARNING_MSG("Erreur");
+				return NULL;
+			}*/
+			listparamlambda = listlet -> this.pair.car ;
+			listvallambda = listlet -> this.pair.cdr ;   	
+			while (listlet -> this.pair.cdr != nil ) {
+				listlet = listlet->this.pair.cdr ;
+				if (listlet -> type != SFS_PAIR ) {
+					WARNING_MSG("Erreur");
+					return NULL;
+				}
+				listparamlambda ->this.pair.cdr = listlet -> this.pair.car ; 
+				listvallambda -> this.pair.cdr = listlet -> this.pair.cdr ; 
+			}
+			listparamlambda ->this.pair.cdr = nil ; 
+			o = make_compound ( listparamlambda , cddr (input) , envc ) ;  
+			output = make_pair (o,listvallambda) ; 
+			return sfs_eval (output, envc); 
+		}
+				
+			
 		/* lambda */
 		if (is_form ("lambda" , input)) {
 			/*if (input->this.pair.cdr == nil  || cdddr(input) != nil ) {
