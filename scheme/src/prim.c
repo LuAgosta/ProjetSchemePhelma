@@ -121,6 +121,21 @@ object ifpair(object o){
 	return faux;
 }
 
+object ifprocedure(object o){
+	if(o->type == SFS_NIL){
+		WARNING_MSG("procedure? admet au moins un argument");
+		return NULL;
+	}
+	if(o->this.pair.cdr->type != SFS_NIL){
+		WARNING_MSG("procedure? n'admet qu'un argument");
+		return NULL;
+	}
+	if(o->this.pair.car->type == SFS_COMPOUND){
+		return vrai;
+	}
+	return faux;
+}
+
 /*Conversions de types*/
 
 object chartointeger(object o){
