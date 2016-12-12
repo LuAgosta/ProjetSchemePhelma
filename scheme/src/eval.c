@@ -276,37 +276,7 @@ object sfs_eval( object input, object envc) {
 			return output ; 
 		}
 		
-		/*let */
-		if (is_form ("let" , input)) {
-			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
-				WARNING_MSG("Erreur, let prend au moins deux arguments");
-				return NULL;
-			}
-			object o = NULL ;
-			object output = NULL ; 
-			object listparamlambda = NULL ; 
-			object listvallambda = NULL ;
-			object listlet = cadr(input) ;
-			/*if (listlet -> type != SFS_PAIR  || listlet -> this.pair.car -> type != SFS_PAIR ){
-				WARNING_MSG("Erreur");
-				return NULL;
-			}*/
-			listparamlambda = listlet -> this.pair.car ;
-			listvallambda = listlet -> this.pair.cdr ;   	
-			while (listlet -> this.pair.cdr != nil ) {
-				listlet = listlet->this.pair.cdr ;
-				if (listlet -> type != SFS_PAIR ) {
-					WARNING_MSG("Erreur");
-					return NULL;
-				}
-				listparamlambda ->this.pair.cdr = listlet -> this.pair.car ; 
-				listvallambda -> this.pair.cdr = listlet -> this.pair.cdr ; 
-			}
-			listparamlambda ->this.pair.cdr = nil ; 
-			o = make_compound ( listparamlambda , cddr (input) , envc ) ;  
-			output = make_pair (o,listvallambda) ; 
-			return sfs_eval (output, envc); 
-		}
+
 	
 		/*let */ /*SOLUTION3*/
 		/*if (is_form ("let" , input)) {
