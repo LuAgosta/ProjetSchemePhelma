@@ -39,6 +39,10 @@ object in_envs(object var, object env){
 	object l;
 	while(k->this.pair.cdr != nil){
 		l = k->this.pair.car;
+		if(l == nil){
+			l = k->this.pair.cdr;
+			return in_envs(var,l);
+		}
 		while(l->this.pair.cdr != nil){
 			if(strcmp(caar(l)->this.string,var->this.string)==0){
 				return(l->this.pair.car);
