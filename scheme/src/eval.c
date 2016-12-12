@@ -306,6 +306,26 @@ object sfs_eval( object input, object envc) {
 			output = make_pair (o,listvallambda) ; 
 			return sfs_eval (output, envc); 
 		}
+	
+		/*let */ /*SOLUTION3*/
+		/*if (is_form ("let" , input)) {
+			object listpara = nil;
+			object listval = nil;
+			if (input-> this.pair.cdr == nil || input -> this.pair.cdr == nil ) {
+				WARNING_MSG("Erreur, let prend au moins deux arguments");
+				return NULL;
+			}
+			o = cadr(input);
+			while(o->this.pair.cdr != nil){
+				listpara = make_pair(caar(o),listpara);
+				listval = make_pair(cadar(o),listval);
+				o = o->this.pair.cdr;
+			}
+			listpara = make_pair(caar(o),listpara);
+			listval = make_pair(cadar(o),listval);
+			input = make_pair(make_pair(make_symbol("lambda"),make_pair(listpara,cddr(input))),listval);
+			return sfs_eval(input, envc);
+		}*/
 				
 			
 		/* lambda */
