@@ -321,9 +321,7 @@ object sfs_eval( object input, object envc) {
 				listval = make_pair(cadar(o),listval);
 				o = o->this.pair.cdr;
 			}
-			listpara = make_pair(caar(o),listpara);
-			listval = make_pair(cadar(o),listval);
-			input = make_pair(make_pair(make_symbol("lambda"),make_pair(listpara,cddr(input))),listval);
+			input = make_pair(make_pair(make_symbol("lambda"),make_pair(make_pair(caar(o),listpara),cddr(input))),make_pair(cadar(o),listval));
 			return sfs_eval(input, envc);
 		}*/
 				
