@@ -358,7 +358,7 @@ object sfs_eval( object input, object envc) {
 				b = copyobject(o->this.compound.body);
 				if( nba == 0){
 					if(input->this.pair.cdr != nil){
-						WARNING_MSG("Cette fonction n'admet pas d'argument");
+						WARNING_MSG("La fonction %s n'admet pas d'argument", input->this.pair.car->this.string);
 						return NULL;
 					}
 					output = formbegin (b, envc ) ;
@@ -366,7 +366,7 @@ object sfs_eval( object input, object envc) {
 				}
 				nbv = nbelem(input->this.pair.cdr);
 				if(nba != nbv){
-					WARNING_MSG("La fonction admet %d argument(s)", nba);
+					WARNING_MSG("La fonction %s admet %d argument(s)", input->this.pair.car->this.string, nba);
 					return NULL;
 				}
 				object listpara = o-> this.compound.parms;
