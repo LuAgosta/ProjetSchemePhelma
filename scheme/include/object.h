@@ -79,6 +79,8 @@ object cdadr(object o);
 object cdddr(object o);
 object cadddr(object o);
 object copyobject(object input);
+int nbelem(object o);
+
 
 
 
