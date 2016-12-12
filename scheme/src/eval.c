@@ -40,6 +40,21 @@ object formbegin(object input, object env){
 	return output ;
 }
 
+int nbelem(object o){
+	object listelem = NULL;
+	int nb = 0;
+	listelem = o;
+	if(listelem== nil){
+		return 0;
+	}
+	while(listelem->this.pair.cdr != nil){
+		nb += 1;
+		listelem = listelem->this.pair.cdr;
+	}
+	nb += 1;
+	return nb;
+}
+
 object sfs_eval_list( object input, object envc){
 	object output = input;
 	object o = NULL;
@@ -234,7 +249,8 @@ object sfs_eval( object input, object envc) {
 			}
 			return formbegin(input->this.pair.cdr,envc);
 		}
-/*let */
+	
+		/*let */
 		if (is_form ("let" , input)) { 
 			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
 				WARNING_MSG("Erreur, let prend au moins deux arguments");
@@ -349,15 +365,25 @@ object sfs_eval( object input, object envc) {
 			return NULL;
 		}
 		if ( input-> type == SFS_PAIR && o-> type == SFS_COMPOUND ) {
-			if (input-> this.pair.cdr == nil) {
-				WARNING_MSG("Erreur");
-				return NULL;
-			}
-			else {
 				object output = NULL ;
 				object newenv = NULL;
 				object b = NULL;
+				int nbv;
+				int nba = nbelem(o->this.compound.parms);
 				b = copyobject(o->this.compound.body);
+				if( nba == 0){
+					if(input->this.pair.cdr != nil){
+						WARNING_MSG("Cette fonction n'admet pas d'argument");
+						return NULL;
+					}
+					output = formbegin (b, envc ) ;
+					return output;
+				}
+				nbv = nbelem(input->this.pair.cdr);
+				if(nba != nbv){
+					WARNING_MSG("La fonction admet %d argument(s)", nba);
+					return NULL;
+				}
 				object listpara = o-> this.compound.parms;
 				object listval = sfs_eval_list(input->this.pair.cdr,envc);
 				newenv = addenv(o->this.compound.env) ;
@@ -375,11 +401,10 @@ object sfs_eval( object input, object envc) {
 				addvarenv (listpara-> this.pair.car , listval->this.pair.car, newenv);
 				output = formbegin (b, newenv ) ;
 				return output  ;
-			}
 		}
 
 		
-/* pair invalide */
+	/* pair invalide */
 	if (input->type == SFS_PAIR ) {
 
 		switch (input->this.pair.car->type ) {
