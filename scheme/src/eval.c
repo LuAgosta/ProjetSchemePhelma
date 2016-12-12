@@ -259,7 +259,7 @@ object sfs_eval( object input, object envc) {
 		
 		/* let* */ 
 		if (is_form ("let*" , input)) { 
-			if (input-> this.pair.cdr == nil || c == nil ) {
+			if (input-> this.pair.cdr == nil || cddr(input) == nil ) {
 				WARNING_MSG("Erreur, let prend au moins deux arguments");
 				return NULL;
 			}
