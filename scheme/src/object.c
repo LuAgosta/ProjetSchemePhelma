@@ -229,3 +229,19 @@ object copyobject(object input){    /*pas les primitives et les coumpounds pour 
   }
   return output;
 }
+
+int nbelem(object o){
+	object listelem = NULL;
+	int nb = 0;
+	listelem = o;
+	if(listelem== nil){
+		return 0;
+	}
+	while(listelem->this.pair.cdr != nil){
+		nb += 1;
+		listelem = listelem->this.pair.cdr;
+	}
+	nb += 1;
+	return nb;
+}
+
