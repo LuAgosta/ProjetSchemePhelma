@@ -24,18 +24,19 @@ int is_form (char* name, object input ) {
 object formbegin(object input, object env){
 	object output = NULL ;
 	output = input->this.pair.car;
-	if(output != nil){
-		output = sfs_eval(output,env);
+	object o = sfs_eval(output,env)  ; 
+	if (o == NULL ) {
+		return NULL ; 
 	}
+	output = o; 
 	while (input->this.pair.cdr != nil) {
 		input = input->this.pair.cdr ;
-		output = sfs_eval(input->this.pair.car,env) ;
-		if (output == NULL ) {
-			return NULL ;
+		object m = sfs_eval(input->this.pair.car,env) ; 
+		if (m ==  NULL ) {
+			return NULL ; 
 		}
-		else {
-			output = sfs_eval(output,env) ;
-		}
+		output = m ;
+
 	}
 	return output ;
 }
