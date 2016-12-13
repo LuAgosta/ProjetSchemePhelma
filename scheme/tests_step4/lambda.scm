@@ -1,6 +1,7 @@
 ; TEST_RETURN_CODE=PASS
 ; TEST_COMMENT= lambda
 ;
+lambda
 (lambda (x) (+ x x))
 (lambda (x y) (+ x y))
 ((lambda (x) (+ x x)) 6)
