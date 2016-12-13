@@ -140,12 +140,7 @@ object make_compound ( object parms, object body, object env) {
 
 	return comp ; 
 }
-/*Modifier un object*/
-void modify_object(object tomod, object mod) {
 
-	tomod -> type = mod -> type ; 
-	tomod -> this = mod -> this ;  
-}
 
 
 object caar(object o){
