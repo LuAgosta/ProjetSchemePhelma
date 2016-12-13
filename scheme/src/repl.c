@@ -87,7 +87,7 @@ object eq_p;
 
 
 void init_interpreter ( void ) {
-
+    uint here = 0;
     nil      = make_nil();
     vrai     = make_boolean();
     faux    = make_boolean();
