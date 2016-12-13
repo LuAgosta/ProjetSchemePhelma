@@ -39,6 +39,17 @@ object noreturnscheme;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
 
+object define_f;
+object set_f;
+object begin_f;
+object quote_f;
+object and_f;
+object or_f;
+object if_f;
+object lambda_f;
+object let_f;
+object let_s_f;
+
 object ifnull_p;
 object ifboolean_p;
 object ifsymbol_p;
@@ -84,8 +95,24 @@ void init_interpreter ( void ) {
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
     
+    
+    define_f = make_object(SFS_FORM);
+    addvar(make_symbol("define"),define_f);
 
+    set_f = make_object(SFS_FORM);
+    addvar(make_symbol("set!"),set_f);
 
+    begin_f = make_object(SFS_FORM);
+    addvar(make_symbol("begin"),begin_f);
+
+    lambda_f = make_object(SFS_FORM);
+    addvar(make_symbol("lambda"),lambda_f);
+
+    let_f = make_object(SFS_FORM);
+    addvar(make_symbol("let"),let_f);
+
+    let_s_f = make_object(SFS_FORM);
+    addvar(make_symbol("let*"),let_s_f);
     
     ifnull_p = make_primitive(&ifnull);
     addvar(make_symbol("null?"),ifnull_p);
@@ -178,6 +205,8 @@ void init_interpreter ( void ) {
     eq_p = make_primitive(&eq);
     addvar(make_symbol("eq?"),eq_p);
 
+    sfs_eval(sfs_read("(define (map proc items) (if (null? items) '() (cons (proc (car items)) (map proc (cdr items)))))",&here),lenv); 
+   
 }
 
 int main ( int argc, char *argv[] ) {
