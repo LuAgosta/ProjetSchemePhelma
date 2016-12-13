@@ -310,6 +310,10 @@ object sfs_eval( object input, object envc) {
 				return NULL;
 			}
 				object agregat = NULL ;
+				if (cadr (input) -> type != SFS_PAIR ) {
+					WARNING_MSG("Erreur, lambda ne prend en premier paramètre qu'un paire");
+					return NULL;
+				}
 				agregat = make_compound(cadr(input) , cddr (input) , envc ) ;
 				return agregat ;
 			/*}*/
