@@ -1,6 +1,7 @@
 ; TEST_RETURN_CODE=PASS
 ; TEST_COMMENT= begin
 ;
+begin
 (begin (+ 3 4))
 (define a "hello") 
 (begin "ola" a) 
