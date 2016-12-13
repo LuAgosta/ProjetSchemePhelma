@@ -94,6 +94,7 @@ int nbelem(object o);
 #define SFS_PRIMITIVE    0x07
 #define SFS_COMPOUND	 0x08
 #define SFS_NORETURNSCHEME	 0x09
+#define SFS_FORM         0x0A
 
 
 extern object nil;
@@ -102,6 +103,17 @@ extern object faux;
 extern object noreturnscheme;
 extern object lenv;	/*liste d'environnements*/
 extern object tsym; 	/*table de symbole*/
+	
+extern object define_f;
+extern object set_f;
+extern object quote_f;
+extern object and_f;
+extern object or_f;
+extern object if_f;
+extern object begin_f;
+extern object lambda_f;
+extern object let_f;
+extern object let_s_f;
 
 /**Primitives**/
 
