@@ -70,6 +70,14 @@ void sfs_print_atom( object o ) {
 		case SFS_COMPOUND :
 			printf("#<procedure>");
 		break ;
+		
+		case SFS_PRIMITIVE :
+			printf("#<primitive>");
+		break ;
+
+		case SFS_FORM :
+			printf("#<form>");
+		break ;
 	
 	}
 		
