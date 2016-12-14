@@ -129,6 +129,14 @@ object make_noreturnscheme(void){
     return t;
 }
 
+object make_schemesuccess(void){
+
+    object t = make_object( SFS_SCHEMESUCCESS );
+
+    t->this.special = t;
+
+    return t;
+}
 
 object make_compound ( object parms, object body, object env) {
 
