@@ -95,12 +95,14 @@ int nbelem(object o);
 #define SFS_COMPOUND	 0x08
 #define SFS_NORETURNSCHEME	 0x09
 #define SFS_FORM         0x0A
+#define SFS_SCHEMESUCCESS 0x0B
 
 
 extern object nil;
 extern object vrai;
 extern object faux;
 extern object noreturnscheme;
+extern object schemesuccess;
 extern object lenv;	/*liste d'environnements*/
 extern object tsym; 	/*table de symbole*/
 	
