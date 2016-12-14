@@ -116,6 +116,7 @@ extern object begin_f;
 extern object lambda_f;
 extern object let_f;
 extern object let_s_f;
+extern object load_f;
 
 /**Primitives**/
 
