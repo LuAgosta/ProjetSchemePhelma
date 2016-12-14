@@ -11,6 +11,8 @@
 #include "eval.h"
 #include "prim.h"
 #include "print.h"
+#include "load.h"
+
 
 /* Regarder la forme ou l'opérateur */
 int is_form (char* name, object input ) {
@@ -95,6 +97,15 @@ object sfs_eval( object input, object envc) {
 			WARNING_MSG("Erreur, quote ne prend qu'un argument");
 			return NULL;
 		}
+	}
+	
+	/* load */
+	if (is_form ("load" , input)) {
+		if(input->this.pair.cdr == nil || cddr(input) != nil || sfs_eval(cadr(input), envc)->type != SFS_STRING){
+			WARNING_MSG("load admet comme unique paramètre le nom d'un fichier");
+			return NULL;
+		}
+		return load(cadr(input)->this.string);
 	}
 	
 	/*define*/
