@@ -78,6 +78,10 @@ void sfs_print_atom( object o ) {
 		case SFS_FORM :
 			printf("#<form>");
 		break ;
+		
+		case SFS_SCHEMESUCCESS :
+			printf("Success");
+		break ;
 	
 	}
 		
