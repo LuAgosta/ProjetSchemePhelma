@@ -1,0 +1,2 @@
+(define (map proc items) (if (null? items) '() (cons (proc (car items)) (map proc (cdr items)))))
+(define fact (lambda (n) (if (= n 0) 1 ( * n (fact (- n 1))))))
