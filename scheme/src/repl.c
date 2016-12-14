@@ -36,6 +36,7 @@ object nil;
 object faux;
 object vrai;
 object noreturnscheme;
+object schemesuccess;
 object lenv;	/*liste d'environnements*/
 object tsym; /*table de symbole*/
 
@@ -49,6 +50,7 @@ object if_f;
 object lambda_f;
 object let_f;
 object let_s_f;
+object load_f;
 
 object ifnull_p;
 object ifboolean_p;
@@ -92,6 +94,7 @@ void init_interpreter ( void ) {
     vrai     = make_boolean();
     faux    = make_boolean();
     noreturnscheme = make_noreturnscheme();
+    schemesuccess = make_schemesuccess();
     lenv = make_pair(nil,nil);
     tsym = make_pair(nil,nil);
     
@@ -113,6 +116,9 @@ void init_interpreter ( void ) {
 
     let_s_f = make_object(SFS_FORM);
     addvar(make_symbol("let*"),let_s_f);
+    
+    load_f = make_object(SFS_FORM);
+    addvar(make_symbol("load"),load_f);
     
     ifnull_p = make_primitive(&ifnull);
     addvar(make_symbol("null?"),ifnull_p);
