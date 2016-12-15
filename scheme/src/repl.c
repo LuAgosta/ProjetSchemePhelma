@@ -89,7 +89,6 @@ object eq_p;
 
 
 void init_interpreter ( void ) {
-    uint here = 0;
     nil      = make_nil();
     vrai     = make_boolean();
     faux    = make_boolean();
@@ -210,8 +209,6 @@ void init_interpreter ( void ) {
     
     eq_p = make_primitive(&eq);
     addvar(make_symbol("eq?"),eq_p);
-
-    sfs_eval(sfs_read("(define (map proc items) (if (null? items) '() (cons (proc (car items)) (map proc (cdr items)))))",&here),lenv); 
    
 }
 
